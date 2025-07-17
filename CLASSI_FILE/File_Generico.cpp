@@ -1,0 +1,58 @@
+#include "File_Generico.hpp"
+#include "visitor/FileVisitor.hpp"
+
+File_Generico::File_Generico(const std::string& nome, const std::string& autore, const std::string& genere, unsigned int anno){
+    this->nome = nome;
+    this->autore = autore;
+    this->genere = genere;
+    this->anno = anno;
+}
+
+
+//GETTERS
+
+std::string File_Generico::GetNome() const {
+    return nome;
+}
+
+std::string File_Generico::GetAutore() const {
+    return autore;
+}
+
+std::string File_Generico::GetGenere() const {
+    return genere;
+}
+
+unsigned int File_Generico::GetAnno() const {
+    return anno;
+}
+
+bool File_Generico::IsPreferito() const {
+    return preferito;
+}
+
+
+//SETTERS
+
+void File_Generico::SetNome(const std::string& nome){
+    this->nome = nome;
+}
+
+void File_Generico::SetAutore(const std::string& autore){
+    this->autore = autore;
+}
+
+void File_Generico::SetGenere(const std::string& genere){
+    this->genere = genere;
+}
+
+void File_Generico::SetAnno(unsigned int anno){
+    this->anno = anno;
+}
+
+
+//METODO PER VISITE
+
+void File_Generico::Accept(FileVisitor& visitor){
+    visitor.Visit(*this);
+}
