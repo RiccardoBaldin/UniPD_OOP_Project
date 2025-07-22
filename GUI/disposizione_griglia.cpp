@@ -44,8 +44,9 @@ void DisposizioneGriglia::updateLayout(){
     layout->setHorizontalSpacing(10);
     layout->setVerticalSpacing(10);
 
-    int larghezza = width();
-    int n_colonne = larghezza / 150;
+    
+    int larghezza = width()>150 ? width(): 150;
+    int n_colonne = (larghezza / 150);
 
     int n_elementi = lista.size();
     int n_righe = (n_elementi + n_colonne - 1) / n_colonne;
@@ -74,5 +75,5 @@ void DisposizioneGriglia::updateLayout(){
 }
 
 void DisposizioneGriglia::File_Clicked(File_Generico* file) {
-    //std::cout << "File cliccato: " << file->GetNome() << std::endl;
+    std::cout << "File cliccato: " << file->GetNome() << std::endl;
 }

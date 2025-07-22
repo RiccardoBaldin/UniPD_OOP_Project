@@ -1,10 +1,8 @@
 #include "File_Libro.hpp"
 #include "visitor/FileVisitor.hpp"
 
-File_Libro::File_Libro(const std::string& nome, const std::string& autore, const std::string& genere, unsigned int anno, unsigned int pagine, const std::string& editore) : File_Generico(nome, autore, genere, anno){
-    this->pagine = pagine;
-    this->editore = editore;
-}
+File_Libro::File_Libro(const std::string& nome, const std::string& autore, const std::string& genere, unsigned int anno, unsigned int pagine, const std::string& editore)
+            : File_Generico(nome, autore, genere, anno), pagine(pagine), editore(editore){}
 
 
 //GETTERS
@@ -31,5 +29,9 @@ void File_Libro::SetEditore(const std::string& editore){
 //METODO PER VISITE
 
 void File_Libro::Accept(FileVisitor& visitor){
+    visitor.Visit(*this);
+}
+
+void File_Libro::Accept(ConstFileVisitor& visitor) const {
     visitor.Visit(*this);
 }

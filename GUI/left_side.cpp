@@ -25,11 +25,13 @@ LeftSide::LeftSide(Biblioteca* biblioteca, QWidget *parent) : QWidget(parent), b
 
     tree = new Tree(biblioteca, this);
     aggiuntaFile = new QComboBox(this);
-    aggiuntaFile->setPlaceholderText("Aggiungi un file");
+    
 
     aggiuntaFile->addItem("Aggiungi un libro");
     aggiuntaFile->addItem("Aggiungi un film");
     aggiuntaFile->addItem("Aggiungi una serie TV");
+
+    aggiuntaFile->setPlaceholderText("Aggiungi un file");
 
     QShortcut* shortcut = new QShortcut(QKeySequence("Ctrl+N"), this);
     connect(shortcut, &QShortcut::activated, aggiuntaFile, &QComboBox::showPopup);
@@ -50,10 +52,12 @@ void LeftSide::updateTree() {
     tree->updateTree();
 }
 
-void LeftSide::resetComboBox() {
+void LeftSide::resetComboBox(){
     aggiuntaFile->setCurrentIndex(-1);
+    //non so perche non mostri il placeholder, su macOs funziona, fatto seguendo documentazione ufficiale Qt
 }
 
 void LeftSide::onComboBoxIndexChanged(int index) {
     emit addFileSignal(index);
+    resetComboBox();
 }

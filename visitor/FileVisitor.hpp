@@ -1,3 +1,4 @@
+
 #ifndef FILEVISITOR_HPP
 #define FILEVISITOR_HPP
 
@@ -11,15 +12,14 @@ class Biblioteca;
 
 class FileVisitor{
     public:
+
         virtual ~FileVisitor() = default;
-        
         virtual void Visit(File_Generico& file) = 0;
         virtual void Visit(File_Video& video) = 0;
         virtual void Visit(File_Film& film) = 0;
         virtual void Visit(File_Episodio& episodio) = 0;
         virtual void Visit(File_Serie& serie) = 0;
         virtual void Visit(File_Libro& libro) = 0;
-        virtual void Visit(Biblioteca& biblioteca) = 0;
 };
 
 

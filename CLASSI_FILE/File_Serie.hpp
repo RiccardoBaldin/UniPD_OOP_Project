@@ -2,9 +2,9 @@
 #define FILE_SERIE_HPP
 
 #include <iostream>
+#include <vector>
+#include <string>
 #include "File_Generico.hpp"
-
-class FileVisitor;
 
 class File_Episodio;
 
@@ -34,7 +34,8 @@ class File_Serie : public File_Generico{
         void RimuoviEpisodio(File_Episodio*);
 
         //metodo per visite
-        void Accept(FileVisitor& visitor) override;
+        void Accept(FileVisitor& visitor);
+        void Accept(ConstFileVisitor& visitor) const ;
 };
 
 

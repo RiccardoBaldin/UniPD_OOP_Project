@@ -1,5 +1,4 @@
 #include "File_Video.hpp"
-#include "visitor/FileVisitor.hpp"
 
 File_Video::File_Video(const std::string& nome, const std::string& autore, const std::string& genere, unsigned int anno, unsigned int durata, const std::string& casa_di_produzione, const std::string& regista) : File_Generico(nome, autore, genere, anno){
     this->durata = durata;
@@ -35,10 +34,4 @@ void File_Video::SetCasaDiProduzione(const std::string& casa_di_produzione){
 
 void File_Video::SetRegista(const std::string& regista){
     this->regista = regista;
-}
-
-//METODO PER VISITE
-
-void File_Video::Accept(FileVisitor& visitor){
-    visitor.Visit(*this);
 }

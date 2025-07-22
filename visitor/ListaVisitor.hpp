@@ -14,13 +14,14 @@ private:
     QLabel* label;
 
 public:
+
     void Visit(File_Generico& file) override;
     void Visit(File_Video& video) override;
     void Visit(File_Film& film) override;
     void Visit(File_Episodio& episodio) override;
     void Visit(File_Serie& serie) override;
     void Visit(File_Libro& libro) override;
-    void Visit(Biblioteca& ) override {;};
+
 
     QHBoxLayout* GetLayout() const;
 };

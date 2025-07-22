@@ -9,6 +9,8 @@
 #include <QCheckBox>
 #include <QButtonGroup>
 #include <QRadioButton>
+#include <QMessageBox>
+#include <QStringList>
 #include "linea_orizzontale.hpp"
 #include "JSON_CONTROL/ToJson.hpp"
 #include "../CLASSI_FILE/File_Libro.hpp"
@@ -22,41 +24,11 @@ AddFileWidget::AddFileWidget(Biblioteca* biblioteca, int index, QWidget *parent)
     setWindowTitle("Add File");
 
     layout = new QVBoxLayout(this);
-    layoutSotto = new QHBoxLayout();
-    layoutBig = new QHBoxLayout();
-    layoutSx = nullptr;
-    layoutDx = nullptr;
-
-    QWidget *filler = new QWidget();
     filler->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
 
     annulla = new QPushButton("Annulla");
     conferma =  new QPushButton("Conferma");
-
-    //attributi generici
-    icona = new QLabel();
-
-    nome = new QLineEdit();
-    autore = new QLineEdit();
-    genere = new QLineEdit();
-    anno = new QLineEdit();
-
-    //attributi libro
-    pagine = new QLineEdit();
-    editore = new QLineEdit();
-
-    //attributi video
-    durata = new QLineEdit();
-    regista = new QLineEdit();
-    casa_di_produzione = new QLineEdit();
-
-    //attributi film
-    oscar = new QCheckBox();
-
-    //atributi episodio
-    numero_stagione = new QLineEdit();
-    numero_episodio = new QLineEdit();
-
     annulla->setFixedWidth(100);
     layoutSotto->addWidget(annulla);
     conferma->setFixedWidth(100);
@@ -68,40 +40,17 @@ AddFileWidget::AddFileWidget(Biblioteca* biblioteca, int index, QWidget *parent)
 
     layout->addWidget(testo);
     layout->addWidget(new LineaOrizzontale());
-    SceltaTipo(index);
+    SceltaTipo();
     layout->addWidget(new LineaOrizzontale());
     layout->addLayout(layoutSotto);
 
-    connect(conferma, &QPushButton::clicked, this, &AddFileWidget::checkValidita);
-    connect(conferma, &QPushButton::clicked, this, &AddFileWidget::pulisciCampi);
-    
-    connect(annulla, &QPushButton::clicked, this, &AddFileWidget::annullamento);
-    connect(annulla, &QPushButton::clicked, this, &AddFileWidget::pulisciCampi);
+    connect(conferma, &QPushButton::clicked, this, &AddFileWidget::ConfermaAggiunta);
+    connect(annulla, &QPushButton::clicked, this, &AddFileWidget::AnnullaAggiunta);
+
 }
 
-void AddFileWidget::annullamento() {
-   emit FileAggiunto();
-}
-
-void AddFileWidget::checkValidita(){
-    biblioteca->addFile(new File_Libro((nome->text().toStdString())));
-    qDebug() << "Segnale FileAggiunto emesso";
-    qDebug() << "File aggiunto. Ora la biblioteca ha " << biblioteca->getArchivio().size() << " file.";
-    emit FileAggiunto();
-}
-
-// void AddFileWidget::seFileAggiunto(){
-//     biblioteca->addFile(new File_Libro(nome->text().toStdString()));
-//     saveAsJson(biblioteca);
-//     pulisciCampi();
-
-//     qDebug() << "Segnale FileAggiunto emesso da seFileAggiunto";
-
-//     emit FileAggiunto();
-// }
-
-void AddFileWidget::SceltaTipo(int index) {
-    switch(index){
+void AddFileWidget::SceltaTipo() {
+    switch(tipo){
         case 0:
             AggiungiLibro();
             break;
@@ -109,13 +58,13 @@ void AddFileWidget::SceltaTipo(int index) {
             AggiungiFilm();
             break;
         case 2:
+            AggiungiSerie();
             break;
     }
 }
 
 
 void AddFileWidget::AggiungiLibro(){
-    icona = new QLabel();
     icona->setPixmap(QPixmap(":/IMMAGINI/Libro_Aggiungi.png"));
     icona->setFixedSize(300,300);
     icona->setAlignment(Qt::AlignCenter);
@@ -127,6 +76,13 @@ void AddFileWidget::AggiungiLibro(){
     layoutSx->addRow("Autore", autore);
     layoutSx->addRow("Genere", genere);
     layoutSx->addRow("Anno", anno);
+    anno->setRange(0,2025);
+    anno->setValue(0);
+
+    pagine = new QSpinBox();
+    pagine->setRange(0,9999);
+    pagine->setValue(0);
+    editore = new QLineEdit();
 
     layoutDx->addRow("Pagine", pagine);
     layoutDx->addRow("Editore", editore);
@@ -139,10 +95,10 @@ void AddFileWidget::AggiungiLibro(){
     layoutBig->addLayout(layoutSx);
     layoutBig->addLayout(layoutDx);
     layout->addLayout(layoutBig);
+
 }
 
 void AddFileWidget::AggiungiFilm(){
-    icona = new QLabel();
     icona->setPixmap(QPixmap(":/IMMAGINI/Film_Aggiungi.png"));
     icona->setFixedSize(300,300);
     icona->setAlignment(Qt::AlignCenter);
@@ -154,29 +110,163 @@ void AddFileWidget::AggiungiFilm(){
     layoutSx->addRow("Autore", autore);
     layoutSx->addRow("Genere", genere);
     layoutSx->addRow("Anno", anno);
+    anno->setRange(0,2025);
+    anno->setValue(0);
 
-    layoutDx->addRow("Durata", durata);
-    layoutDx->addRow("Regista", regista);
-    layoutDx->addRow("Casa di produzione", casa_di_produzione);
-    layoutDx->addRow("Oscar", oscar);
+    durata = new QSpinBox();
+    durata->setRange(0,1000);
+    durata->setValue(0);
+    
+    regista = new QLineEdit();
+    casa_di_produzione = new QLineEdit();
+    oscar = new QCheckBox();
 
+    layoutDx->addRow("durata", durata);
+    layoutDx->addRow("regista", regista);  
+    layoutDx->addRow("casa produttrice", casa_di_produzione);
+    layoutDx->addRow("vincitore di oscar", oscar);
+
+    QHBoxLayout* iconLayout = new QHBoxLayout();
+    iconLayout->addStretch();
+    iconLayout->addWidget(icona);
+    iconLayout->addStretch();
+    layout->addLayout(iconLayout);
     layoutBig->addLayout(layoutSx);
     layoutBig->addLayout(layoutDx);
-    layout->addWidget(icona);
-    layout->addLayout(layoutBig);
+    layout->addLayout(layoutBig);    
+
+}
+
+void AddFileWidget::AggiungiSerie(){
+    icona->setPixmap(QPixmap(":/IMMAGINI/Serie_Aggiungi.png"));
+    icona->setFixedSize(300,300);
+    icona->setAlignment(Qt::AlignCenter);
+
+    layoutSx = new QFormLayout();
+    layoutDx = new QFormLayout();
+
+    layoutSx->addRow("Nome", nome);
+    layoutSx->addRow("Autore", autore);
+    layoutSx->addRow("Genere", genere);
+    layoutSx->addRow("Anno", anno);
+    anno->setRange(0,2025);
+    anno->setValue(0);
+
+    casa_di_produzione_serie = new QLineEdit();
+
+    layoutDx->addRow("casa produttrice", casa_di_produzione_serie);
+
+
+    QHBoxLayout* iconLayout = new QHBoxLayout();
+    iconLayout->addStretch();
+    iconLayout->addWidget(icona);
+    iconLayout->addStretch();
+    layout->addLayout(iconLayout);
+    layoutBig->addLayout(layoutSx);
+    layoutBig->addLayout(layoutDx);
+    layout->addLayout(layoutBig);    
+
+}
+
+void AddFileWidget::ConfermaAggiunta(){
+    if(NonCampiVuoti()){
+        switch(tipo){
+            case 0:{
+                    File_Libro* libro = new File_Libro(nome->text().toStdString(),
+                                       autore->text().toStdString(),
+                                       genere->text().toStdString(),
+                                       anno->value(),
+                                       pagine->value(),
+                                       editore->text().toStdString());
+                    if(biblioteca->check(libro)){
+                        biblioteca->addFile(libro);
+                        pulisciCampi();
+                        emit FileAggiunto();
+                    }else{
+                        QMessageBox::warning(this,
+                                            "Articolo già presente",
+                                            "Articolo già presente nella biblioteca digitale");
+                    }
+                    break;
+            }case 1:{    
+                    File_Film* film = new File_Film(nome->text().toStdString(),
+                                       autore->text().toStdString(),
+                                       genere->text().toStdString(),
+                                       anno->value(),
+                                       durata->value(),
+                                       regista->text().toStdString(),
+                                       casa_di_produzione->text().toStdString(),
+                                       oscar->isChecked());
+                    if(biblioteca->check(film)){
+                        biblioteca->addFile(film);
+                        pulisciCampi();
+                        emit FileAggiunto();
+                    }else{
+                        QMessageBox::warning(this,
+                                            "Articolo già presente",
+                                            "Articolo già presente nella biblioteca digitale");
+                    }
+                    break;
+            }case 2:{    
+                    File_Serie* serie = new File_Serie(nome->text().toStdString(),
+                                       autore->text().toStdString(),
+                                       genere->text().toStdString(),
+                                       anno->value(),
+                                       0,
+                                       0,
+                                       casa_di_produzione_serie->text().toStdString());
+                    if(biblioteca->check(serie)){
+                        biblioteca->addFile(serie);
+                        pulisciCampi();
+                        emit FileAggiunto();
+                    }else{
+                        QMessageBox::warning(this,
+                                            "Articolo già presente",
+                                            "Articolo già presente nella biblioteca digitale");
+                    }
+                    break;
+            }
+        }
+    }
+}
+
+void AddFileWidget::AnnullaAggiunta(){
+    emit FileAnnullato();
 }
 
 void AddFileWidget::pulisciCampi() {
     nome->clear();
     autore->clear();
     genere->clear();
-    anno->clear();
-    pagine->clear();
-    editore->clear();
-    durata->clear();
-    regista->clear();
-    casa_di_produzione->clear();
-    oscar->setChecked(false);
-    numero_stagione->clear();
-    numero_episodio->clear();
+    switch(tipo){
+        case 0:
+            pagine->clear();
+            editore->clear();
+            break;
+        case 1:
+            durata->clear();
+            regista->clear();
+            casa_di_produzione->clear();
+            oscar->setChecked(false);
+            break;
+        case 2:
+            casa_di_produzione_serie->clear();
+    }
+
+
+}
+
+bool AddFileWidget::NonCampiVuoti(){
+    QStringList mancanti;
+    if(nome->text().isEmpty()) mancanti << "Nome" ;
+    if(autore->text().isEmpty()) mancanti << "Autore" ;
+
+    if(!mancanti.isEmpty()){
+        QMessageBox::warning(this,
+                             "Campi Mancanti!",
+                             "I seguenti campi non possono essere vuoti:\n" + mancanti.join("\n"));
+        return false;
+    }
+
+    return true;
 }

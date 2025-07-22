@@ -2,24 +2,25 @@
 #define ADD_FILE_WIDGET_HPP
 
 #include <QWidget>
+#include <QHBoxLayout>
+#include <QFormLayout>
+#include <QLabel>
+#include <QLineEdit>
+#include <QSpinBox>
 
 class Biblioteca;
 class QPushButton;
-class QLabel;
-class QFormLayout;
 class QVBoxLayout;
-class QHBoxLayout;
-class QLineEdit;
 class QCheckBox;
 class QButtonGroup;
 
+class File_Generico;
 
 class AddFileWidget : public QWidget {
     Q_OBJECT
 
 public:
     explicit AddFileWidget(Biblioteca* biblioteca = nullptr, int =0 , QWidget *parent = nullptr);
-    void pulisciCampi();
 
 private:
 
@@ -31,47 +32,58 @@ private:
     QPushButton *annulla;
 
     QVBoxLayout *layout;
-    QFormLayout *layoutSx;
-    QFormLayout *layoutDx;
-    QHBoxLayout *layoutSotto;
-    QHBoxLayout *layoutBig;
+    QHBoxLayout *layoutSotto = new QHBoxLayout();
+    QHBoxLayout *layoutBig = new QHBoxLayout();
+    QFormLayout *layoutSx = new QFormLayout();
+    QFormLayout *layoutDx = new QFormLayout();
+    QWidget *filler = new QWidget();
 
-    QLabel *icona;
+    QLabel *icona = new QLabel();
 
-    QLineEdit *nome;
-    QLineEdit *autore;
-    QLineEdit *genere;
-    QLineEdit *anno;
+    //attributi generali
+    QLineEdit *nome = new QLineEdit();
+    QLineEdit *autore = new QLineEdit();
+    QLineEdit *genere = new QLineEdit();
+    QSpinBox *anno = new QSpinBox();
 
     //attributi libro
-    QLineEdit *pagine;
+    QSpinBox *pagine;
     QLineEdit *editore;
 
     //attributi video
-    QLineEdit *durata;
+    QSpinBox *durata;
     QLineEdit *regista;
     QLineEdit *casa_di_produzione;
 
     //attributi film
     QCheckBox *oscar;
 
+    //attributi serie
+    QSpinBox *numero_stagioni;
+    QSpinBox *numero_episodi;
+    QLineEdit *casa_di_produzione_serie;
+
     //attributi episodio
 
-    QLineEdit *numero_stagione;
-    QLineEdit *numero_episodio;
+    QSpinBox *numero_stagione;
+    QSpinBox *numero_episodio;
 
-    void seFileAggiunto();
-    void annullamento();
-    void SceltaTipo(int);
-    void checkValidita();
+protected:
+    bool NonCampiVuoti();
+    void SceltaTipo();
+    void pulisciCampi();
 
 public slots:
     void AggiungiLibro();
     void AggiungiFilm();
-    //void AggiungiSerie();
+    void AggiungiSerie();
+    
+    void ConfermaAggiunta();
+    void AnnullaAggiunta();
 
 signals:
     void FileAggiunto();
+    void FileAnnullato();
 };
 
 #endif //ADD_FILE_WINDOW_HPP

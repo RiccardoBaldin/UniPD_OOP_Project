@@ -19,7 +19,6 @@ Quadratini::Quadratini(File_Generico* file, QWidget *parent) : QWidget(parent), 
     file->Accept(visitor);
     QVBoxLayout *layout= visitor.GetLayout();
 
-    
     setLayout(layout);
 }
 

@@ -4,8 +4,6 @@
 #include <iostream>
 #include "File_Generico.hpp"
 
-class FileVisitor;
-
 class File_Libro : public File_Generico{
 
     private:
@@ -13,9 +11,10 @@ class File_Libro : public File_Generico{
         std::string editore;
 
     public:
-        File_Libro(const std::string& = "", const std::string& = "", const std::string& = "", unsigned int = 0, unsigned int = 0, const std::string& = "");
-        ~File_Libro() override = default;
-
+        File_Libro(const std::string& = "", const std::string& = "",
+                   const std::string& = "", unsigned int = 0,
+                   unsigned int = 0, const std::string& = "");
+                   
         unsigned int GetPagine() const;
         std::string GetEditore() const;
 
@@ -23,7 +22,8 @@ class File_Libro : public File_Generico{
         void SetEditore(const std::string&);
 
         //metodo per visite
-        void Accept(FileVisitor& visitor) override;
+        virtual void Accept(FileVisitor& visitor);
+        virtual void Accept(ConstFileVisitor& visitor) const;
 };
 
 

@@ -4,7 +4,7 @@
 #include <iostream>
 #include "File_Generico.hpp"
 
-class FileVisitor;
+
 
 class File_Video : public File_Generico{
 
@@ -14,8 +14,9 @@ class File_Video : public File_Generico{
         std::string regista;
 
     public:
-        File_Video(const std::string& = "", const std::string& = "", const std::string& = "", unsigned int = 0, unsigned int = 0, const std::string& = "", const std::string& = "");
-        ~File_Video()override = default;
+        File_Video(const std::string& = "", const std::string& = "",
+                   const std::string& = "", unsigned int = 0, unsigned int = 0, 
+                   const std::string& = "", const std::string& = "");
 
         unsigned int GetDurata() const;
         std::string GetCasaDiProduzione() const;
@@ -24,9 +25,6 @@ class File_Video : public File_Generico{
         void SetDurata(unsigned int);
         void SetCasaDiProduzione(const std::string&);
         void SetRegista(const std::string&);
-
-        //metodo per visite
-        void Accept(FileVisitor& visitor) override;
 };
 
 

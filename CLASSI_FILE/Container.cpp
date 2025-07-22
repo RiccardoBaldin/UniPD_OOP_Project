@@ -6,18 +6,18 @@
 #include "visitor/FileVisitor.hpp"
 #include <algorithm>
 
+Biblioteca::~Biblioteca(){
+    for(auto x : archivio) delete x;
+}
+
 std::vector<File_Generico*> Biblioteca::getArchivio() const{
     return archivio;
 }
 
 void Biblioteca::addFile(File_Generico* file){
-    for(auto it : archivio){
-        if(it->GetNome() == file->GetNome()){
-            return;
-        }
-    }
     archivio.push_back(file);
 }
+
 
 void Biblioteca::killFile(File_Generico* file){
     for(auto it = archivio.begin(); it != archivio.end(); ++it){
@@ -102,6 +102,15 @@ std::vector<File_Generico*> Biblioteca::preferiti() const{
     return preferiti;
 }
 
+bool Biblioteca::check(const File_Generico* a) const {
+    for(auto cit : archivio){
+        if(cit->GetNome() == a->GetNome() && 
+           cit->GetAnno() == a->GetAnno() && 
+           cit->GetAutore() == a->GetAutore()) return false;
+    } 
+    return true;
+}; 
+
 void Biblioteca::print() const{
     for(auto it : archivio){
         std::cout << it->GetNome() << std::endl;
@@ -109,5 +118,9 @@ void Biblioteca::print() const{
 }
 
 void Biblioteca::Accept(FileVisitor& visitor){
-    visitor.Visit(*this);
+    //visitor.Visit(*this);
+}
+
+void Biblioteca::Accept(ConstFileVisitor& visitor) const {
+    //visitor.Visit(*this);
 }

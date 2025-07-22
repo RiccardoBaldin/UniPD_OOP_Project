@@ -24,3 +24,7 @@ void File_Film::SetOscar(bool oscar){
 void File_Film::Accept(FileVisitor& visitor){
     visitor.Visit(*this);
 }
+
+void File_Film::Accept(ConstFileVisitor& visitor) const {
+    visitor.Visit(*this);
+}

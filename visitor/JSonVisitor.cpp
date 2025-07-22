@@ -66,17 +66,7 @@ void JsonVisitor::Visit(File_Libro& libro) {
     jsonResult["tipo"] = "libro";
 }
 
-void JsonVisitor::Visit(Biblioteca& biblioteca) {
-    QJsonArray filesArray;
 
-    for (auto& file : biblioteca.getArchivio()) {
-        JsonVisitor fileVisitor;
-        file->Accept(fileVisitor);
-        filesArray.append(fileVisitor.GetJson());
-    }
-
-    jsonResult["library"] = filesArray;
-}
 
 
 QJsonObject JsonVisitor::GetJson() const {

@@ -20,6 +20,7 @@ void GrigliaVisitor::Visit(File_Generico& file) {
     }
 }
 
+
 void GrigliaVisitor::Visit(File_Video& video) {
     if(dynamic_cast<File_Film*>(&video)){
         Visit(static_cast<File_Film&>(video));
@@ -27,6 +28,7 @@ void GrigliaVisitor::Visit(File_Video& video) {
         Visit(static_cast<File_Episodio&>(video));
     }
 }
+
 
 void GrigliaVisitor::Visit(File_Film& film) {
     layout = new QVBoxLayout();
@@ -42,6 +44,7 @@ void GrigliaVisitor::Visit(File_Film& film) {
     layout->addWidget(nome);
 }
 
+
 void GrigliaVisitor::Visit(File_Episodio& episodio) {
     layout = new QVBoxLayout();
     icona = new QIcon(":/IMMAGINI/episodio_nero.png");
@@ -55,6 +58,7 @@ void GrigliaVisitor::Visit(File_Episodio& episodio) {
     nome->setStyleSheet("color: black;");
     layout->addWidget(nome);
 }
+
 
 void GrigliaVisitor::Visit(File_Serie& serie) {
     layout = new QVBoxLayout();
@@ -70,6 +74,7 @@ void GrigliaVisitor::Visit(File_Serie& serie) {
     layout->addWidget(nome);
 }
 
+
 void GrigliaVisitor::Visit(File_Libro& libro) {
     layout = new QVBoxLayout();
     icona = new QIcon(":/IMMAGINI/libro_nero.png");
@@ -83,6 +88,7 @@ void GrigliaVisitor::Visit(File_Libro& libro) {
     nome->setStyleSheet("color: black;");
     layout->addWidget(nome);
 }
+
 
 QVBoxLayout* GrigliaVisitor::GetLayout() const {
     return layout;

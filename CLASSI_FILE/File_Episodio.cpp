@@ -60,3 +60,7 @@ void File_Episodio::SetGenere(File_Serie* s) {
 void File_Episodio::Accept(FileVisitor& visitor){
     visitor.Visit(*this);
 }
+
+void File_Episodio::Accept(ConstFileVisitor& visitor) const {
+    visitor.Visit(*this);
+}

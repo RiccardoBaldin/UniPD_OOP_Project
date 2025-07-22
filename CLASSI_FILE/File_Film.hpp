@@ -4,8 +4,6 @@
 #include <iostream>
 #include "File_Video.hpp"
 
-class FileVisitor;
-
 class File_Film : public File_Video{
 
     private:
@@ -20,7 +18,8 @@ class File_Film : public File_Video{
         void SetOscar(bool);
 
         //metodo per visite
-        void Accept(FileVisitor& visitor) override;
+        void Accept(FileVisitor& visitor);
+        void Accept(ConstFileVisitor& visitor)const;
 };
 
 

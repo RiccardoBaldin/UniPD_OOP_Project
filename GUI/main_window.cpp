@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QStackedWidget>
+#include <QApplication>
 #include <iostream>
 
 MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(parent), biblioteca(biblioteca){
@@ -49,34 +50,27 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     connect(leftSide, &LeftSide::addFileSignal, this, &MainWindow::showAddFileWidget);
 
     connect(aggiuntaLibro, &AddFileWidget::FileAggiunto, this, &MainWindow::showMainWindow);
-    connect(aggiuntaLibro, &AddFileWidget::FileAggiunto, leftSide, &LeftSide::updateTree);
-    connect(aggiuntaLibro, &AddFileWidget::FileAggiunto, rightSide, &RightSide::updateLayout);
+    
+    connect(aggiuntaLibro, &AddFileWidget::FileAnnullato, this, &MainWindow::showMainWindow);
 
     connect(aggiuntaFilm, &AddFileWidget::FileAggiunto, this, &MainWindow::showMainWindow);
-    connect(aggiuntaFilm, &AddFileWidget::FileAggiunto, leftSide, &LeftSide::updateTree);
-    connect(aggiuntaFilm, &AddFileWidget::FileAggiunto, rightSide, &RightSide::updateLayout);
+    
+    connect(aggiuntaFilm, &AddFileWidget::FileAnnullato, this, &MainWindow::showMainWindow);
 
     connect(aggiuntaSerie, &AddFileWidget::FileAggiunto, this, &MainWindow::showMainWindow);
-    connect(aggiuntaSerie, &AddFileWidget::FileAggiunto, leftSide, &LeftSide::updateTree);
-    connect(aggiuntaSerie, &AddFileWidget::FileAggiunto, rightSide, &RightSide::updateLayout);
-
-    connect(aggiuntaLibro, &AddFileWidget::FileAggiunto, leftSide, &LeftSide::resetComboBox);
-    connect(aggiuntaFilm, &AddFileWidget::FileAggiunto, leftSide, &LeftSide::resetComboBox);
-    connect(aggiuntaSerie, &AddFileWidget::FileAggiunto, leftSide, &LeftSide::resetComboBox);
+    
+    connect(aggiuntaSerie, &AddFileWidget::FileAnnullato, this, &MainWindow::showMainWindow);
 }
 
 void MainWindow::showAddFileWidget(int index){
     switch(index){
         case 0:
-            std::cout << "aggiunta libro" << std::endl;
             stackedWidget->setCurrentWidget(aggiuntaLibro);
             break;
         case 1:
-            std::cout << "aggiunta film" << std::endl;
             stackedWidget->setCurrentWidget(aggiuntaFilm);
             break;
         case 2:
-            std::cout << "aggiunta serie" << std::endl;
             stackedWidget->setCurrentWidget(aggiuntaSerie);
             break;
         default:
@@ -87,4 +81,8 @@ void MainWindow::showAddFileWidget(int index){
 void MainWindow::showMainWindow() {
     stackedWidget->setCurrentWidget(principale);
     rightSide->updateLayout();
+    leftSide->updateTree();
+    QWidget *focus = QApplication::focusWidget();
+    if(focus) focus->clearFocus();
+    principale->setFocus();
 }

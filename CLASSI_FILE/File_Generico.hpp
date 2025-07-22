@@ -3,7 +3,8 @@
 
 #include <iostream>
 
-class FileVisitor;
+#include "../visitor/ConstFileVisitor.hpp"
+#include "../visitor/FileVisitor.hpp"
 
 class File_Generico{
 
@@ -34,6 +35,7 @@ class File_Generico{
 
         //metodo per visite
         virtual void Accept(FileVisitor& visitor) = 0;
+        virtual void Accept(ConstFileVisitor& visitor) const = 0;
         
 };
 

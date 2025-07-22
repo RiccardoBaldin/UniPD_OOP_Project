@@ -4,8 +4,6 @@
 #include <iostream>
 #include "File_Video.hpp"
 
-class FileVisitor;
-
 class File_Serie;
 
 class File_Episodio : public File_Video{
@@ -32,7 +30,9 @@ class File_Episodio : public File_Video{
         void SetGenere(File_Serie*);
 
         //metodo per visite
-        void Accept(FileVisitor& visitor) override;
+        
+        void Accept(FileVisitor& visitor);
+        void Accept(ConstFileVisitor& visitor)const;
 };
 
 #endif // FILE_EPISODIO_HPP

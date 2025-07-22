@@ -4,9 +4,10 @@
 #include <iostream>
 #include <vector>
 
-class FileVisitor;
 
 class File_Generico;
+#include "../visitor/ConstFileVisitor.hpp"
+#include "../visitor/FileVisitor.hpp"
 
 class Biblioteca{
     private:
@@ -18,10 +19,8 @@ class Biblioteca{
         std::vector<File_Generico*> getArchivio() const;
         void addFile(File_Generico*); //AGGIUNGE UN FILE IN CODA ALL'ARCHIVIO 
         void killFile(File_Generico*); //ELIMINA UN FILE DALL'ARCHIVIO
-        int check(const File_Generico*) const; //CONTROLLA SE UN FILE E' PRESENTE NELL'ARCHIVIO
-        std::vector<File_Generico*> finder(const std::string&) const; //RITORNA LISTA DI FILE 
-                                                                     //CONTENETNI LE LETTERE PASSATE
-                                                                     //QT DOVRA METTERE IN MINUSCOLO
+        bool check(const File_Generico*) const; //CONTROLLA SE UN FILE E' PRESENTE NELL'ARCHIVIO
+        std::vector<File_Generico*> finder(const std::string&) const; 
 
 
         std::vector<File_Generico*> getLibri() const; //RITORNA LISTA DEI LIBRI
@@ -36,8 +35,8 @@ class Biblioteca{
 
         void print() const; //STAMPA L'ARCHIVIO PER DEBUG
 
-        //metodo per le visite
         void Accept(FileVisitor& visitor);
+        void Accept(ConstFileVisitor& visitor)const;
 };
 
 #endif // CONTAINER_HPP

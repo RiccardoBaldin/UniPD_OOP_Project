@@ -74,7 +74,9 @@ void File_Serie::AggiungiEpisodio(File_Episodio* episodio){
         ++it;
     }
 
-    if (it != episodi.end() && episodio->GetNumeroStagione() == (*it)->GetNumeroStagione() && episodio->GetNumeroEpisodio() == (*it)->GetNumeroEpisodio()) {
+    if (it != episodi.end() && 
+        episodio->GetNumeroStagione() == (*it)->GetNumeroStagione() && 
+        episodio->GetNumeroEpisodio() == (*it)->GetNumeroEpisodio()) {
         return;
     }
 
@@ -101,5 +103,9 @@ void File_Serie::RimuoviEpisodio(File_Episodio* episodio){
 //METODO PER VISITE
 
 void File_Serie::Accept(FileVisitor& visitor){
+    visitor.Visit(*this);
+}
+
+void File_Serie::Accept(ConstFileVisitor& visitor) const {
     visitor.Visit(*this);
 }
