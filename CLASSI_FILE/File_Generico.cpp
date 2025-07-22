@@ -1,5 +1,4 @@
 #include "File_Generico.hpp"
-#include "visitor/FileVisitor.hpp"
 
 File_Generico::File_Generico(const std::string& nome, const std::string& autore, const std::string& genere, unsigned int anno)
     : nome(nome), autore(autore), genere(genere), anno(anno){}
@@ -44,4 +43,17 @@ void File_Generico::SetGenere(const std::string& genere){
 
 void File_Generico::SetAnno(unsigned int anno){
     this->anno = anno;
+}
+
+
+void File_Generico::Accept(FileVisitor& visitor){
+    visitor.Visit(*this);
+}
+
+void File_Generico::Accept(ConstFileVisitor& visitor) const {
+    visitor.Visit(*this);
+}
+
+void File_Generico::Accept(MostraVisitor& visitor){
+    visitor.Visit(*this);
 }

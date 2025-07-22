@@ -22,8 +22,8 @@ private:
 
     std::vector<File_Generico*> lista;
 
-private slots:
-    void File_Clicked(File_Generico*);
+signals:
+    void File_Clicked(File_Generico* file);
 };
 
 

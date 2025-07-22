@@ -39,18 +39,10 @@ void DisposizioneLinee::updateLayout() {
         listWidget->setItemWidget(item, widget);
         
         connect(listWidget, &QListWidget::itemClicked, this, [this, file, widget](QListWidgetItem* clickedItem) {
-        // Verifica se l'item cliccato è quello corretto (controlla se il widget corrisponde)
                 if (listWidget->itemWidget(clickedItem) == widget) {
-                    File_Clicked(file);  // Chiama il metodo File_Clicked con il file
+                    emit File_Clicked(file);
                 }
             }
         );
     }
-}
-    
-
-
-
-void DisposizioneLinee::File_Clicked(File_Generico* file) {
-    std::cout << "File cliccato: " << file->GetNome() << std::endl;
 }

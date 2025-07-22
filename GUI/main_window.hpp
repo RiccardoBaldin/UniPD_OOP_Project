@@ -7,6 +7,7 @@
 class LeftSide;
 class RightSide;
 class Biblioteca;
+class File_Generico;
 class LineaVerticale;
 class QStackedWidget;
 class AddFileWidget;
@@ -31,6 +32,7 @@ private:
 private slots:
     void showAddFileWidget(int index);
     void showMainWindow();
+    void mostraWindow(File_Generico* file);
 
 signals:
     void bibliotecaChanged();

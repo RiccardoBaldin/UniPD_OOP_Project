@@ -6,6 +6,7 @@
 class UpperBar;
 class LineaOrizzontale;
 class Biblioteca;
+class File_Generico;
 class QStackedWidget;
 class DisposizioneGriglia;
 class DisposizioneLinee;
@@ -27,6 +28,9 @@ private:
 
 private slots:
     void changeLayout(int index);
+
+signals:
+    void File_Clicked(File_Generico* file);
         
 };
 

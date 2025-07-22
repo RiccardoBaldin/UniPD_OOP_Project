@@ -64,7 +64,6 @@ private:
     QLineEdit *casa_di_produzione_serie;
 
     //attributi episodio
-
     QSpinBox *numero_stagione;
     QSpinBox *numero_episodio;
 

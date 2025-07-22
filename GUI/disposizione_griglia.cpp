@@ -73,7 +73,3 @@ void DisposizioneGriglia::updateLayout(){
         layout->setRowStretch(r, 0);
     }
 }
-
-void DisposizioneGriglia::File_Clicked(File_Generico* file) {
-    std::cout << "File cliccato: " << file->GetNome() << std::endl;
-}

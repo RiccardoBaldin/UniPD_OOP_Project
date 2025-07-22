@@ -33,6 +33,8 @@ RightSide::RightSide(Biblioteca *biblioteca, QWidget *parent) : QWidget(parent){
 
     connect(upperBar, &UpperBar::layoutChanged, this, &RightSide::changeLayout);
     connect(upperBar, &UpperBar::layoutChanged, this, &RightSide::updateLayout);
+    connect(Linee, &DisposizioneLinee::File_Clicked, this, &RightSide::File_Clicked);
+    connect(Griglia, &DisposizioneGriglia::File_Clicked, this, &RightSide::File_Clicked);
 }
 
 void RightSide::changeLayout(int index) {

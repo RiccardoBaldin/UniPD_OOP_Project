@@ -5,6 +5,7 @@
 
 #include "../visitor/ConstFileVisitor.hpp"
 #include "../visitor/FileVisitor.hpp"
+#include "../visitor/MostraVisitor.hpp"
 
 class File_Generico{
 
@@ -33,9 +34,10 @@ class File_Generico{
         void SetGenere(const std::string&);
         void SetAnno(unsigned int);
 
-        //metodo per visite
-        virtual void Accept(FileVisitor& visitor) = 0;
-        virtual void Accept(ConstFileVisitor& visitor) const = 0;
+        //metodi per accettare le visite
+        virtual void Accept(FileVisitor& visitor);
+        virtual void Accept(ConstFileVisitor& visitor) const;
+        virtual void Accept(MostraVisitor& visitor);
         
 };
 

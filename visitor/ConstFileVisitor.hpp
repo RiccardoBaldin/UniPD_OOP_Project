@@ -6,11 +6,13 @@ class File_Film;
 class File_Episodio;
 class File_Serie;
 class File_Libro;
+class File_Generico;
 
 class ConstFileVisitor{
     public:
         virtual ~ConstFileVisitor() = default;
         
+        virtual void Visit(const File_Generico& file) = 0;
         virtual void Visit(const File_Video& video) = 0;
         virtual void Visit(const File_Film& film) = 0;
         virtual void Visit(const File_Episodio& episodio) = 0;

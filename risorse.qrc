@@ -21,6 +21,9 @@
         <file>IMMAGINI/serie_nero.png</file>
         <file>IMMAGINI/episodio_nero.png</file>
 
+        <file>IMMAGINI/Oscar.png</file>
+
         <file>DataBase/Biblioteca.json</file>
+
     </qresource>
 </RCC>

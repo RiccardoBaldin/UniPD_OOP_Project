@@ -2,6 +2,7 @@
 #include "../CLASSI_FILE/Container.hpp"
 #include "../CLASSI_FILE/File_Libro.hpp"
 #include "../JSON_CONTROL/ToJson.hpp"
+#include "../visitor/MostraVisitor.hpp"
 #include "left_side.hpp"
 #include "right_side.hpp"
 #include "linea_verticale.hpp"
@@ -11,7 +12,7 @@
 #include <QStackedWidget>
 #include <QApplication>
 #include <iostream>
-
+ 
 MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(parent), biblioteca(biblioteca){
     
     setWindowTitle("Biblioteca");
@@ -20,9 +21,9 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     stackedWidget = new QStackedWidget(this);
     
     principale = new QWidget(this);
-    aggiuntaLibro = new AddFileWidget(biblioteca, 0, this);
-    aggiuntaFilm = new AddFileWidget(biblioteca, 1, this);
-    aggiuntaSerie = new AddFileWidget(biblioteca, 2, this);
+    aggiuntaLibro = new AddFileWidget(biblioteca, 0, this); //widget di aggiunta Libro
+    aggiuntaFilm = new AddFileWidget(biblioteca, 1, this);  //widget di aggiunta Film
+    aggiuntaSerie = new AddFileWidget(biblioteca, 2, this); //widget di aggiunta Serie
 
     leftSide = new LeftSide(biblioteca);
     rightSide = new RightSide(biblioteca);
@@ -48,6 +49,7 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     setCentralWidget(stackedWidget);
 
     connect(leftSide, &LeftSide::addFileSignal, this, &MainWindow::showAddFileWidget);
+    
 
     connect(aggiuntaLibro, &AddFileWidget::FileAggiunto, this, &MainWindow::showMainWindow);
     
@@ -60,7 +62,23 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     connect(aggiuntaSerie, &AddFileWidget::FileAggiunto, this, &MainWindow::showMainWindow);
     
     connect(aggiuntaSerie, &AddFileWidget::FileAnnullato, this, &MainWindow::showMainWindow);
+
+    connect(rightSide, &RightSide::File_Clicked, this, &MainWindow::mostraWindow);
 }
+
+void MainWindow::mostraWindow(File_Generico* file){
+    MostraVisitor visitor;
+    file->Accept(visitor);
+
+    QWidget* mostra = new QWidget();
+    QVBoxLayout* layout = visitor.GetLayout();
+    mostra->setLayout(layout);
+    
+    stackedWidget->addWidget(mostra);
+    stackedWidget->setCurrentWidget(mostra);
+}
+
+
 
 void MainWindow::showAddFileWidget(int index){
     switch(index){

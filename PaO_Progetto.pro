@@ -68,5 +68,6 @@ SOURCES += main.cpp \
            JSON_CONTROL/ToJson.cpp \
            visitor/GrigliaVisitor.cpp \
            visitor/JSonVisitor.cpp \
-           visitor/ListaVisitor.cpp
+           visitor/ListaVisitor.cpp \
+           visitor/MostraVisitor.cpp
 RESOURCES += risorse.qrc
