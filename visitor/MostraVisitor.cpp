@@ -8,6 +8,9 @@
 
 #include <QLabel>
 #include <QPixmap>
+#include <QTreeWidget>
+#include <set>
+#include <QString>
 
 void MostraVisitor::Visit(File_Generico& file) {
 
@@ -26,7 +29,7 @@ void MostraVisitor::Visit(File_Generico& file) {
         Visit(static_cast<File_Video&>(file));
     } else if(dynamic_cast<File_Libro*>(&file)){
         Visit(static_cast<File_Libro&>(file));
-    }else if(dynamic_cast<File_Serie*>(&file)){
+    }if(dynamic_cast<File_Serie*>(&file)){
         Visit(static_cast<File_Serie&>(file));
     }
 
@@ -41,6 +44,7 @@ void MostraVisitor::Visit(File_Generico& file) {
     layout->addLayout(sopra);
     layout->addLayout(sotto);
 
+    if(dynamic_cast<File_Serie*>(&file)) layout->addWidget(albero_episodi);
 }
 
 void MostraVisitor::Visit(File_Video& video) {
@@ -102,16 +106,44 @@ void MostraVisitor::Visit(File_Serie& serie) {
     numero_episodi = new QLabel(QString::fromStdString(std::to_string(serie.GetNumeroEpisodi())));
     numero_stagioni = new QLabel(QString::fromStdString(std::to_string(serie.GetNumeroStagioni())));
     casa_di_produzione_serie = new QLabel(QString::fromStdString(serie.GetCasaDiProduzione()));
-    unsigned int righe = serie.GetNumeroStagioni();
     
     sottoDx->addWidget(numero_stagioni);
     sottoDx->addWidget(numero_episodi);
     sottoDx->addWidget(casa_di_produzione_serie);
-
+    
     sotto->addLayout(sottoDx);
+
+    CreaAlberoEpisodi(serie);
 }
 
+void MostraVisitor::CreaAlberoEpisodi(const File_Serie& serie){
+    albero_episodi = new QTreeWidget();
+    albero_episodi->setHeaderHidden(true);
+    albero_episodi->setAlternatingRowColors(true);
+    albero_episodi->setRootIsDecorated(false);
 
+    auto episodi = serie.GetEpisodi();
+
+    std::set<unsigned int> stagioni;
+    for(const auto& cit : episodi){
+        stagioni.insert(cit->GetNumeroStagione());
+    }
+
+    if(stagioni.size()==0) return;
+
+    for(unsigned int s : stagioni){
+        QString N_Stagione = QString("Stagione %1").arg(s);
+        QTreeWidgetItem* RamoStagione = new QTreeWidgetItem(QStringList(N_Stagione));
+        for(const auto& ep : episodi){
+            if(ep->GetNumeroStagione < s) continue;
+            if(ep->GetNumeroStagione > s) break;
+            QTreeWidgetItem* e = new QTreeWidgetItem();
+            e->setText(0, QString::fromStdString(e->GetNome()));
+            e->setIcon(0, QIcon(":/IMMAGINI/episodio_nero.png"));
+            RamoStagione->addChild(e);
+        }
+    }
+}
 
 QVBoxLayout* MostraVisitor::GetLayout(){
     return layout;

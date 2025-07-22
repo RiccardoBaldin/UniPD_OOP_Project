@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <QLabel>
 
+class QTreeWidget;
 class File_Generico;
 class File_Video;
 class File_Film;
@@ -48,12 +49,14 @@ private:
     QLabel *numero_stagioni;
     QLabel *numero_episodi;
     QLabel *casa_di_produzione_serie;
+    QTreeWidget *albero_episodi = nullptr;
 
     //attributi episodio
     QLabel *serie;
     QLabel *numero_stagione;
     QLabel *numero_episodio;
 
+    void CreaAlberoEpisodi(const File_Serie& serie);
 
 public:
 

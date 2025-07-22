@@ -9067,7 +9067,26 @@ MostraVisitor.o: visitor/MostraVisitor.cpp visitor/MostraVisitor.hpp \
 		CLASSI_FILE/File_Episodio.hpp \
 		CLASSI_FILE/File_Serie.hpp \
 		CLASSI_FILE/File_Libro.hpp \
-		/usr/include/qt6/QtGui/QPixmap
+		/usr/include/qt6/QtGui/QPixmap \
+		/usr/include/qt6/QtWidgets/QTreeWidget \
+		/usr/include/qt6/QtWidgets/qtreewidget.h \
+		/usr/include/qt6/QtWidgets/qtreeview.h \
+		/usr/include/qt6/QtWidgets/qabstractitemview.h \
+		/usr/include/qt6/QtWidgets/qabstractscrollarea.h \
+		/usr/include/qt6/QtCore/qabstractitemmodel.h \
+		/usr/include/qt6/QtCore/qitemselectionmodel.h \
+		/usr/include/qt6/QtWidgets/qabstractitemdelegate.h \
+		/usr/include/qt6/QtWidgets/qstyleoption.h \
+		/usr/include/qt6/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt6/QtGui/qvalidator.h \
+		/usr/include/qt6/QtCore/qregularexpression.h \
+		/usr/include/qt6/QtWidgets/qslider.h \
+		/usr/include/qt6/QtWidgets/qabstractslider.h \
+		/usr/include/qt6/QtWidgets/qstyle.h \
+		/usr/include/qt6/QtWidgets/qtabbar.h \
+		/usr/include/qt6/QtWidgets/qtabwidget.h \
+		/usr/include/qt6/QtWidgets/qrubberband.h \
+		/usr/include/qt6/QtWidgets/qtreewidgetitemiterator.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MostraVisitor.o visitor/MostraVisitor.cpp
 
 qrc_risorse.o: qrc_risorse.cpp 
