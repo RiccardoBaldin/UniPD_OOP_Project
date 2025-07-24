@@ -6537,7 +6537,10 @@ main_window.o: GUI/main_window.cpp GUI/main_window.hpp \
 		/usr/include/qt6/QtWidgets/QStackedWidget \
 		/usr/include/qt6/QtWidgets/qstackedwidget.h \
 		/usr/include/qt6/QtWidgets/QApplication \
-		/usr/include/qt6/QtWidgets/qapplication.h
+		/usr/include/qt6/QtWidgets/qapplication.h \
+		/usr/include/qt6/QtWidgets/QPushButton \
+		/usr/include/qt6/QtWidgets/qpushbutton.h \
+		/usr/include/qt6/QtWidgets/qabstractbutton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main_window.o GUI/main_window.cpp
 
 quadratini.o: GUI/quadratini.cpp GUI/quadratini.hpp \
@@ -9086,7 +9089,8 @@ MostraVisitor.o: visitor/MostraVisitor.cpp visitor/MostraVisitor.hpp \
 		/usr/include/qt6/QtWidgets/qtabbar.h \
 		/usr/include/qt6/QtWidgets/qtabwidget.h \
 		/usr/include/qt6/QtWidgets/qrubberband.h \
-		/usr/include/qt6/QtWidgets/qtreewidgetitemiterator.h
+		/usr/include/qt6/QtWidgets/qtreewidgetitemiterator.h \
+		/usr/include/qt6/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MostraVisitor.o visitor/MostraVisitor.cpp
 
 qrc_risorse.o: qrc_risorse.cpp 

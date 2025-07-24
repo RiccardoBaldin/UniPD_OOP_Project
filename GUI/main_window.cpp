@@ -11,6 +11,7 @@
 #include <QHBoxLayout>
 #include <QStackedWidget>
 #include <QApplication>
+#include <QPushButton>
 #include <iostream>
  
 MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(parent), biblioteca(biblioteca){
@@ -67,15 +68,29 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
 }
 
 void MainWindow::mostraWindow(File_Generico* file){
+    
+    QWidget* mostra = new QWidget();
+
     MostraVisitor visitor;
     file->Accept(visitor);
-
-    QWidget* mostra = new QWidget();
-    QVBoxLayout* layout = visitor.GetLayout();
-    mostra->setLayout(layout);
+    QVBoxLayout* layout = visitor.GetLayout(); //layout ha il layout del visitor
     
+
+    QPushButton* indietro = new QPushButton("Indietro");
+
+    QHBoxLayout* sopra = new QHBoxLayout();
+    sopra->addWidget(indietro, 0, Qt::AlignLeft); //sopra è un bottone schiacciato a sinistra
+
+    QVBoxLayout* intero = new QVBoxLayout();
+    intero->addLayout(sopra);
+    intero->addLayout(layout);
+    
+    mostra->setLayout(intero);
+
     stackedWidget->addWidget(mostra);
     stackedWidget->setCurrentWidget(mostra);
+
+    connect(indietro, &QPushButton::clicked, this, &MainWindow::DettagliIndietro);
 }
 
 
@@ -94,6 +109,10 @@ void MainWindow::showAddFileWidget(int index){
         default:
             break;
     }
+}
+
+void MainWindow::DettagliIndietro(){
+    stackedWidget->setCurrentWidget(principale);
 }
 
 void MainWindow::showMainWindow() {

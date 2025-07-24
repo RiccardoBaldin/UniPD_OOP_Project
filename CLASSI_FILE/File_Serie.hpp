@@ -33,6 +33,7 @@ class File_Serie : public File_Generico{
         void AggiungiEpisodio(File_Episodio*);
         void RimuoviEpisodio(File_Episodio*);
 
+        bool check(const File_Episodio*) const;
         //metodo per visite
         void Accept(FileVisitor& visitor);
         void Accept(ConstFileVisitor& visitor) const ;

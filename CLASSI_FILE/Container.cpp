@@ -104,7 +104,8 @@ std::vector<File_Generico*> Biblioteca::preferiti() const{
 
 bool Biblioteca::check(const File_Generico* a) const {
     for(auto cit : archivio){
-        if(cit->GetNome() == a->GetNome() && 
+        if(typeid(*cit)==typeid(*a) &&
+           cit->GetNome() == a->GetNome() && 
            cit->GetAnno() == a->GetAnno() && 
            cit->GetAutore() == a->GetAutore()) return false;
     } 

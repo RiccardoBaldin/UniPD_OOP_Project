@@ -3,29 +3,21 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QLabel>
-#include <QFormLayout>
-#include <QLineEdit>
 #include <QCheckBox>
 #include <QButtonGroup>
 #include <QRadioButton>
 #include <QMessageBox>
 #include <QStringList>
 #include "linea_orizzontale.hpp"
-#include "JSON_CONTROL/ToJson.hpp"
+
 #include "../CLASSI_FILE/File_Libro.hpp"
 #include "../CLASSI_FILE/File_Generico.hpp"
 #include "../CLASSI_FILE/File_Film.hpp"
 #include "../CLASSI_FILE/File_Serie.hpp"
-#include "../CLASSI_FILE/File_Episodio.hpp"
 
 AddFileWidget::AddFileWidget(Biblioteca* biblioteca, int index, QWidget *parent) : QWidget(parent), tipo(index), biblioteca(biblioteca){
-   
-    setWindowTitle("Add File");
 
     layout = new QVBoxLayout(this);
-    filler->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
 
     annulla = new QPushButton("Annulla");
     conferma =  new QPushButton("Conferma");
@@ -34,7 +26,7 @@ AddFileWidget::AddFileWidget(Biblioteca* biblioteca, int index, QWidget *parent)
     conferma->setFixedWidth(100);
     layoutSotto->addWidget(conferma);
 
-    QLabel *testo = new QLabel("COMPILA I CAMPI PER AGGIUNGERE UN FILE");
+    QLabel *testo = new QLabel("COMPILARE I CAMPI PER AGGIUNGERE UN FILE");
     testo->setAlignment(Qt::AlignCenter);
     testo->setStyleSheet("font-size: 20px; color: red; font-weight: bold;");
 
@@ -52,12 +44,15 @@ AddFileWidget::AddFileWidget(Biblioteca* biblioteca, int index, QWidget *parent)
 void AddFileWidget::SceltaTipo() {
     switch(tipo){
         case 0:
+            setWindowTitle("Aggiunta Libro");
             AggiungiLibro();
             break;
         case 1:
+            setWindowTitle("Aggiunta Film");
             AggiungiFilm();
             break;
         case 2:
+            setWindowTitle("Aggiunta Serie");
             AggiungiSerie();
             break;
     }
@@ -69,8 +64,6 @@ void AddFileWidget::AggiungiLibro(){
     icona->setFixedSize(300,300);
     icona->setAlignment(Qt::AlignCenter);
 
-    layoutSx = new QFormLayout();
-    layoutDx = new QFormLayout();
 
     layoutSx->addRow("Nome", nome);
     layoutSx->addRow("Autore", autore);
@@ -102,9 +95,6 @@ void AddFileWidget::AggiungiFilm(){
     icona->setPixmap(QPixmap(":/IMMAGINI/Film_Aggiungi.png"));
     icona->setFixedSize(300,300);
     icona->setAlignment(Qt::AlignCenter);
-
-    layoutSx = new QFormLayout();
-    layoutDx = new QFormLayout();
 
     layoutSx->addRow("Nome", nome);
     layoutSx->addRow("Autore", autore);
@@ -141,9 +131,6 @@ void AddFileWidget::AggiungiSerie(){
     icona->setPixmap(QPixmap(":/IMMAGINI/Serie_Aggiungi.png"));
     icona->setFixedSize(300,300);
     icona->setAlignment(Qt::AlignCenter);
-
-    layoutSx = new QFormLayout();
-    layoutDx = new QFormLayout();
 
     layoutSx->addRow("Nome", nome);
     layoutSx->addRow("Autore", autore);
@@ -194,8 +181,8 @@ void AddFileWidget::ConfermaAggiunta(){
                                        genere->text().toStdString(),
                                        anno->value(),
                                        durata->value(),
-                                       regista->text().toStdString(),
                                        casa_di_produzione->text().toStdString(),
+                                       regista->text().toStdString(),
                                        oscar->isChecked());
                     if(biblioteca->check(film)){
                         biblioteca->addFile(film);
@@ -231,6 +218,7 @@ void AddFileWidget::ConfermaAggiunta(){
 }
 
 void AddFileWidget::AnnullaAggiunta(){
+    pulisciCampi();
     emit FileAnnullato();
 }
 
@@ -238,6 +226,7 @@ void AddFileWidget::pulisciCampi() {
     nome->clear();
     autore->clear();
     genere->clear();
+    anno->clear();
     switch(tipo){
         case 0:
             pagine->clear();
@@ -251,6 +240,7 @@ void AddFileWidget::pulisciCampi() {
             break;
         case 2:
             casa_di_produzione_serie->clear();
+            break;
     }
 
 

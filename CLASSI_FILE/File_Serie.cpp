@@ -99,6 +99,15 @@ void File_Serie::RimuoviEpisodio(File_Episodio* episodio){
     }
 }
 
+bool File_Serie::check(const File_Episodio* a) const {
+    for(auto cit : episodi){
+        if(cit->GetNome() == a->GetNome() && 
+           cit->GetAnno() == a->GetAnno() && 
+           cit->GetAutore() == a->GetAutore()) return false;
+    } 
+    return true;
+}; 
+
 
 //METODO PER VISITE
 

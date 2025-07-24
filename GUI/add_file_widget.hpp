@@ -36,7 +36,6 @@ private:
     QHBoxLayout *layoutBig = new QHBoxLayout();
     QFormLayout *layoutSx = new QFormLayout();
     QFormLayout *layoutDx = new QFormLayout();
-    QWidget *filler = new QWidget();
 
     QLabel *icona = new QLabel();
 
@@ -63,9 +62,7 @@ private:
     QSpinBox *numero_episodi;
     QLineEdit *casa_di_produzione_serie;
 
-    //attributi episodio
-    QSpinBox *numero_stagione;
-    QSpinBox *numero_episodio;
+
 
 protected:
     bool NonCampiVuoti();

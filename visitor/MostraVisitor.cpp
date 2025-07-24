@@ -133,17 +133,20 @@ void MostraVisitor::CreaAlberoEpisodi(const File_Serie& serie){
 
     for(unsigned int s : stagioni){
         QString N_Stagione = QString("Stagione %1").arg(s);
-        QTreeWidgetItem* RamoStagione = new QTreeWidgetItem(QStringList(N_Stagione));
+        QTreeWidgetItem* RamoStagione = new QTreeWidgetItem(albero_episodi);
+        RamoStagione->setText(0, N_Stagione);
         for(const auto& ep : episodi){
-            if(ep->GetNumeroStagione < s) continue;
-            if(ep->GetNumeroStagione > s) break;
-            QTreeWidgetItem* e = new QTreeWidgetItem();
-            e->setText(0, QString::fromStdString(e->GetNome()));
+            if(ep->GetNumeroStagione() < s) continue;
+            if(ep->GetNumeroStagione() > s) break;
+            QTreeWidgetItem* e = new QTreeWidgetItem(RamoStagione);
+            e->setText(0, QString::fromStdString(ep->GetNome()));
             e->setIcon(0, QIcon(":/IMMAGINI/episodio_nero.png"));
-            RamoStagione->addChild(e);
         }
     }
+    albero_episodi->expandAll();
 }
+
+
 
 QVBoxLayout* MostraVisitor::GetLayout(){
     return layout;

@@ -32,6 +32,7 @@ private:
 private slots:
     void showAddFileWidget(int index);
     void showMainWindow();
+    void DettagliIndietro();
     void mostraWindow(File_Generico* file);
 
 signals:

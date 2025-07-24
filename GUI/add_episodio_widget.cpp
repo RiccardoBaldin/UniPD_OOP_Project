@@ -1,0 +1,137 @@
+#include "add_episodio_widget.hpp"
+#include "../CLASSI_FILE/File_Serie.hpp"
+#include "../CLASSI_FILE/File_Episodio.hpp"
+
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QButtonGroup>
+#include <QRadioButton>
+#include <QMessageBox>
+#include <QStringList>
+#include "linea_orizzontale.hpp"
+
+AddEpisodioWidget::AddEpisodioWidget(File_Serie* serie, QWidget* parent) : QWidget(parent), serie(serie){
+
+    setWindowTitle("Aggiunta Episodio");
+
+    layout = new QVBoxLayout(this);
+    
+    annulla = new QPushButton("Annulla");
+    conferma = new QPushButton("Conferma");
+    annulla->setFixedWidth(100);
+    layoutSotto->addWidget(annulla);
+    conferma->setFixedWidth(100);
+    layoutSotto->addWidget(conferma);
+
+    QLabel *testo = new QLabel("COMPILARE I CAMPI PER AGGIUNGERE L'EPISODIO");
+    testo->setAlignment(Qt::AlignCenter);
+    testo->setStyleSheet("font-size: 20px; color: red; font-weight: bold;");
+
+    layout->addWidget(testo);
+    layout->addWidget(new LineaOrizzontale());
+    
+    icona->setPixmap(QPixmap(":/IMMAGINI/Episodio_Aggiungi.png"));
+    icona->setFixedSize(300,300);
+    icona->setAlignment(Qt::AlignCenter);
+
+    nomeSerie->setText(serie.GetNome());
+    layoutSx->addRow("Serie", nomeSerie);
+    layoutSx->addRow("Nome", nome);
+    autore->setText(serie.GetAutore());
+    layoutSx->addRow("Autore", autore);
+    genere->setText(serie.GetGenere())
+    layoutSx->addRow("Genere", genere);
+    layoutSx->addRow("Anno", anno);
+    anno->setRange(0,2025);
+    anno->setValue(0);
+
+    numero_stagione->setRange(0,100);
+    numero_stagione->setValue(0);
+
+    numero_episodio->setRange(0,100);
+    numero_episodio->setValue(0);
+
+    durata->setRange(0,1000);
+    durata->setValue(0);
+
+    layoutDx->addRow("Numero Stagione", numero_stagione);
+    layoutDx->addRow("Numero Episodio", numero_episodio);
+    layoutDx->addRow("durata", durata);
+    layoutDx->addRow("regista", regista);  
+    layoutDx->addRow("casa produttrice", new QLabel(QString::fromStdString(serie.GetCasaDiProduzione())));
+
+    QHBoxLayout* iconLayout = new QHBoxLayout();
+    iconLayout->addStretch();
+    iconLayout->addWidget(icona);
+    iconLayout->addStretch();
+    layout->addLayout(iconLayout);
+    layoutBig->addLayout(layoutSx);
+    layoutBig->addLayout(layoutDx);
+    layout->addLayout(layoutBig);  
+    
+    layout->addWidget(new LineaOrizzontale());
+    layout->addLayout(layoutSotto);
+
+    connect(conferma, &QPushButton::clicked, this, &AddFileWidget::ConfermaAggiunta);
+    connect(annulla, &QPushButton::clicked, this, &AddFileWidget::AnnullaAggiunta);
+
+}
+
+void AddEpisodioWidget::ConfermaAggiunta(){
+    if(NonCampiVuoti()){
+        File_Episodio* episodio = new File_Episodio(nome->text().toStdString(),
+                                       autore->text().toStdString(),
+                                       genere->text().toStdString(),
+                                       anno->value(),
+                                       durata->value(),
+                                       casa_di_produzione->text().toStdString(),
+                                       regista->text().toStdString(),
+                                       numero_episodio->value(),
+                                       numero_stagione->value(),
+                                       serie->GetNome());
+        if(serie->check(episodio)){
+            serie->AggiungiEpisodio(episodio);
+            pulisciCampi();
+            emit FileAggiunto;
+        }else{
+            QMessageBox::warning(this,
+                                "Episodio già presente",
+                                "Episodio già presente all'interno della Serie");
+        }
+    }
+}
+
+void AddEpisodioWidget::AnnullaAggiunta(){
+    pulisciCampi();
+    emit FileAnnullato();
+}
+
+void AddEpisodioWidget::pulisciCampi(){
+    nome->clear();
+    autore->clear();
+    genere->clear();
+    anno->clear();
+    durata->clear();
+    regista->clear();
+    casa_di_produzione->clear();
+    numero_stagione->clear();
+    numero_episodio->clear();
+    nomeSerie->clear();
+}
+
+bool AddFileWidget::NonCampiVuoti(){
+    QStringList mancanti;
+    if(nome->text().isEmpty()) mancanti << "Nome" ;
+    if(autore->text().isEmpty()) mancanti << "Autore" ;
+
+    if(!mancanti.isEmpty()){
+        QMessageBox::warning(this,
+                             "Campi Mancanti!",
+                             "I seguenti campi non possono essere vuoti:\n" + mancanti.join("\n"));
+        return false;
+    }
+
+    return true;
+}
