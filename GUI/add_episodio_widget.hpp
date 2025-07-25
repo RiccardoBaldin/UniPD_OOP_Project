@@ -42,18 +42,20 @@ private:
     QSpinBox *anno = new QSpinBox();
     QSpinBox *durata = new QSpinBox();
     QLineEdit *regista = new QLineEdit();
-    QLineEdit *casa_di_produzione = new QLineEdit();
+    QLabel *casa_di_produzione = new QLabel();
     QSpinBox *numero_stagione = new QSpinBox();
     QSpinBox *numero_episodio = new QSpinBox();
 
     QLabel *nomeSerie = new QLabel();
 
+    void setSerie(File_Serie*);
+
 protected:
-    void NonCampiVuoti();
+    bool NonCampiVuoti();
     void pulisciCampi();
 
 public slots:
-    void AggiungiEpisodio();
+    //void AggiungiEpisodio();
 
     void ConfermaAggiunta();
     void AnnullaAggiunta();

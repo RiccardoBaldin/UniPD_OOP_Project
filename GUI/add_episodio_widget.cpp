@@ -36,12 +36,12 @@ AddEpisodioWidget::AddEpisodioWidget(File_Serie* serie, QWidget* parent) : QWidg
     icona->setFixedSize(300,300);
     icona->setAlignment(Qt::AlignCenter);
 
-    nomeSerie->setText(serie.GetNome());
+    nomeSerie->setText(QString::fromStdString(serie->GetNome()));
     layoutSx->addRow("Serie", nomeSerie);
     layoutSx->addRow("Nome", nome);
-    autore->setText(serie.GetAutore());
+    autore->setText(QString::fromStdString(serie->GetAutore()));
     layoutSx->addRow("Autore", autore);
-    genere->setText(serie.GetGenere())
+    genere->setText(QString::fromStdString(serie->GetGenere()));
     layoutSx->addRow("Genere", genere);
     layoutSx->addRow("Anno", anno);
     anno->setRange(0,2025);
@@ -60,7 +60,8 @@ AddEpisodioWidget::AddEpisodioWidget(File_Serie* serie, QWidget* parent) : QWidg
     layoutDx->addRow("Numero Episodio", numero_episodio);
     layoutDx->addRow("durata", durata);
     layoutDx->addRow("regista", regista);  
-    layoutDx->addRow("casa produttrice", new QLabel(QString::fromStdString(serie.GetCasaDiProduzione())));
+    casa_di_produzione->setText(QString::fromStdString(serie->GetCasaDiProduzione()));
+    layoutDx->addRow("casa produttrice", casa_di_produzione);
 
     QHBoxLayout* iconLayout = new QHBoxLayout();
     iconLayout->addStretch();
@@ -74,8 +75,8 @@ AddEpisodioWidget::AddEpisodioWidget(File_Serie* serie, QWidget* parent) : QWidg
     layout->addWidget(new LineaOrizzontale());
     layout->addLayout(layoutSotto);
 
-    connect(conferma, &QPushButton::clicked, this, &AddFileWidget::ConfermaAggiunta);
-    connect(annulla, &QPushButton::clicked, this, &AddFileWidget::AnnullaAggiunta);
+    connect(conferma, &QPushButton::clicked, this, &AddEpisodioWidget::ConfermaAggiunta);
+    connect(annulla, &QPushButton::clicked, this, &AddEpisodioWidget::AnnullaAggiunta);
 
 }
 
@@ -94,7 +95,7 @@ void AddEpisodioWidget::ConfermaAggiunta(){
         if(serie->check(episodio)){
             serie->AggiungiEpisodio(episodio);
             pulisciCampi();
-            emit FileAggiunto;
+            emit FileAggiunto();
         }else{
             QMessageBox::warning(this,
                                 "Episodio già presente",
@@ -121,7 +122,7 @@ void AddEpisodioWidget::pulisciCampi(){
     nomeSerie->clear();
 }
 
-bool AddFileWidget::NonCampiVuoti(){
+bool AddEpisodioWidget::NonCampiVuoti(){
     QStringList mancanti;
     if(nome->text().isEmpty()) mancanti << "Nome" ;
     if(autore->text().isEmpty()) mancanti << "Autore" ;
@@ -134,4 +135,14 @@ bool AddFileWidget::NonCampiVuoti(){
     }
 
     return true;
+}
+
+void AddEpisodioWidget::setSerie(File_Serie* NuovaSerie){
+    serie = NuovaSerie;
+    if(serie){
+        nomeSerie->setText(QString::fromStdString(serie->GetNome()));
+        autore->setText(QString::fromStdString(serie->GetAutore()));
+        genere->setText(QString::fromStdString(serie->GetGenere()));
+        casa_di_produzione->setText(QString::fromStdString(serie->GetCasaDiProduzione()));
+    }
 }

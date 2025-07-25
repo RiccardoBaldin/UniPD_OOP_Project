@@ -1,8 +1,11 @@
 #include "main_window.hpp"
 #include "../CLASSI_FILE/Container.hpp"
-#include "../CLASSI_FILE/File_Libro.hpp"
+#include "../CLASSI_FILE/File_Generico.hpp"
 #include "../JSON_CONTROL/ToJson.hpp"
 #include "../visitor/MostraVisitor.hpp"
+#include "../visitor/mostra_helper.hpp"
+#include "../CLASSI_FILE/File_Serie.hpp"
+#include "add_episodio_widget.hpp"
 #include "left_side.hpp"
 #include "right_side.hpp"
 #include "linea_verticale.hpp"
@@ -22,9 +25,10 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     stackedWidget = new QStackedWidget(this);
     
     principale = new QWidget(this);
-    aggiuntaLibro = new AddFileWidget(biblioteca, 0, this); //widget di aggiunta Libro
-    aggiuntaFilm = new AddFileWidget(biblioteca, 1, this);  //widget di aggiunta Film
-    aggiuntaSerie = new AddFileWidget(biblioteca, 2, this); //widget di aggiunta Serie
+    aggiuntaLibro = new AddFileWidget(biblioteca, 0, this);     //widget di aggiunta Libro
+    aggiuntaFilm = new AddFileWidget(biblioteca, 1, this);      //widget di aggiunta Film
+    aggiuntaSerie = new AddFileWidget(biblioteca, 2, this);     //widget di aggiunta Serie
+    aggiuntaEpisodio = new MostraVisitorHelper(nullptr, this);  //widget di aggiunta Episodio
 
     leftSide = new LeftSide(biblioteca);
     rightSide = new RightSide(biblioteca);
@@ -46,6 +50,7 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     stackedWidget->addWidget(aggiuntaLibro);
     stackedWidget->addWidget(aggiuntaFilm);
     stackedWidget->addWidget(aggiuntaSerie);
+    stackedWidget->addWidget(aggiuntaEpisodio);
 
     setCentralWidget(stackedWidget);
 
@@ -71,10 +76,7 @@ void MainWindow::mostraWindow(File_Generico* file){
     
     QWidget* mostra = new QWidget();
 
-    MostraVisitor visitor;
-    file->Accept(visitor);
-    QVBoxLayout* layout = visitor.GetLayout(); //layout ha il layout del visitor
-    
+    MostraVisitorHelper* a = new MostraVisitorHelper(file, this);
 
     QPushButton* indietro = new QPushButton("Indietro");
 
@@ -83,14 +85,19 @@ void MainWindow::mostraWindow(File_Generico* file){
 
     QVBoxLayout* intero = new QVBoxLayout();
     intero->addLayout(sopra);
-    intero->addLayout(layout);
+    intero->addLayout(a->GetLayout());
     
     mostra->setLayout(intero);
 
     stackedWidget->addWidget(mostra);
     stackedWidget->setCurrentWidget(mostra);
 
-    connect(indietro, &QPushButton::clicked, this, &MainWindow::DettagliIndietro);
+    if(dynamic_cast<File_Serie*>(file)){
+        std::cout<<"SERIE MOSTRATA CAZZO DURO MAI PAURA\n"<<std::endl;
+        connect(a, &MostraVisitorHelper::AggiuntaEpisodio, this, &MainWindow::showAddEpisodioWidget);
+    }
+
+    connect(indietro, &QPushButton::clicked, this, &MainWindow::showMainWindow);
 }
 
 
@@ -109,6 +116,10 @@ void MainWindow::showAddFileWidget(int index){
         default:
             break;
     }
+}
+
+void MainWindow::showAddEpisodioWidget(){
+    stackedWidget->setCurrentWidget(aggiuntaEpisodio);
 }
 
 void MainWindow::DettagliIndietro(){

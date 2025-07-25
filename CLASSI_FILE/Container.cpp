@@ -5,6 +5,8 @@
 #include "File_Serie.hpp"
 #include "visitor/FileVisitor.hpp"
 #include <algorithm>
+#include <typeinfo>
+
 
 Biblioteca::~Biblioteca(){
     for(auto x : archivio) delete x;

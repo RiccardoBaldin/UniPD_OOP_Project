@@ -11,6 +11,7 @@ class File_Generico;
 class LineaVerticale;
 class QStackedWidget;
 class AddFileWidget;
+class MostraVisitorHelper; 
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -23,6 +24,7 @@ private:
     AddFileWidget *aggiuntaLibro;
     AddFileWidget *aggiuntaFilm;
     AddFileWidget *aggiuntaSerie;
+    MostraVisitorHelper* aggiuntaEpisodio;
 
     LeftSide *leftSide;
     RightSide *rightSide;
@@ -34,6 +36,7 @@ private slots:
     void showMainWindow();
     void DettagliIndietro();
     void mostraWindow(File_Generico* file);
+    void showAddEpisodioWidget();
 
 signals:
     void bibliotecaChanged();

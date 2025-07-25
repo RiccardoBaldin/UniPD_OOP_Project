@@ -71,13 +71,15 @@ SOURCES       = main.cpp \
 		GUI/right_side.cpp \
 		GUI/tree.cpp \
 		GUI/upper_bar.cpp \
+		GUI/add_episodio_widget.cpp \
 		JSON_CONTROL/DeleteJson.cpp \
 		JSON_CONTROL/FromJson.cpp \
 		JSON_CONTROL/ToJson.cpp \
 		visitor/GrigliaVisitor.cpp \
 		visitor/JSonVisitor.cpp \
 		visitor/ListaVisitor.cpp \
-		visitor/MostraVisitor.cpp qrc_risorse.cpp \
+		visitor/MostraVisitor.cpp \
+		visitor/mostra_helper.cpp qrc_risorse.cpp \
 		moc_add_file_widget.cpp \
 		moc_disposizione_griglia.cpp \
 		moc_disposizione_linee.cpp \
@@ -88,7 +90,9 @@ SOURCES       = main.cpp \
 		moc_quadratini.cpp \
 		moc_right_side.cpp \
 		moc_tree.cpp \
-		moc_upper_bar.cpp
+		moc_add_episodio_widget.cpp \
+		moc_upper_bar.cpp \
+		moc_mostra_helper.cpp
 OBJECTS       = main.o \
 		Container.o \
 		File_Episodio.o \
@@ -108,6 +112,7 @@ OBJECTS       = main.o \
 		right_side.o \
 		tree.o \
 		upper_bar.o \
+		add_episodio_widget.o \
 		DeleteJson.o \
 		FromJson.o \
 		ToJson.o \
@@ -115,6 +120,7 @@ OBJECTS       = main.o \
 		JSonVisitor.o \
 		ListaVisitor.o \
 		MostraVisitor.o \
+		mostra_helper.o \
 		qrc_risorse.o \
 		moc_add_file_widget.o \
 		moc_disposizione_griglia.o \
@@ -126,7 +132,9 @@ OBJECTS       = main.o \
 		moc_quadratini.o \
 		moc_right_side.o \
 		moc_tree.o \
-		moc_upper_bar.o
+		moc_add_episodio_widget.o \
+		moc_upper_bar.o \
+		moc_mostra_helper.o
 DIST          = /usr/lib/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt6/mkspecs/common/unix.conf \
 		/usr/lib/qt6/mkspecs/common/linux.conf \
@@ -329,6 +337,7 @@ DIST          = /usr/lib/qt6/mkspecs/features/spec_pre.prf \
 		GUI/quadratini.hpp \
 		GUI/right_side.hpp \
 		GUI/tree.hpp \
+		GUI/add_episodio_widget.hpp \
 		GUI/upper_bar.hpp \
 		JSON_CONTROL/DeleteJson.hpp \
 		JSON_CONTROL/FromJson.hpp \
@@ -337,7 +346,8 @@ DIST          = /usr/lib/qt6/mkspecs/features/spec_pre.prf \
 		visitor/GrigliaVisitor.hpp \
 		visitor/JSonVisitor.hpp \
 		visitor/ListaVisitor.hpp \
-		visitor/MostraVisitor.hpp main.cpp \
+		visitor/MostraVisitor.hpp \
+		visitor/mostra_helper.hpp main.cpp \
 		CLASSI_FILE/Container.cpp \
 		CLASSI_FILE/File_Episodio.cpp \
 		CLASSI_FILE/File_Film.cpp \
@@ -356,13 +366,15 @@ DIST          = /usr/lib/qt6/mkspecs/features/spec_pre.prf \
 		GUI/right_side.cpp \
 		GUI/tree.cpp \
 		GUI/upper_bar.cpp \
+		GUI/add_episodio_widget.cpp \
 		JSON_CONTROL/DeleteJson.cpp \
 		JSON_CONTROL/FromJson.cpp \
 		JSON_CONTROL/ToJson.cpp \
 		visitor/GrigliaVisitor.cpp \
 		visitor/JSonVisitor.cpp \
 		visitor/ListaVisitor.cpp \
-		visitor/MostraVisitor.cpp
+		visitor/MostraVisitor.cpp \
+		visitor/mostra_helper.cpp
 QMAKE_TARGET  = PaO_Progetto
 DESTDIR       = 
 TARGET        = PaO_Progetto
@@ -771,8 +783,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents risorse.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents CLASSI_FILE/Container.hpp CLASSI_FILE/File_Episodio.hpp CLASSI_FILE/File_Film.hpp CLASSI_FILE/File_Generico.hpp CLASSI_FILE/File_Libro.hpp CLASSI_FILE/File_Serie.hpp CLASSI_FILE/File_Video.hpp GUI/add_file_widget.hpp GUI/disposizione_griglia.hpp GUI/disposizione_linee.hpp GUI/left_side.hpp GUI/linea_orizzontale.hpp GUI/linea_verticale.hpp GUI/main_window.hpp GUI/quadratini.hpp GUI/right_side.hpp GUI/tree.hpp GUI/upper_bar.hpp JSON_CONTROL/DeleteJson.hpp JSON_CONTROL/FromJson.hpp JSON_CONTROL/ToJson.hpp visitor/FileVisitor.hpp visitor/GrigliaVisitor.hpp visitor/JSonVisitor.hpp visitor/ListaVisitor.hpp visitor/MostraVisitor.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp CLASSI_FILE/Container.cpp CLASSI_FILE/File_Episodio.cpp CLASSI_FILE/File_Film.cpp CLASSI_FILE/File_Generico.cpp CLASSI_FILE/File_Libro.cpp CLASSI_FILE/File_Serie.cpp CLASSI_FILE/File_Video.cpp GUI/add_file_widget.cpp GUI/disposizione_griglia.cpp GUI/disposizione_linee.cpp GUI/left_side.cpp GUI/linea_orizzontale.cpp GUI/linea_verticale.cpp GUI/main_window.cpp GUI/quadratini.cpp GUI/right_side.cpp GUI/tree.cpp GUI/upper_bar.cpp JSON_CONTROL/DeleteJson.cpp JSON_CONTROL/FromJson.cpp JSON_CONTROL/ToJson.cpp visitor/GrigliaVisitor.cpp visitor/JSonVisitor.cpp visitor/ListaVisitor.cpp visitor/MostraVisitor.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents CLASSI_FILE/Container.hpp CLASSI_FILE/File_Episodio.hpp CLASSI_FILE/File_Film.hpp CLASSI_FILE/File_Generico.hpp CLASSI_FILE/File_Libro.hpp CLASSI_FILE/File_Serie.hpp CLASSI_FILE/File_Video.hpp GUI/add_file_widget.hpp GUI/disposizione_griglia.hpp GUI/disposizione_linee.hpp GUI/left_side.hpp GUI/linea_orizzontale.hpp GUI/linea_verticale.hpp GUI/main_window.hpp GUI/quadratini.hpp GUI/right_side.hpp GUI/tree.hpp GUI/add_episodio_widget.hpp GUI/upper_bar.hpp JSON_CONTROL/DeleteJson.hpp JSON_CONTROL/FromJson.hpp JSON_CONTROL/ToJson.hpp visitor/FileVisitor.hpp visitor/GrigliaVisitor.hpp visitor/JSonVisitor.hpp visitor/ListaVisitor.hpp visitor/MostraVisitor.hpp visitor/mostra_helper.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp CLASSI_FILE/Container.cpp CLASSI_FILE/File_Episodio.cpp CLASSI_FILE/File_Film.cpp CLASSI_FILE/File_Generico.cpp CLASSI_FILE/File_Libro.cpp CLASSI_FILE/File_Serie.cpp CLASSI_FILE/File_Video.cpp GUI/add_file_widget.cpp GUI/disposizione_griglia.cpp GUI/disposizione_linee.cpp GUI/left_side.cpp GUI/linea_orizzontale.cpp GUI/linea_verticale.cpp GUI/main_window.cpp GUI/quadratini.cpp GUI/right_side.cpp GUI/tree.cpp GUI/upper_bar.cpp GUI/add_episodio_widget.cpp JSON_CONTROL/DeleteJson.cpp JSON_CONTROL/FromJson.cpp JSON_CONTROL/ToJson.cpp visitor/GrigliaVisitor.cpp visitor/JSonVisitor.cpp visitor/ListaVisitor.cpp visitor/MostraVisitor.cpp visitor/mostra_helper.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -828,9 +840,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/qt6/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++1z -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/qt6/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_add_file_widget.cpp moc_disposizione_griglia.cpp moc_disposizione_linee.cpp moc_left_side.cpp moc_linea_orizzontale.cpp moc_linea_verticale.cpp moc_main_window.cpp moc_quadratini.cpp moc_right_side.cpp moc_tree.cpp moc_upper_bar.cpp
+compiler_moc_header_make_all: moc_add_file_widget.cpp moc_disposizione_griglia.cpp moc_disposizione_linee.cpp moc_left_side.cpp moc_linea_orizzontale.cpp moc_linea_verticale.cpp moc_main_window.cpp moc_quadratini.cpp moc_right_side.cpp moc_tree.cpp moc_add_episodio_widget.cpp moc_upper_bar.cpp moc_mostra_helper.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_add_file_widget.cpp moc_disposizione_griglia.cpp moc_disposizione_linee.cpp moc_left_side.cpp moc_linea_orizzontale.cpp moc_linea_verticale.cpp moc_main_window.cpp moc_quadratini.cpp moc_right_side.cpp moc_tree.cpp moc_upper_bar.cpp
+	-$(DEL_FILE) moc_add_file_widget.cpp moc_disposizione_griglia.cpp moc_disposizione_linee.cpp moc_left_side.cpp moc_linea_orizzontale.cpp moc_linea_verticale.cpp moc_main_window.cpp moc_quadratini.cpp moc_right_side.cpp moc_tree.cpp moc_add_episodio_widget.cpp moc_upper_bar.cpp moc_mostra_helper.cpp
 moc_add_file_widget.cpp: GUI/add_file_widget.hpp \
 		/usr/include/qt6/QtWidgets/QWidget \
 		/usr/include/qt6/QtWidgets/qwidget.h \
@@ -2898,6 +2910,231 @@ moc_tree.cpp: GUI/tree.hpp \
 		/usr/lib/qt6/moc
 	/usr/lib/qt6/moc $(DEFINES) --include /home/ric/Code/PaO_Progetto/moc_predefs.h -I/usr/lib/qt6/mkspecs/linux-g++ -I/home/ric/Code/PaO_Progetto -I/home/ric/Code/PaO_Progetto -I/usr/include/qt6 -I/usr/include/qt6/QtWidgets -I/usr/include/qt6/QtGui -I/usr/include/qt6/QtCore -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/16/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include GUI/tree.hpp -o moc_tree.cpp
 
+moc_add_episodio_widget.cpp: GUI/add_episodio_widget.hpp \
+		/usr/include/qt6/QtWidgets/QWidget \
+		/usr/include/qt6/QtWidgets/qwidget.h \
+		/usr/include/qt6/QtWidgets/qtwidgetsglobal.h \
+		/usr/include/qt6/QtGui/qtguiglobal.h \
+		/usr/include/qt6/QtCore/qglobal.h \
+		/usr/include/qt6/QtCore/qtcoreglobal.h \
+		/usr/include/qt6/QtCore/qtversionchecks.h \
+		/usr/include/qt6/QtCore/qtconfiginclude.h \
+		/usr/include/qt6/QtCore/qconfig.h \
+		/usr/include/qt6/QtCore/qtcore-config.h \
+		/usr/include/qt6/QtCore/qtconfigmacros.h \
+		/usr/include/qt6/QtCore/qtdeprecationdefinitions.h \
+		/usr/include/qt6/QtCore/qcompilerdetection.h \
+		/usr/include/qt6/QtCore/qprocessordetection.h \
+		/usr/include/qt6/QtCore/qsystemdetection.h \
+		/usr/include/qt6/QtCore/qtcoreexports.h \
+		/usr/include/qt6/QtCore/qtdeprecationmarkers.h \
+		/usr/include/qt6/QtCore/qtclasshelpermacros.h \
+		/usr/include/qt6/QtCore/qtpreprocessorsupport.h \
+		/usr/include/qt6/QtCore/qassert.h \
+		/usr/include/qt6/QtCore/qtnoop.h \
+		/usr/include/qt6/QtCore/qtypes.h \
+		/usr/include/qt6/QtCore/qtversion.h \
+		/usr/include/qt6/QtCore/qtypeinfo.h \
+		/usr/include/qt6/QtCore/qcontainerfwd.h \
+		/usr/include/qt6/QtCore/qsysinfo.h \
+		/usr/include/qt6/QtCore/qlogging.h \
+		/usr/include/qt6/QtCore/qflags.h \
+		/usr/include/qt6/QtCore/qcompare_impl.h \
+		/usr/include/qt6/QtCore/qatomic.h \
+		/usr/include/qt6/QtCore/qbasicatomic.h \
+		/usr/include/qt6/QtCore/qatomic_cxx11.h \
+		/usr/include/qt6/QtCore/qgenericatomic.h \
+		/usr/include/qt6/QtCore/qyieldcpu.h \
+		/usr/include/qt6/QtCore/qconstructormacros.h \
+		/usr/include/qt6/QtCore/qdarwinhelpers.h \
+		/usr/include/qt6/QtCore/qexceptionhandling.h \
+		/usr/include/qt6/QtCore/qforeach.h \
+		/usr/include/qt6/QtCore/qttypetraits.h \
+		/usr/include/qt6/QtCore/qfunctionpointer.h \
+		/usr/include/qt6/QtCore/qglobalstatic.h \
+		/usr/include/qt6/QtCore/qmalloc.h \
+		/usr/include/qt6/QtCore/qminmax.h \
+		/usr/include/qt6/QtCore/qnumeric.h \
+		/usr/include/qt6/QtCore/qoverload.h \
+		/usr/include/qt6/QtCore/qswap.h \
+		/usr/include/qt6/QtCore/qtenvironmentvariables.h \
+		/usr/include/qt6/QtCore/qtresource.h \
+		/usr/include/qt6/QtCore/qttranslation.h \
+		/usr/include/qt6/QtCore/qversiontagging.h \
+		/usr/include/qt6/QtGui/qtgui-config.h \
+		/usr/include/qt6/QtGui/qtguiexports.h \
+		/usr/include/qt6/QtWidgets/qtwidgets-config.h \
+		/usr/include/qt6/QtWidgets/qtwidgetsexports.h \
+		/usr/include/qt6/QtGui/qwindowdefs.h \
+		/usr/include/qt6/QtCore/qobjectdefs.h \
+		/usr/include/qt6/QtCore/qnamespace.h \
+		/usr/include/qt6/QtCore/qcompare.h \
+		/usr/include/qt6/QtCore/qstdlibdetection.h \
+		/usr/include/qt6/QtCore/qcomparehelpers.h \
+		/usr/include/qt6/QtCore/q20type_traits.h \
+		/usr/include/qt6/QtCore/qtmetamacros.h \
+		/usr/include/qt6/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt6/QtCore/qfunctionaltools_impl.h \
+		/usr/include/qt6/QtCore/qobject.h \
+		/usr/include/qt6/QtCore/qstring.h \
+		/usr/include/qt6/QtCore/qchar.h \
+		/usr/include/qt6/QtCore/qstringview.h \
+		/usr/include/qt6/QtCore/qbytearray.h \
+		/usr/include/qt6/QtCore/qrefcount.h \
+		/usr/include/qt6/QtCore/qarraydata.h \
+		/usr/include/qt6/QtCore/qpair.h \
+		/usr/include/qt6/QtCore/qarraydatapointer.h \
+		/usr/include/qt6/QtCore/qarraydataops.h \
+		/usr/include/qt6/QtCore/qcontainertools_impl.h \
+		/usr/include/qt6/QtCore/qxptype_traits.h \
+		/usr/include/qt6/QtCore/q20functional.h \
+		/usr/include/qt6/QtCore/q20memory.h \
+		/usr/include/qt6/QtCore/q17memory.h \
+		/usr/include/qt6/QtCore/qbytearrayalgorithms.h \
+		/usr/include/qt6/QtCore/qbytearrayview.h \
+		/usr/include/qt6/QtCore/qstringfwd.h \
+		/usr/include/qt6/QtCore/qstringliteral.h \
+		/usr/include/qt6/QtCore/qstringalgorithms.h \
+		/usr/include/qt6/QtCore/qlatin1stringview.h \
+		/usr/include/qt6/QtCore/qanystringview.h \
+		/usr/include/qt6/QtCore/qutf8stringview.h \
+		/usr/include/qt6/QtCore/qstringtokenizer.h \
+		/usr/include/qt6/QtCore/qstringbuilder.h \
+		/usr/include/qt6/QtCore/qstringconverter.h \
+		/usr/include/qt6/QtCore/qstringconverter_base.h \
+		/usr/include/qt6/QtCore/qlist.h \
+		/usr/include/qt6/QtCore/qhashfunctions.h \
+		/usr/include/qt6/QtCore/qiterator.h \
+		/usr/include/qt6/QtCore/qbytearraylist.h \
+		/usr/include/qt6/QtCore/qstringlist.h \
+		/usr/include/qt6/QtCore/qalgorithms.h \
+		/usr/include/qt6/QtCore/qstringmatcher.h \
+		/usr/include/qt6/QtCore/qcoreevent.h \
+		/usr/include/qt6/QtCore/qbasictimer.h \
+		/usr/include/qt6/QtCore/qabstracteventdispatcher.h \
+		/usr/include/qt6/QtCore/qeventloop.h \
+		/usr/include/qt6/QtCore/qdeadlinetimer.h \
+		/usr/include/qt6/QtCore/qelapsedtimer.h \
+		/usr/include/qt6/QtCore/qmetatype.h \
+		/usr/include/qt6/QtCore/qdatastream.h \
+		/usr/include/qt6/QtCore/qscopedpointer.h \
+		/usr/include/qt6/QtCore/qiodevicebase.h \
+		/usr/include/qt6/QtCore/qfloat16.h \
+		/usr/include/qt6/QtCore/qmath.h \
+		/usr/include/qt6/QtCore/qtformat_impl.h \
+		/usr/include/qt6/QtCore/qiterable.h \
+		/usr/include/qt6/QtCore/qmetacontainer.h \
+		/usr/include/qt6/QtCore/qcontainerinfo.h \
+		/usr/include/qt6/QtCore/qtaggedpointer.h \
+		/usr/include/qt6/QtCore/qscopeguard.h \
+		/usr/include/qt6/QtCore/qobject_impl.h \
+		/usr/include/qt6/QtCore/qbindingstorage.h \
+		/usr/include/qt6/QtCore/qmargins.h \
+		/usr/include/qt6/QtCore/q23utility.h \
+		/usr/include/qt6/QtCore/q20utility.h \
+		/usr/include/qt6/QtGui/qaction.h \
+		/usr/include/qt6/QtGui/qkeysequence.h \
+		/usr/include/qt6/QtGui/qicon.h \
+		/usr/include/qt6/QtCore/qsize.h \
+		/usr/include/qt6/QtGui/qpixmap.h \
+		/usr/include/qt6/QtGui/qpaintdevice.h \
+		/usr/include/qt6/QtCore/qrect.h \
+		/usr/include/qt6/QtCore/qpoint.h \
+		/usr/include/qt6/QtGui/qcolor.h \
+		/usr/include/qt6/QtGui/qrgb.h \
+		/usr/include/qt6/QtGui/qrgba64.h \
+		/usr/include/qt6/QtCore/qshareddata.h \
+		/usr/include/qt6/QtGui/qimage.h \
+		/usr/include/qt6/QtGui/qpixelformat.h \
+		/usr/include/qt6/QtGui/qtransform.h \
+		/usr/include/qt6/QtGui/qpolygon.h \
+		/usr/include/qt6/QtGui/qregion.h \
+		/usr/include/qt6/QtCore/qspan.h \
+		/usr/include/qt6/QtCore/q20iterator.h \
+		/usr/include/qt6/QtCore/qline.h \
+		/usr/include/qt6/QtCore/qvariant.h \
+		/usr/include/qt6/QtCore/qdebug.h \
+		/usr/include/qt6/QtCore/qtextstream.h \
+		/usr/include/qt6/QtCore/qcontiguouscache.h \
+		/usr/include/qt6/QtCore/qsharedpointer.h \
+		/usr/include/qt6/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt6/QtCore/qmap.h \
+		/usr/include/qt6/QtCore/qshareddata_impl.h \
+		/usr/include/qt6/QtCore/qset.h \
+		/usr/include/qt6/QtCore/qhash.h \
+		/usr/include/qt6/QtCore/qvarlengtharray.h \
+		/usr/include/qt6/QtGui/qpalette.h \
+		/usr/include/qt6/QtGui/qbrush.h \
+		/usr/include/qt6/QtGui/qfont.h \
+		/usr/include/qt6/QtCore/qendian.h \
+		/usr/include/qt6/QtGui/qfontmetrics.h \
+		/usr/include/qt6/QtGui/qfontinfo.h \
+		/usr/include/qt6/QtGui/qfontvariableaxis.h \
+		/usr/include/qt6/QtWidgets/qsizepolicy.h \
+		/usr/include/qt6/QtGui/qcursor.h \
+		/usr/include/qt6/QtGui/qbitmap.h \
+		/usr/include/qt6/QtGui/qevent.h \
+		/usr/include/qt6/QtCore/qiodevice.h \
+		/usr/include/qt6/QtCore/qurl.h \
+		/usr/include/qt6/QtGui/qeventpoint.h \
+		/usr/include/qt6/QtGui/qvector2d.h \
+		/usr/include/qt6/QtGui/qvectornd.h \
+		/usr/include/qt6/QtGui/qpointingdevice.h \
+		/usr/include/qt6/QtGui/qinputdevice.h \
+		/usr/include/qt6/QtGui/qscreen.h \
+		/usr/include/qt6/QtCore/QList \
+		/usr/include/qt6/QtCore/QObject \
+		/usr/include/qt6/QtCore/QRect \
+		/usr/include/qt6/QtCore/QSize \
+		/usr/include/qt6/QtCore/QSizeF \
+		/usr/include/qt6/QtGui/QTransform \
+		/usr/include/qt6/QtCore/qnativeinterface.h \
+		/usr/include/qt6/QtGui/qscreen_platform.h \
+		/usr/include/qt6/QtGui/qguiapplication.h \
+		/usr/include/qt6/QtCore/qcoreapplication.h \
+		/usr/include/qt6/QtCore/qcoreapplication_platform.h \
+		/usr/include/qt6/QtCore/qfuture.h \
+		/usr/include/qt6/QtCore/qfutureinterface.h \
+		/usr/include/qt6/QtCore/qmutex.h \
+		/usr/include/qt6/QtCore/qtsan_impl.h \
+		/usr/include/qt6/QtCore/qresultstore.h \
+		/usr/include/qt6/QtCore/qfuture_impl.h \
+		/usr/include/qt6/QtCore/qthreadpool.h \
+		/usr/include/qt6/QtCore/qthread.h \
+		/usr/include/qt6/QtCore/qrunnable.h \
+		/usr/include/qt6/QtCore/qexception.h \
+		/usr/include/qt6/QtCore/qpromise.h \
+		/usr/include/qt6/QtGui/qinputmethod.h \
+		/usr/include/qt6/QtCore/qlocale.h \
+		/usr/include/qt6/QtGui/qguiapplication_platform.h \
+		/usr/include/qt6/QtWidgets/QHBoxLayout \
+		/usr/include/qt6/QtWidgets/qboxlayout.h \
+		/usr/include/qt6/QtWidgets/qlayout.h \
+		/usr/include/qt6/QtWidgets/qlayoutitem.h \
+		/usr/include/qt6/QtWidgets/qgridlayout.h \
+		/usr/include/qt6/QtWidgets/QFormLayout \
+		/usr/include/qt6/QtWidgets/qformlayout.h \
+		/usr/include/qt6/QtWidgets/QLayout \
+		/usr/include/qt6/QtWidgets/QLabel \
+		/usr/include/qt6/QtWidgets/qlabel.h \
+		/usr/include/qt6/QtWidgets/qframe.h \
+		/usr/include/qt6/QtGui/qpicture.h \
+		/usr/include/qt6/QtGui/qtextdocument.h \
+		/usr/include/qt6/QtWidgets/QLineEdit \
+		/usr/include/qt6/QtWidgets/qlineedit.h \
+		/usr/include/qt6/QtGui/qtextcursor.h \
+		/usr/include/qt6/QtGui/qtextformat.h \
+		/usr/include/qt6/QtGui/qpen.h \
+		/usr/include/qt6/QtGui/qtextoption.h \
+		/usr/include/qt6/QtWidgets/QSpinBox \
+		/usr/include/qt6/QtWidgets/qspinbox.h \
+		/usr/include/qt6/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt6/QtGui/qvalidator.h \
+		/usr/include/qt6/QtCore/qregularexpression.h \
+		moc_predefs.h \
+		/usr/lib/qt6/moc
+	/usr/lib/qt6/moc $(DEFINES) --include /home/ric/Code/PaO_Progetto/moc_predefs.h -I/usr/lib/qt6/mkspecs/linux-g++ -I/home/ric/Code/PaO_Progetto -I/home/ric/Code/PaO_Progetto -I/usr/include/qt6 -I/usr/include/qt6/QtWidgets -I/usr/include/qt6/QtGui -I/usr/include/qt6/QtCore -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/16/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include GUI/add_episodio_widget.hpp -o moc_add_episodio_widget.cpp
+
 moc_upper_bar.cpp: GUI/upper_bar.hpp \
 		/usr/include/qt6/QtWidgets/QHBoxLayout \
 		/usr/include/qt6/QtWidgets/qboxlayout.h \
@@ -3128,6 +3365,221 @@ moc_upper_bar.cpp: GUI/upper_bar.hpp \
 		moc_predefs.h \
 		/usr/lib/qt6/moc
 	/usr/lib/qt6/moc $(DEFINES) --include /home/ric/Code/PaO_Progetto/moc_predefs.h -I/usr/lib/qt6/mkspecs/linux-g++ -I/home/ric/Code/PaO_Progetto -I/home/ric/Code/PaO_Progetto -I/usr/include/qt6 -I/usr/include/qt6/QtWidgets -I/usr/include/qt6/QtGui -I/usr/include/qt6/QtCore -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/16/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include GUI/upper_bar.hpp -o moc_upper_bar.cpp
+
+moc_mostra_helper.cpp: visitor/mostra_helper.hpp \
+		visitor/MostraVisitor.hpp \
+		visitor/FileVisitor.hpp \
+		/usr/include/qt6/QtWidgets/QVBoxLayout \
+		/usr/include/qt6/QtWidgets/qboxlayout.h \
+		/usr/include/qt6/QtWidgets/qtwidgetsglobal.h \
+		/usr/include/qt6/QtGui/qtguiglobal.h \
+		/usr/include/qt6/QtCore/qglobal.h \
+		/usr/include/qt6/QtCore/qtcoreglobal.h \
+		/usr/include/qt6/QtCore/qtversionchecks.h \
+		/usr/include/qt6/QtCore/qtconfiginclude.h \
+		/usr/include/qt6/QtCore/qconfig.h \
+		/usr/include/qt6/QtCore/qtcore-config.h \
+		/usr/include/qt6/QtCore/qtconfigmacros.h \
+		/usr/include/qt6/QtCore/qtdeprecationdefinitions.h \
+		/usr/include/qt6/QtCore/qcompilerdetection.h \
+		/usr/include/qt6/QtCore/qprocessordetection.h \
+		/usr/include/qt6/QtCore/qsystemdetection.h \
+		/usr/include/qt6/QtCore/qtcoreexports.h \
+		/usr/include/qt6/QtCore/qtdeprecationmarkers.h \
+		/usr/include/qt6/QtCore/qtclasshelpermacros.h \
+		/usr/include/qt6/QtCore/qtpreprocessorsupport.h \
+		/usr/include/qt6/QtCore/qassert.h \
+		/usr/include/qt6/QtCore/qtnoop.h \
+		/usr/include/qt6/QtCore/qtypes.h \
+		/usr/include/qt6/QtCore/qtversion.h \
+		/usr/include/qt6/QtCore/qtypeinfo.h \
+		/usr/include/qt6/QtCore/qcontainerfwd.h \
+		/usr/include/qt6/QtCore/qsysinfo.h \
+		/usr/include/qt6/QtCore/qlogging.h \
+		/usr/include/qt6/QtCore/qflags.h \
+		/usr/include/qt6/QtCore/qcompare_impl.h \
+		/usr/include/qt6/QtCore/qatomic.h \
+		/usr/include/qt6/QtCore/qbasicatomic.h \
+		/usr/include/qt6/QtCore/qatomic_cxx11.h \
+		/usr/include/qt6/QtCore/qgenericatomic.h \
+		/usr/include/qt6/QtCore/qyieldcpu.h \
+		/usr/include/qt6/QtCore/qconstructormacros.h \
+		/usr/include/qt6/QtCore/qdarwinhelpers.h \
+		/usr/include/qt6/QtCore/qexceptionhandling.h \
+		/usr/include/qt6/QtCore/qforeach.h \
+		/usr/include/qt6/QtCore/qttypetraits.h \
+		/usr/include/qt6/QtCore/qfunctionpointer.h \
+		/usr/include/qt6/QtCore/qglobalstatic.h \
+		/usr/include/qt6/QtCore/qmalloc.h \
+		/usr/include/qt6/QtCore/qminmax.h \
+		/usr/include/qt6/QtCore/qnumeric.h \
+		/usr/include/qt6/QtCore/qoverload.h \
+		/usr/include/qt6/QtCore/qswap.h \
+		/usr/include/qt6/QtCore/qtenvironmentvariables.h \
+		/usr/include/qt6/QtCore/qtresource.h \
+		/usr/include/qt6/QtCore/qttranslation.h \
+		/usr/include/qt6/QtCore/qversiontagging.h \
+		/usr/include/qt6/QtGui/qtgui-config.h \
+		/usr/include/qt6/QtGui/qtguiexports.h \
+		/usr/include/qt6/QtWidgets/qtwidgets-config.h \
+		/usr/include/qt6/QtWidgets/qtwidgetsexports.h \
+		/usr/include/qt6/QtWidgets/qlayout.h \
+		/usr/include/qt6/QtCore/qobject.h \
+		/usr/include/qt6/QtCore/qobjectdefs.h \
+		/usr/include/qt6/QtCore/qnamespace.h \
+		/usr/include/qt6/QtCore/qcompare.h \
+		/usr/include/qt6/QtCore/qstdlibdetection.h \
+		/usr/include/qt6/QtCore/qcomparehelpers.h \
+		/usr/include/qt6/QtCore/q20type_traits.h \
+		/usr/include/qt6/QtCore/qtmetamacros.h \
+		/usr/include/qt6/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt6/QtCore/qfunctionaltools_impl.h \
+		/usr/include/qt6/QtCore/qstring.h \
+		/usr/include/qt6/QtCore/qchar.h \
+		/usr/include/qt6/QtCore/qstringview.h \
+		/usr/include/qt6/QtCore/qbytearray.h \
+		/usr/include/qt6/QtCore/qrefcount.h \
+		/usr/include/qt6/QtCore/qarraydata.h \
+		/usr/include/qt6/QtCore/qpair.h \
+		/usr/include/qt6/QtCore/qarraydatapointer.h \
+		/usr/include/qt6/QtCore/qarraydataops.h \
+		/usr/include/qt6/QtCore/qcontainertools_impl.h \
+		/usr/include/qt6/QtCore/qxptype_traits.h \
+		/usr/include/qt6/QtCore/q20functional.h \
+		/usr/include/qt6/QtCore/q20memory.h \
+		/usr/include/qt6/QtCore/q17memory.h \
+		/usr/include/qt6/QtCore/qbytearrayalgorithms.h \
+		/usr/include/qt6/QtCore/qbytearrayview.h \
+		/usr/include/qt6/QtCore/qstringfwd.h \
+		/usr/include/qt6/QtCore/qstringliteral.h \
+		/usr/include/qt6/QtCore/qstringalgorithms.h \
+		/usr/include/qt6/QtCore/qlatin1stringview.h \
+		/usr/include/qt6/QtCore/qanystringview.h \
+		/usr/include/qt6/QtCore/qutf8stringview.h \
+		/usr/include/qt6/QtCore/qstringtokenizer.h \
+		/usr/include/qt6/QtCore/qstringbuilder.h \
+		/usr/include/qt6/QtCore/qstringconverter.h \
+		/usr/include/qt6/QtCore/qstringconverter_base.h \
+		/usr/include/qt6/QtCore/qlist.h \
+		/usr/include/qt6/QtCore/qhashfunctions.h \
+		/usr/include/qt6/QtCore/qiterator.h \
+		/usr/include/qt6/QtCore/qbytearraylist.h \
+		/usr/include/qt6/QtCore/qstringlist.h \
+		/usr/include/qt6/QtCore/qalgorithms.h \
+		/usr/include/qt6/QtCore/qstringmatcher.h \
+		/usr/include/qt6/QtCore/qcoreevent.h \
+		/usr/include/qt6/QtCore/qbasictimer.h \
+		/usr/include/qt6/QtCore/qabstracteventdispatcher.h \
+		/usr/include/qt6/QtCore/qeventloop.h \
+		/usr/include/qt6/QtCore/qdeadlinetimer.h \
+		/usr/include/qt6/QtCore/qelapsedtimer.h \
+		/usr/include/qt6/QtCore/qmetatype.h \
+		/usr/include/qt6/QtCore/qdatastream.h \
+		/usr/include/qt6/QtCore/qscopedpointer.h \
+		/usr/include/qt6/QtCore/qiodevicebase.h \
+		/usr/include/qt6/QtCore/qfloat16.h \
+		/usr/include/qt6/QtCore/qmath.h \
+		/usr/include/qt6/QtCore/qtformat_impl.h \
+		/usr/include/qt6/QtCore/qiterable.h \
+		/usr/include/qt6/QtCore/qmetacontainer.h \
+		/usr/include/qt6/QtCore/qcontainerinfo.h \
+		/usr/include/qt6/QtCore/qtaggedpointer.h \
+		/usr/include/qt6/QtCore/qscopeguard.h \
+		/usr/include/qt6/QtCore/qobject_impl.h \
+		/usr/include/qt6/QtCore/qbindingstorage.h \
+		/usr/include/qt6/QtWidgets/qlayoutitem.h \
+		/usr/include/qt6/QtWidgets/qsizepolicy.h \
+		/usr/include/qt6/QtCore/qrect.h \
+		/usr/include/qt6/QtCore/qmargins.h \
+		/usr/include/qt6/QtCore/q23utility.h \
+		/usr/include/qt6/QtCore/q20utility.h \
+		/usr/include/qt6/QtCore/qsize.h \
+		/usr/include/qt6/QtCore/qpoint.h \
+		/usr/include/qt6/QtWidgets/qgridlayout.h \
+		/usr/include/qt6/QtWidgets/qwidget.h \
+		/usr/include/qt6/QtGui/qwindowdefs.h \
+		/usr/include/qt6/QtGui/qaction.h \
+		/usr/include/qt6/QtGui/qkeysequence.h \
+		/usr/include/qt6/QtGui/qicon.h \
+		/usr/include/qt6/QtGui/qpixmap.h \
+		/usr/include/qt6/QtGui/qpaintdevice.h \
+		/usr/include/qt6/QtGui/qcolor.h \
+		/usr/include/qt6/QtGui/qrgb.h \
+		/usr/include/qt6/QtGui/qrgba64.h \
+		/usr/include/qt6/QtCore/qshareddata.h \
+		/usr/include/qt6/QtGui/qimage.h \
+		/usr/include/qt6/QtGui/qpixelformat.h \
+		/usr/include/qt6/QtGui/qtransform.h \
+		/usr/include/qt6/QtGui/qpolygon.h \
+		/usr/include/qt6/QtGui/qregion.h \
+		/usr/include/qt6/QtCore/qspan.h \
+		/usr/include/qt6/QtCore/q20iterator.h \
+		/usr/include/qt6/QtCore/qline.h \
+		/usr/include/qt6/QtCore/qvariant.h \
+		/usr/include/qt6/QtCore/qdebug.h \
+		/usr/include/qt6/QtCore/qtextstream.h \
+		/usr/include/qt6/QtCore/qcontiguouscache.h \
+		/usr/include/qt6/QtCore/qsharedpointer.h \
+		/usr/include/qt6/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt6/QtCore/qmap.h \
+		/usr/include/qt6/QtCore/qshareddata_impl.h \
+		/usr/include/qt6/QtCore/qset.h \
+		/usr/include/qt6/QtCore/qhash.h \
+		/usr/include/qt6/QtCore/qvarlengtharray.h \
+		/usr/include/qt6/QtGui/qpalette.h \
+		/usr/include/qt6/QtGui/qbrush.h \
+		/usr/include/qt6/QtGui/qfont.h \
+		/usr/include/qt6/QtCore/qendian.h \
+		/usr/include/qt6/QtGui/qfontmetrics.h \
+		/usr/include/qt6/QtGui/qfontinfo.h \
+		/usr/include/qt6/QtGui/qfontvariableaxis.h \
+		/usr/include/qt6/QtGui/qcursor.h \
+		/usr/include/qt6/QtGui/qbitmap.h \
+		/usr/include/qt6/QtGui/qevent.h \
+		/usr/include/qt6/QtCore/qiodevice.h \
+		/usr/include/qt6/QtCore/qurl.h \
+		/usr/include/qt6/QtGui/qeventpoint.h \
+		/usr/include/qt6/QtGui/qvector2d.h \
+		/usr/include/qt6/QtGui/qvectornd.h \
+		/usr/include/qt6/QtGui/qpointingdevice.h \
+		/usr/include/qt6/QtGui/qinputdevice.h \
+		/usr/include/qt6/QtGui/qscreen.h \
+		/usr/include/qt6/QtCore/QList \
+		/usr/include/qt6/QtCore/QObject \
+		/usr/include/qt6/QtCore/QRect \
+		/usr/include/qt6/QtCore/QSize \
+		/usr/include/qt6/QtCore/QSizeF \
+		/usr/include/qt6/QtGui/QTransform \
+		/usr/include/qt6/QtCore/qnativeinterface.h \
+		/usr/include/qt6/QtGui/qscreen_platform.h \
+		/usr/include/qt6/QtGui/qguiapplication.h \
+		/usr/include/qt6/QtCore/qcoreapplication.h \
+		/usr/include/qt6/QtCore/qcoreapplication_platform.h \
+		/usr/include/qt6/QtCore/qfuture.h \
+		/usr/include/qt6/QtCore/qfutureinterface.h \
+		/usr/include/qt6/QtCore/qmutex.h \
+		/usr/include/qt6/QtCore/qtsan_impl.h \
+		/usr/include/qt6/QtCore/qresultstore.h \
+		/usr/include/qt6/QtCore/qfuture_impl.h \
+		/usr/include/qt6/QtCore/qthreadpool.h \
+		/usr/include/qt6/QtCore/qthread.h \
+		/usr/include/qt6/QtCore/qrunnable.h \
+		/usr/include/qt6/QtCore/qexception.h \
+		/usr/include/qt6/QtCore/qpromise.h \
+		/usr/include/qt6/QtGui/qinputmethod.h \
+		/usr/include/qt6/QtCore/qlocale.h \
+		/usr/include/qt6/QtGui/qguiapplication_platform.h \
+		/usr/include/qt6/QtWidgets/QHBoxLayout \
+		/usr/include/qt6/QtWidgets/QWidget \
+		/usr/include/qt6/QtWidgets/QLabel \
+		/usr/include/qt6/QtWidgets/qlabel.h \
+		/usr/include/qt6/QtWidgets/qframe.h \
+		/usr/include/qt6/QtGui/qpicture.h \
+		/usr/include/qt6/QtGui/qtextdocument.h \
+		/usr/include/qt6/QtWidgets/QLayout \
+		moc_predefs.h \
+		/usr/lib/qt6/moc
+	/usr/lib/qt6/moc $(DEFINES) --include /home/ric/Code/PaO_Progetto/moc_predefs.h -I/usr/lib/qt6/mkspecs/linux-g++ -I/home/ric/Code/PaO_Progetto -I/home/ric/Code/PaO_Progetto -I/usr/include/qt6 -I/usr/include/qt6/QtWidgets -I/usr/include/qt6/QtGui -I/usr/include/qt6/QtCore -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/16/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include visitor/mostra_helper.hpp -o moc_mostra_helper.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -5136,25 +5588,12 @@ add_file_widget.o: GUI/add_file_widget.cpp GUI/add_file_widget.hpp \
 		/usr/include/qt6/QtCore/QStringList \
 		GUI/linea_orizzontale.hpp \
 		/usr/include/qt6/QtWidgets/QFrame \
-		JSON_CONTROL/ToJson.hpp \
-		visitor/JSonVisitor.hpp \
-		/usr/include/qt6/QtCore/QJsonObject \
-		/usr/include/qt6/QtCore/qjsonobject.h \
-		/usr/include/qt6/QtCore/qjsonvalue.h \
-		/usr/include/qt6/QtCore/qcborvalue.h \
-		/usr/include/qt6/QtCore/qcborcommon.h \
-		/usr/include/qt6/QtCore/qdatetime.h \
-		/usr/include/qt6/QtCore/qcalendar.h \
-		/usr/include/qt6/QtCore/quuid.h \
-		/usr/include/qt6/QtCore/qjsondocument.h \
-		/usr/include/qt6/QtCore/qjsonparseerror.h \
+		CLASSI_FILE/File_Libro.hpp \
 		CLASSI_FILE/File_Generico.hpp \
 		visitor/MostraVisitor.hpp \
-		CLASSI_FILE/File_Libro.hpp \
 		CLASSI_FILE/File_Film.hpp \
 		CLASSI_FILE/File_Video.hpp \
-		CLASSI_FILE/File_Serie.hpp \
-		CLASSI_FILE/File_Episodio.hpp
+		CLASSI_FILE/File_Serie.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o add_file_widget.o GUI/add_file_widget.cpp
 
 disposizione_griglia.o: GUI/disposizione_griglia.cpp GUI/disposizione_griglia.hpp \
@@ -6488,7 +6927,6 @@ main_window.o: GUI/main_window.cpp GUI/main_window.hpp \
 		CLASSI_FILE/Container.hpp \
 		visitor/ConstFileVisitor.hpp \
 		visitor/FileVisitor.hpp \
-		CLASSI_FILE/File_Libro.hpp \
 		CLASSI_FILE/File_Generico.hpp \
 		visitor/MostraVisitor.hpp \
 		/usr/include/qt6/QtWidgets/QVBoxLayout \
@@ -6516,6 +6954,9 @@ main_window.o: GUI/main_window.cpp GUI/main_window.hpp \
 		/usr/include/qt6/QtCore/quuid.h \
 		/usr/include/qt6/QtCore/qjsondocument.h \
 		/usr/include/qt6/QtCore/qjsonparseerror.h \
+		visitor/mostra_helper.hpp \
+		/usr/include/qt6/QtWidgets/QLayout \
+		CLASSI_FILE/File_Serie.hpp \
 		GUI/left_side.hpp \
 		GUI/right_side.hpp \
 		GUI/linea_verticale.hpp \
@@ -6523,7 +6964,6 @@ main_window.o: GUI/main_window.cpp GUI/main_window.hpp \
 		GUI/add_file_widget.hpp \
 		/usr/include/qt6/QtWidgets/QFormLayout \
 		/usr/include/qt6/QtWidgets/qformlayout.h \
-		/usr/include/qt6/QtWidgets/QLayout \
 		/usr/include/qt6/QtWidgets/QLineEdit \
 		/usr/include/qt6/QtWidgets/qlineedit.h \
 		/usr/include/qt6/QtGui/qtextcursor.h \
@@ -7495,6 +7935,253 @@ upper_bar.o: GUI/upper_bar.cpp GUI/upper_bar.hpp \
 		/usr/include/qt6/QtWidgets/QStackedWidget \
 		/usr/include/qt6/QtWidgets/qstackedwidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o upper_bar.o GUI/upper_bar.cpp
+
+add_episodio_widget.o: GUI/add_episodio_widget.cpp GUI/add_episodio_widget.hpp \
+		/usr/include/qt6/QtWidgets/QWidget \
+		/usr/include/qt6/QtWidgets/qwidget.h \
+		/usr/include/qt6/QtWidgets/qtwidgetsglobal.h \
+		/usr/include/qt6/QtGui/qtguiglobal.h \
+		/usr/include/qt6/QtCore/qglobal.h \
+		/usr/include/qt6/QtCore/qtcoreglobal.h \
+		/usr/include/qt6/QtCore/qtversionchecks.h \
+		/usr/include/qt6/QtCore/qtconfiginclude.h \
+		/usr/include/qt6/QtCore/qconfig.h \
+		/usr/include/qt6/QtCore/qtcore-config.h \
+		/usr/include/qt6/QtCore/qtconfigmacros.h \
+		/usr/include/qt6/QtCore/qtdeprecationdefinitions.h \
+		/usr/include/qt6/QtCore/qcompilerdetection.h \
+		/usr/include/qt6/QtCore/qprocessordetection.h \
+		/usr/include/qt6/QtCore/qsystemdetection.h \
+		/usr/include/qt6/QtCore/qtcoreexports.h \
+		/usr/include/qt6/QtCore/qtdeprecationmarkers.h \
+		/usr/include/qt6/QtCore/qtclasshelpermacros.h \
+		/usr/include/qt6/QtCore/qtpreprocessorsupport.h \
+		/usr/include/qt6/QtCore/qassert.h \
+		/usr/include/qt6/QtCore/qtnoop.h \
+		/usr/include/qt6/QtCore/qtypes.h \
+		/usr/include/qt6/QtCore/qtversion.h \
+		/usr/include/qt6/QtCore/qtypeinfo.h \
+		/usr/include/qt6/QtCore/qcontainerfwd.h \
+		/usr/include/qt6/QtCore/qsysinfo.h \
+		/usr/include/qt6/QtCore/qlogging.h \
+		/usr/include/qt6/QtCore/qflags.h \
+		/usr/include/qt6/QtCore/qcompare_impl.h \
+		/usr/include/qt6/QtCore/qatomic.h \
+		/usr/include/qt6/QtCore/qbasicatomic.h \
+		/usr/include/qt6/QtCore/qatomic_cxx11.h \
+		/usr/include/qt6/QtCore/qgenericatomic.h \
+		/usr/include/qt6/QtCore/qyieldcpu.h \
+		/usr/include/qt6/QtCore/qconstructormacros.h \
+		/usr/include/qt6/QtCore/qdarwinhelpers.h \
+		/usr/include/qt6/QtCore/qexceptionhandling.h \
+		/usr/include/qt6/QtCore/qforeach.h \
+		/usr/include/qt6/QtCore/qttypetraits.h \
+		/usr/include/qt6/QtCore/qfunctionpointer.h \
+		/usr/include/qt6/QtCore/qglobalstatic.h \
+		/usr/include/qt6/QtCore/qmalloc.h \
+		/usr/include/qt6/QtCore/qminmax.h \
+		/usr/include/qt6/QtCore/qnumeric.h \
+		/usr/include/qt6/QtCore/qoverload.h \
+		/usr/include/qt6/QtCore/qswap.h \
+		/usr/include/qt6/QtCore/qtenvironmentvariables.h \
+		/usr/include/qt6/QtCore/qtresource.h \
+		/usr/include/qt6/QtCore/qttranslation.h \
+		/usr/include/qt6/QtCore/qversiontagging.h \
+		/usr/include/qt6/QtGui/qtgui-config.h \
+		/usr/include/qt6/QtGui/qtguiexports.h \
+		/usr/include/qt6/QtWidgets/qtwidgets-config.h \
+		/usr/include/qt6/QtWidgets/qtwidgetsexports.h \
+		/usr/include/qt6/QtGui/qwindowdefs.h \
+		/usr/include/qt6/QtCore/qobjectdefs.h \
+		/usr/include/qt6/QtCore/qnamespace.h \
+		/usr/include/qt6/QtCore/qcompare.h \
+		/usr/include/qt6/QtCore/qstdlibdetection.h \
+		/usr/include/qt6/QtCore/qcomparehelpers.h \
+		/usr/include/qt6/QtCore/q20type_traits.h \
+		/usr/include/qt6/QtCore/qtmetamacros.h \
+		/usr/include/qt6/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt6/QtCore/qfunctionaltools_impl.h \
+		/usr/include/qt6/QtCore/qobject.h \
+		/usr/include/qt6/QtCore/qstring.h \
+		/usr/include/qt6/QtCore/qchar.h \
+		/usr/include/qt6/QtCore/qstringview.h \
+		/usr/include/qt6/QtCore/qbytearray.h \
+		/usr/include/qt6/QtCore/qrefcount.h \
+		/usr/include/qt6/QtCore/qarraydata.h \
+		/usr/include/qt6/QtCore/qpair.h \
+		/usr/include/qt6/QtCore/qarraydatapointer.h \
+		/usr/include/qt6/QtCore/qarraydataops.h \
+		/usr/include/qt6/QtCore/qcontainertools_impl.h \
+		/usr/include/qt6/QtCore/qxptype_traits.h \
+		/usr/include/qt6/QtCore/q20functional.h \
+		/usr/include/qt6/QtCore/q20memory.h \
+		/usr/include/qt6/QtCore/q17memory.h \
+		/usr/include/qt6/QtCore/qbytearrayalgorithms.h \
+		/usr/include/qt6/QtCore/qbytearrayview.h \
+		/usr/include/qt6/QtCore/qstringfwd.h \
+		/usr/include/qt6/QtCore/qstringliteral.h \
+		/usr/include/qt6/QtCore/qstringalgorithms.h \
+		/usr/include/qt6/QtCore/qlatin1stringview.h \
+		/usr/include/qt6/QtCore/qanystringview.h \
+		/usr/include/qt6/QtCore/qutf8stringview.h \
+		/usr/include/qt6/QtCore/qstringtokenizer.h \
+		/usr/include/qt6/QtCore/qstringbuilder.h \
+		/usr/include/qt6/QtCore/qstringconverter.h \
+		/usr/include/qt6/QtCore/qstringconverter_base.h \
+		/usr/include/qt6/QtCore/qlist.h \
+		/usr/include/qt6/QtCore/qhashfunctions.h \
+		/usr/include/qt6/QtCore/qiterator.h \
+		/usr/include/qt6/QtCore/qbytearraylist.h \
+		/usr/include/qt6/QtCore/qstringlist.h \
+		/usr/include/qt6/QtCore/qalgorithms.h \
+		/usr/include/qt6/QtCore/qstringmatcher.h \
+		/usr/include/qt6/QtCore/qcoreevent.h \
+		/usr/include/qt6/QtCore/qbasictimer.h \
+		/usr/include/qt6/QtCore/qabstracteventdispatcher.h \
+		/usr/include/qt6/QtCore/qeventloop.h \
+		/usr/include/qt6/QtCore/qdeadlinetimer.h \
+		/usr/include/qt6/QtCore/qelapsedtimer.h \
+		/usr/include/qt6/QtCore/qmetatype.h \
+		/usr/include/qt6/QtCore/qdatastream.h \
+		/usr/include/qt6/QtCore/qscopedpointer.h \
+		/usr/include/qt6/QtCore/qiodevicebase.h \
+		/usr/include/qt6/QtCore/qfloat16.h \
+		/usr/include/qt6/QtCore/qmath.h \
+		/usr/include/qt6/QtCore/qtformat_impl.h \
+		/usr/include/qt6/QtCore/qiterable.h \
+		/usr/include/qt6/QtCore/qmetacontainer.h \
+		/usr/include/qt6/QtCore/qcontainerinfo.h \
+		/usr/include/qt6/QtCore/qtaggedpointer.h \
+		/usr/include/qt6/QtCore/qscopeguard.h \
+		/usr/include/qt6/QtCore/qobject_impl.h \
+		/usr/include/qt6/QtCore/qbindingstorage.h \
+		/usr/include/qt6/QtCore/qmargins.h \
+		/usr/include/qt6/QtCore/q23utility.h \
+		/usr/include/qt6/QtCore/q20utility.h \
+		/usr/include/qt6/QtGui/qaction.h \
+		/usr/include/qt6/QtGui/qkeysequence.h \
+		/usr/include/qt6/QtGui/qicon.h \
+		/usr/include/qt6/QtCore/qsize.h \
+		/usr/include/qt6/QtGui/qpixmap.h \
+		/usr/include/qt6/QtGui/qpaintdevice.h \
+		/usr/include/qt6/QtCore/qrect.h \
+		/usr/include/qt6/QtCore/qpoint.h \
+		/usr/include/qt6/QtGui/qcolor.h \
+		/usr/include/qt6/QtGui/qrgb.h \
+		/usr/include/qt6/QtGui/qrgba64.h \
+		/usr/include/qt6/QtCore/qshareddata.h \
+		/usr/include/qt6/QtGui/qimage.h \
+		/usr/include/qt6/QtGui/qpixelformat.h \
+		/usr/include/qt6/QtGui/qtransform.h \
+		/usr/include/qt6/QtGui/qpolygon.h \
+		/usr/include/qt6/QtGui/qregion.h \
+		/usr/include/qt6/QtCore/qspan.h \
+		/usr/include/qt6/QtCore/q20iterator.h \
+		/usr/include/qt6/QtCore/qline.h \
+		/usr/include/qt6/QtCore/qvariant.h \
+		/usr/include/qt6/QtCore/qdebug.h \
+		/usr/include/qt6/QtCore/qtextstream.h \
+		/usr/include/qt6/QtCore/qcontiguouscache.h \
+		/usr/include/qt6/QtCore/qsharedpointer.h \
+		/usr/include/qt6/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt6/QtCore/qmap.h \
+		/usr/include/qt6/QtCore/qshareddata_impl.h \
+		/usr/include/qt6/QtCore/qset.h \
+		/usr/include/qt6/QtCore/qhash.h \
+		/usr/include/qt6/QtCore/qvarlengtharray.h \
+		/usr/include/qt6/QtGui/qpalette.h \
+		/usr/include/qt6/QtGui/qbrush.h \
+		/usr/include/qt6/QtGui/qfont.h \
+		/usr/include/qt6/QtCore/qendian.h \
+		/usr/include/qt6/QtGui/qfontmetrics.h \
+		/usr/include/qt6/QtGui/qfontinfo.h \
+		/usr/include/qt6/QtGui/qfontvariableaxis.h \
+		/usr/include/qt6/QtWidgets/qsizepolicy.h \
+		/usr/include/qt6/QtGui/qcursor.h \
+		/usr/include/qt6/QtGui/qbitmap.h \
+		/usr/include/qt6/QtGui/qevent.h \
+		/usr/include/qt6/QtCore/qiodevice.h \
+		/usr/include/qt6/QtCore/qurl.h \
+		/usr/include/qt6/QtGui/qeventpoint.h \
+		/usr/include/qt6/QtGui/qvector2d.h \
+		/usr/include/qt6/QtGui/qvectornd.h \
+		/usr/include/qt6/QtGui/qpointingdevice.h \
+		/usr/include/qt6/QtGui/qinputdevice.h \
+		/usr/include/qt6/QtGui/qscreen.h \
+		/usr/include/qt6/QtCore/QList \
+		/usr/include/qt6/QtCore/QObject \
+		/usr/include/qt6/QtCore/QRect \
+		/usr/include/qt6/QtCore/QSize \
+		/usr/include/qt6/QtCore/QSizeF \
+		/usr/include/qt6/QtGui/QTransform \
+		/usr/include/qt6/QtCore/qnativeinterface.h \
+		/usr/include/qt6/QtGui/qscreen_platform.h \
+		/usr/include/qt6/QtGui/qguiapplication.h \
+		/usr/include/qt6/QtCore/qcoreapplication.h \
+		/usr/include/qt6/QtCore/qcoreapplication_platform.h \
+		/usr/include/qt6/QtCore/qfuture.h \
+		/usr/include/qt6/QtCore/qfutureinterface.h \
+		/usr/include/qt6/QtCore/qmutex.h \
+		/usr/include/qt6/QtCore/qtsan_impl.h \
+		/usr/include/qt6/QtCore/qresultstore.h \
+		/usr/include/qt6/QtCore/qfuture_impl.h \
+		/usr/include/qt6/QtCore/qthreadpool.h \
+		/usr/include/qt6/QtCore/qthread.h \
+		/usr/include/qt6/QtCore/qrunnable.h \
+		/usr/include/qt6/QtCore/qexception.h \
+		/usr/include/qt6/QtCore/qpromise.h \
+		/usr/include/qt6/QtGui/qinputmethod.h \
+		/usr/include/qt6/QtCore/qlocale.h \
+		/usr/include/qt6/QtGui/qguiapplication_platform.h \
+		/usr/include/qt6/QtWidgets/QHBoxLayout \
+		/usr/include/qt6/QtWidgets/qboxlayout.h \
+		/usr/include/qt6/QtWidgets/qlayout.h \
+		/usr/include/qt6/QtWidgets/qlayoutitem.h \
+		/usr/include/qt6/QtWidgets/qgridlayout.h \
+		/usr/include/qt6/QtWidgets/QFormLayout \
+		/usr/include/qt6/QtWidgets/qformlayout.h \
+		/usr/include/qt6/QtWidgets/QLayout \
+		/usr/include/qt6/QtWidgets/QLabel \
+		/usr/include/qt6/QtWidgets/qlabel.h \
+		/usr/include/qt6/QtWidgets/qframe.h \
+		/usr/include/qt6/QtGui/qpicture.h \
+		/usr/include/qt6/QtGui/qtextdocument.h \
+		/usr/include/qt6/QtWidgets/QLineEdit \
+		/usr/include/qt6/QtWidgets/qlineedit.h \
+		/usr/include/qt6/QtGui/qtextcursor.h \
+		/usr/include/qt6/QtGui/qtextformat.h \
+		/usr/include/qt6/QtGui/qpen.h \
+		/usr/include/qt6/QtGui/qtextoption.h \
+		/usr/include/qt6/QtWidgets/QSpinBox \
+		/usr/include/qt6/QtWidgets/qspinbox.h \
+		/usr/include/qt6/QtWidgets/qabstractspinbox.h \
+		/usr/include/qt6/QtGui/qvalidator.h \
+		/usr/include/qt6/QtCore/qregularexpression.h \
+		CLASSI_FILE/File_Serie.hpp \
+		CLASSI_FILE/File_Generico.hpp \
+		visitor/ConstFileVisitor.hpp \
+		visitor/FileVisitor.hpp \
+		visitor/MostraVisitor.hpp \
+		/usr/include/qt6/QtWidgets/QVBoxLayout \
+		CLASSI_FILE/File_Episodio.hpp \
+		CLASSI_FILE/File_Video.hpp \
+		/usr/include/qt6/QtWidgets/QPushButton \
+		/usr/include/qt6/QtWidgets/qpushbutton.h \
+		/usr/include/qt6/QtWidgets/qabstractbutton.h \
+		/usr/include/qt6/QtWidgets/QCheckBox \
+		/usr/include/qt6/QtWidgets/qcheckbox.h \
+		/usr/include/qt6/QtWidgets/QButtonGroup \
+		/usr/include/qt6/QtWidgets/qbuttongroup.h \
+		/usr/include/qt6/QtWidgets/QRadioButton \
+		/usr/include/qt6/QtWidgets/qradiobutton.h \
+		/usr/include/qt6/QtWidgets/QMessageBox \
+		/usr/include/qt6/QtWidgets/qmessagebox.h \
+		/usr/include/qt6/QtWidgets/qdialog.h \
+		/usr/include/qt6/QtWidgets/qdialogbuttonbox.h \
+		/usr/include/qt6/QtCore/QStringList \
+		GUI/linea_orizzontale.hpp \
+		/usr/include/qt6/QtWidgets/QFrame
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o add_episodio_widget.o GUI/add_episodio_widget.cpp
 
 DeleteJson.o: JSON_CONTROL/DeleteJson.cpp JSON_CONTROL/DeleteJson.hpp \
 		CLASSI_FILE/File_Generico.hpp \
@@ -9093,6 +9780,225 @@ MostraVisitor.o: visitor/MostraVisitor.cpp visitor/MostraVisitor.hpp \
 		/usr/include/qt6/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MostraVisitor.o visitor/MostraVisitor.cpp
 
+mostra_helper.o: visitor/mostra_helper.cpp visitor/mostra_helper.hpp \
+		visitor/MostraVisitor.hpp \
+		visitor/FileVisitor.hpp \
+		/usr/include/qt6/QtWidgets/QVBoxLayout \
+		/usr/include/qt6/QtWidgets/qboxlayout.h \
+		/usr/include/qt6/QtWidgets/qtwidgetsglobal.h \
+		/usr/include/qt6/QtGui/qtguiglobal.h \
+		/usr/include/qt6/QtCore/qglobal.h \
+		/usr/include/qt6/QtCore/qtcoreglobal.h \
+		/usr/include/qt6/QtCore/qtversionchecks.h \
+		/usr/include/qt6/QtCore/qtconfiginclude.h \
+		/usr/include/qt6/QtCore/qconfig.h \
+		/usr/include/qt6/QtCore/qtcore-config.h \
+		/usr/include/qt6/QtCore/qtconfigmacros.h \
+		/usr/include/qt6/QtCore/qtdeprecationdefinitions.h \
+		/usr/include/qt6/QtCore/qcompilerdetection.h \
+		/usr/include/qt6/QtCore/qprocessordetection.h \
+		/usr/include/qt6/QtCore/qsystemdetection.h \
+		/usr/include/qt6/QtCore/qtcoreexports.h \
+		/usr/include/qt6/QtCore/qtdeprecationmarkers.h \
+		/usr/include/qt6/QtCore/qtclasshelpermacros.h \
+		/usr/include/qt6/QtCore/qtpreprocessorsupport.h \
+		/usr/include/qt6/QtCore/qassert.h \
+		/usr/include/qt6/QtCore/qtnoop.h \
+		/usr/include/qt6/QtCore/qtypes.h \
+		/usr/include/qt6/QtCore/qtversion.h \
+		/usr/include/qt6/QtCore/qtypeinfo.h \
+		/usr/include/qt6/QtCore/qcontainerfwd.h \
+		/usr/include/qt6/QtCore/qsysinfo.h \
+		/usr/include/qt6/QtCore/qlogging.h \
+		/usr/include/qt6/QtCore/qflags.h \
+		/usr/include/qt6/QtCore/qcompare_impl.h \
+		/usr/include/qt6/QtCore/qatomic.h \
+		/usr/include/qt6/QtCore/qbasicatomic.h \
+		/usr/include/qt6/QtCore/qatomic_cxx11.h \
+		/usr/include/qt6/QtCore/qgenericatomic.h \
+		/usr/include/qt6/QtCore/qyieldcpu.h \
+		/usr/include/qt6/QtCore/qconstructormacros.h \
+		/usr/include/qt6/QtCore/qdarwinhelpers.h \
+		/usr/include/qt6/QtCore/qexceptionhandling.h \
+		/usr/include/qt6/QtCore/qforeach.h \
+		/usr/include/qt6/QtCore/qttypetraits.h \
+		/usr/include/qt6/QtCore/qfunctionpointer.h \
+		/usr/include/qt6/QtCore/qglobalstatic.h \
+		/usr/include/qt6/QtCore/qmalloc.h \
+		/usr/include/qt6/QtCore/qminmax.h \
+		/usr/include/qt6/QtCore/qnumeric.h \
+		/usr/include/qt6/QtCore/qoverload.h \
+		/usr/include/qt6/QtCore/qswap.h \
+		/usr/include/qt6/QtCore/qtenvironmentvariables.h \
+		/usr/include/qt6/QtCore/qtresource.h \
+		/usr/include/qt6/QtCore/qttranslation.h \
+		/usr/include/qt6/QtCore/qversiontagging.h \
+		/usr/include/qt6/QtGui/qtgui-config.h \
+		/usr/include/qt6/QtGui/qtguiexports.h \
+		/usr/include/qt6/QtWidgets/qtwidgets-config.h \
+		/usr/include/qt6/QtWidgets/qtwidgetsexports.h \
+		/usr/include/qt6/QtWidgets/qlayout.h \
+		/usr/include/qt6/QtCore/qobject.h \
+		/usr/include/qt6/QtCore/qobjectdefs.h \
+		/usr/include/qt6/QtCore/qnamespace.h \
+		/usr/include/qt6/QtCore/qcompare.h \
+		/usr/include/qt6/QtCore/qstdlibdetection.h \
+		/usr/include/qt6/QtCore/qcomparehelpers.h \
+		/usr/include/qt6/QtCore/q20type_traits.h \
+		/usr/include/qt6/QtCore/qtmetamacros.h \
+		/usr/include/qt6/QtCore/qobjectdefs_impl.h \
+		/usr/include/qt6/QtCore/qfunctionaltools_impl.h \
+		/usr/include/qt6/QtCore/qstring.h \
+		/usr/include/qt6/QtCore/qchar.h \
+		/usr/include/qt6/QtCore/qstringview.h \
+		/usr/include/qt6/QtCore/qbytearray.h \
+		/usr/include/qt6/QtCore/qrefcount.h \
+		/usr/include/qt6/QtCore/qarraydata.h \
+		/usr/include/qt6/QtCore/qpair.h \
+		/usr/include/qt6/QtCore/qarraydatapointer.h \
+		/usr/include/qt6/QtCore/qarraydataops.h \
+		/usr/include/qt6/QtCore/qcontainertools_impl.h \
+		/usr/include/qt6/QtCore/qxptype_traits.h \
+		/usr/include/qt6/QtCore/q20functional.h \
+		/usr/include/qt6/QtCore/q20memory.h \
+		/usr/include/qt6/QtCore/q17memory.h \
+		/usr/include/qt6/QtCore/qbytearrayalgorithms.h \
+		/usr/include/qt6/QtCore/qbytearrayview.h \
+		/usr/include/qt6/QtCore/qstringfwd.h \
+		/usr/include/qt6/QtCore/qstringliteral.h \
+		/usr/include/qt6/QtCore/qstringalgorithms.h \
+		/usr/include/qt6/QtCore/qlatin1stringview.h \
+		/usr/include/qt6/QtCore/qanystringview.h \
+		/usr/include/qt6/QtCore/qutf8stringview.h \
+		/usr/include/qt6/QtCore/qstringtokenizer.h \
+		/usr/include/qt6/QtCore/qstringbuilder.h \
+		/usr/include/qt6/QtCore/qstringconverter.h \
+		/usr/include/qt6/QtCore/qstringconverter_base.h \
+		/usr/include/qt6/QtCore/qlist.h \
+		/usr/include/qt6/QtCore/qhashfunctions.h \
+		/usr/include/qt6/QtCore/qiterator.h \
+		/usr/include/qt6/QtCore/qbytearraylist.h \
+		/usr/include/qt6/QtCore/qstringlist.h \
+		/usr/include/qt6/QtCore/qalgorithms.h \
+		/usr/include/qt6/QtCore/qstringmatcher.h \
+		/usr/include/qt6/QtCore/qcoreevent.h \
+		/usr/include/qt6/QtCore/qbasictimer.h \
+		/usr/include/qt6/QtCore/qabstracteventdispatcher.h \
+		/usr/include/qt6/QtCore/qeventloop.h \
+		/usr/include/qt6/QtCore/qdeadlinetimer.h \
+		/usr/include/qt6/QtCore/qelapsedtimer.h \
+		/usr/include/qt6/QtCore/qmetatype.h \
+		/usr/include/qt6/QtCore/qdatastream.h \
+		/usr/include/qt6/QtCore/qscopedpointer.h \
+		/usr/include/qt6/QtCore/qiodevicebase.h \
+		/usr/include/qt6/QtCore/qfloat16.h \
+		/usr/include/qt6/QtCore/qmath.h \
+		/usr/include/qt6/QtCore/qtformat_impl.h \
+		/usr/include/qt6/QtCore/qiterable.h \
+		/usr/include/qt6/QtCore/qmetacontainer.h \
+		/usr/include/qt6/QtCore/qcontainerinfo.h \
+		/usr/include/qt6/QtCore/qtaggedpointer.h \
+		/usr/include/qt6/QtCore/qscopeguard.h \
+		/usr/include/qt6/QtCore/qobject_impl.h \
+		/usr/include/qt6/QtCore/qbindingstorage.h \
+		/usr/include/qt6/QtWidgets/qlayoutitem.h \
+		/usr/include/qt6/QtWidgets/qsizepolicy.h \
+		/usr/include/qt6/QtCore/qrect.h \
+		/usr/include/qt6/QtCore/qmargins.h \
+		/usr/include/qt6/QtCore/q23utility.h \
+		/usr/include/qt6/QtCore/q20utility.h \
+		/usr/include/qt6/QtCore/qsize.h \
+		/usr/include/qt6/QtCore/qpoint.h \
+		/usr/include/qt6/QtWidgets/qgridlayout.h \
+		/usr/include/qt6/QtWidgets/qwidget.h \
+		/usr/include/qt6/QtGui/qwindowdefs.h \
+		/usr/include/qt6/QtGui/qaction.h \
+		/usr/include/qt6/QtGui/qkeysequence.h \
+		/usr/include/qt6/QtGui/qicon.h \
+		/usr/include/qt6/QtGui/qpixmap.h \
+		/usr/include/qt6/QtGui/qpaintdevice.h \
+		/usr/include/qt6/QtGui/qcolor.h \
+		/usr/include/qt6/QtGui/qrgb.h \
+		/usr/include/qt6/QtGui/qrgba64.h \
+		/usr/include/qt6/QtCore/qshareddata.h \
+		/usr/include/qt6/QtGui/qimage.h \
+		/usr/include/qt6/QtGui/qpixelformat.h \
+		/usr/include/qt6/QtGui/qtransform.h \
+		/usr/include/qt6/QtGui/qpolygon.h \
+		/usr/include/qt6/QtGui/qregion.h \
+		/usr/include/qt6/QtCore/qspan.h \
+		/usr/include/qt6/QtCore/q20iterator.h \
+		/usr/include/qt6/QtCore/qline.h \
+		/usr/include/qt6/QtCore/qvariant.h \
+		/usr/include/qt6/QtCore/qdebug.h \
+		/usr/include/qt6/QtCore/qtextstream.h \
+		/usr/include/qt6/QtCore/qcontiguouscache.h \
+		/usr/include/qt6/QtCore/qsharedpointer.h \
+		/usr/include/qt6/QtCore/qsharedpointer_impl.h \
+		/usr/include/qt6/QtCore/qmap.h \
+		/usr/include/qt6/QtCore/qshareddata_impl.h \
+		/usr/include/qt6/QtCore/qset.h \
+		/usr/include/qt6/QtCore/qhash.h \
+		/usr/include/qt6/QtCore/qvarlengtharray.h \
+		/usr/include/qt6/QtGui/qpalette.h \
+		/usr/include/qt6/QtGui/qbrush.h \
+		/usr/include/qt6/QtGui/qfont.h \
+		/usr/include/qt6/QtCore/qendian.h \
+		/usr/include/qt6/QtGui/qfontmetrics.h \
+		/usr/include/qt6/QtGui/qfontinfo.h \
+		/usr/include/qt6/QtGui/qfontvariableaxis.h \
+		/usr/include/qt6/QtGui/qcursor.h \
+		/usr/include/qt6/QtGui/qbitmap.h \
+		/usr/include/qt6/QtGui/qevent.h \
+		/usr/include/qt6/QtCore/qiodevice.h \
+		/usr/include/qt6/QtCore/qurl.h \
+		/usr/include/qt6/QtGui/qeventpoint.h \
+		/usr/include/qt6/QtGui/qvector2d.h \
+		/usr/include/qt6/QtGui/qvectornd.h \
+		/usr/include/qt6/QtGui/qpointingdevice.h \
+		/usr/include/qt6/QtGui/qinputdevice.h \
+		/usr/include/qt6/QtGui/qscreen.h \
+		/usr/include/qt6/QtCore/QList \
+		/usr/include/qt6/QtCore/QObject \
+		/usr/include/qt6/QtCore/QRect \
+		/usr/include/qt6/QtCore/QSize \
+		/usr/include/qt6/QtCore/QSizeF \
+		/usr/include/qt6/QtGui/QTransform \
+		/usr/include/qt6/QtCore/qnativeinterface.h \
+		/usr/include/qt6/QtGui/qscreen_platform.h \
+		/usr/include/qt6/QtGui/qguiapplication.h \
+		/usr/include/qt6/QtCore/qcoreapplication.h \
+		/usr/include/qt6/QtCore/qcoreapplication_platform.h \
+		/usr/include/qt6/QtCore/qfuture.h \
+		/usr/include/qt6/QtCore/qfutureinterface.h \
+		/usr/include/qt6/QtCore/qmutex.h \
+		/usr/include/qt6/QtCore/qtsan_impl.h \
+		/usr/include/qt6/QtCore/qresultstore.h \
+		/usr/include/qt6/QtCore/qfuture_impl.h \
+		/usr/include/qt6/QtCore/qthreadpool.h \
+		/usr/include/qt6/QtCore/qthread.h \
+		/usr/include/qt6/QtCore/qrunnable.h \
+		/usr/include/qt6/QtCore/qexception.h \
+		/usr/include/qt6/QtCore/qpromise.h \
+		/usr/include/qt6/QtGui/qinputmethod.h \
+		/usr/include/qt6/QtCore/qlocale.h \
+		/usr/include/qt6/QtGui/qguiapplication_platform.h \
+		/usr/include/qt6/QtWidgets/QHBoxLayout \
+		/usr/include/qt6/QtWidgets/QWidget \
+		/usr/include/qt6/QtWidgets/QLabel \
+		/usr/include/qt6/QtWidgets/qlabel.h \
+		/usr/include/qt6/QtWidgets/qframe.h \
+		/usr/include/qt6/QtGui/qpicture.h \
+		/usr/include/qt6/QtGui/qtextdocument.h \
+		/usr/include/qt6/QtWidgets/QLayout \
+		CLASSI_FILE/File_Generico.hpp \
+		visitor/ConstFileVisitor.hpp \
+		CLASSI_FILE/File_Serie.hpp \
+		/usr/include/qt6/QtWidgets/QPushButton \
+		/usr/include/qt6/QtWidgets/qpushbutton.h \
+		/usr/include/qt6/QtWidgets/qabstractbutton.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mostra_helper.o visitor/mostra_helper.cpp
+
 qrc_risorse.o: qrc_risorse.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_risorse.o qrc_risorse.cpp
 
@@ -9126,8 +10032,14 @@ moc_right_side.o: moc_right_side.cpp
 moc_tree.o: moc_tree.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_tree.o moc_tree.cpp
 
+moc_add_episodio_widget.o: moc_add_episodio_widget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_add_episodio_widget.o moc_add_episodio_widget.cpp
+
 moc_upper_bar.o: moc_upper_bar.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_upper_bar.o moc_upper_bar.cpp
+
+moc_mostra_helper.o: moc_mostra_helper.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mostra_helper.o moc_mostra_helper.cpp
 
 ####### Install
 
