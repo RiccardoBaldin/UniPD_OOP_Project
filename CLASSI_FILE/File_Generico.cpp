@@ -53,7 +53,3 @@ void File_Generico::Accept(FileVisitor& visitor){
 void File_Generico::Accept(ConstFileVisitor& visitor) const {
     visitor.Visit(*this);
 }
-
-void File_Generico::Accept(MostraVisitor& visitor){
-    visitor.Visit(*this);
-}

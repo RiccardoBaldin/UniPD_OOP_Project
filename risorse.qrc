@@ -10,6 +10,7 @@
         <file>IMMAGINI/Film_Aggiungi.png</file>
         <file>IMMAGINI/Libro_Aggiungi.png</file>
         <file>IMMAGINI/Serie_Aggiungi.png</file>
+        <file>IMMAGINI/Episodio_Aggiungi.png</file>
 
         <file>IMMAGINI/film_verde.png</file>
         <file>IMMAGINI/libro_verde.png</file>
@@ -22,6 +23,10 @@
         <file>IMMAGINI/episodio_nero.png</file>
 
         <file>IMMAGINI/Oscar.png</file>
+
+        <file>IMMAGINI/preferito_si.png</file>
+        <file>IMMAGINI/preferito_no.png</file>
+
 
         <file>DataBase/Biblioteca.json</file>
 

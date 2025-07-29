@@ -14,12 +14,14 @@ class QPushButton;
 class QVBoxLayout;
 class QCheckBox;
 class QButtonGroup;
+class QShowEvent;
 
 class AddEpisodioWidget : public QWidget{
         Q_OBJECT
 
 public:
     explicit AddEpisodioWidget(File_Serie* serie = nullptr, QWidget *parent = nullptr);
+    void setSerie(File_Serie*);
 
 private:
     File_Serie *serie;
@@ -48,11 +50,11 @@ private:
 
     QLabel *nomeSerie = new QLabel();
 
-    void setSerie(File_Serie*);
-
 protected:
     bool NonCampiVuoti();
     void pulisciCampi();
+
+    void showEvent(QShowEvent *event) override;
 
 public slots:
     //void AggiungiEpisodio();

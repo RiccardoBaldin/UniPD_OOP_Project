@@ -26,7 +26,10 @@ private:
 
 
 signals:
-    void File_Clicked(File_Generico* file);
+    void File_Clicked(File_Generico*);
+    void griglia_modifica(File_Generico*);
+    void griglia_elimina(File_Generico*);
+    void griglia_salva(File_Generico*);
 };
 
 

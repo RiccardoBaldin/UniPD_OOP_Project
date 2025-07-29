@@ -30,7 +30,10 @@ private slots:
     void changeLayout(int index);
 
 signals:
-    void File_Clicked(File_Generico* file);
+    void File_Clicked(File_Generico*);
+    void modifica(File_Generico*);
+    void elimina(File_Generico*);
+    void salva(File_Generico*);
         
 };
 

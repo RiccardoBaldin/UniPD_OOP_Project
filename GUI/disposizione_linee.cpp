@@ -2,7 +2,7 @@
 
 #include "../CLASSI_FILE/Container.hpp"
 #include "../CLASSI_FILE/File_Generico.hpp"
-#include "../visitor/ListaVisitor.hpp"
+#include "riga_lista.hpp"
 
 #include <QListWidget>
 #include <QVBoxLayout>
@@ -26,23 +26,16 @@ void DisposizioneLinee::updateLayout() {
     listWidget->clear();
 
     for(File_Generico* file : biblioteca->getArchivio()){
-        QWidget* widget = new QWidget(this);
-        
-        ListaVisitor visitor;
-        file->Accept(visitor);
-        QHBoxLayout* layout = visitor.GetLayout();
-        widget->setLayout(layout);
-
+        Riga_Lista* riga = new Riga_Lista(file, this);
         QListWidgetItem* item = new QListWidgetItem();
-        item->setSizeHint(widget->sizeHint());
+        item->setSizeHint(riga->sizeHint());
         listWidget->addItem(item);
-        listWidget->setItemWidget(item, widget);
-        
-        connect(listWidget, &QListWidget::itemClicked, this, [this, file, widget](QListWidgetItem* clickedItem) {
-                if (listWidget->itemWidget(clickedItem) == widget) {
-                    emit File_Clicked(file);
-                }
-            }
-        );
+        listWidget->setItemWidget(item, riga);
+
+        connect(riga, &Riga_Lista::RigaClicked, this, &DisposizioneLinee::File_Clicked);
+        connect(riga, &Riga_Lista::RigaModifica, this, &DisposizioneLinee::lista_modifica);
+        connect(riga, &Riga_Lista::RigaElimina, this, &DisposizioneLinee::lista_elimina);
+        connect(riga, &Riga_Lista::RigaSalva, this, &DisposizioneLinee::lista_salva);
     }
+
 }

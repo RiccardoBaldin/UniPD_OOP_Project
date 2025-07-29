@@ -17,12 +17,14 @@ class File_Libro;
 
 class MostraVisitor : public FileVisitor {
 private:
-    QVBoxLayout* layout = new QVBoxLayout();
-    QHBoxLayout* sopra = new QHBoxLayout();
-    QHBoxLayout* sotto = new QHBoxLayout();
-    QVBoxLayout* sopraDx = new QVBoxLayout();
-    QVBoxLayout* sottoSx = new QVBoxLayout();
-    QVBoxLayout* sottoDx = new QVBoxLayout();
+
+    QWidget* widget = nullptr;
+
+    QVBoxLayout* layout;
+    QHBoxLayout* sopra;
+    QHBoxLayout* sotto;
+    QVBoxLayout* sottoSx;
+    QVBoxLayout* sottoDx;
 
 
     //attributi generali
@@ -63,14 +65,15 @@ public:
     MostraVisitor() = default;
     ~MostraVisitor() = default;
 
-    void Visit(File_Generico& file) override;
-    void Visit(File_Video& video) override;
-    void Visit(File_Film& film) override;
-    void Visit(File_Episodio& episodio) override;
-    void Visit(File_Serie& serie) override;
-    void Visit(File_Libro& libro) override;
+    virtual void Visit(File_Generico& file) override;
+    virtual void Visit(File_Video& video) override;
+    virtual void Visit(File_Film& film) override;
+    virtual void Visit(File_Episodio& episodio) override;
+    virtual void Visit(File_Serie& serie) override;
+    virtual void Visit(File_Libro& libro) override;
 
-    QVBoxLayout* GetLayout();
+    QWidget* GetWidget() const ;
+    QTreeWidget* GetAlberoEpisodi() const ;
 };
 
 #endif // MOSTRAVISITOR_HPP

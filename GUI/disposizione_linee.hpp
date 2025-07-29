@@ -20,10 +20,11 @@ private:
     Biblioteca* biblioteca;
     QListWidget* listWidget;
 
-    std::vector<File_Generico*> lista;
-
 signals:
-    void File_Clicked(File_Generico* file);
+    void File_Clicked(File_Generico*);
+    void lista_modifica(File_Generico*);
+    void lista_elimina(File_Generico*);
+    void lista_salva(File_Generico*);
 };
 
 

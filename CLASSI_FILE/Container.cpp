@@ -24,6 +24,7 @@ void Biblioteca::addFile(File_Generico* file){
 void Biblioteca::killFile(File_Generico* file){
     for(auto it = archivio.begin(); it != archivio.end(); ++it){
         if(*it == file){
+            delete(*it);
             archivio.erase(it);
             return;
         }

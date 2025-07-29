@@ -8,27 +8,28 @@
 
 
 class File_Generico;
+class File_Episodio;
 class File_Serie;
 class MostraVisitor;
 class QVBoxLayout;
+class QTreeWidgetItem;
 
 class MostraVisitorHelper : public QWidget {
     Q_OBJECT
 
 public:
     explicit MostraVisitorHelper(File_Generico* file = nullptr, QWidget* parent = nullptr);
-    QVBoxLayout* GetLayout();
 
 signals:
     void AggiuntaEpisodio();
+    void EpisodioSelezionato(File_Episodio* episodio);
 
 private:
-    QVBoxLayout* layout = new QVBoxLayout();
+    QVBoxLayout* layout;
     File_Serie* serie = nullptr;
-    MostraVisitor visitor;
 
 private slots:
-    void Aggiungi_Clicked();
+    void Episodio_Clicked(QTreeWidgetItem*);
 };
 
 #endif //MOSTRA_HELPER_HPP

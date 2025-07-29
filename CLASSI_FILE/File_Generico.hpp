@@ -37,7 +37,6 @@ class File_Generico{
         //metodi per accettare le visite
         virtual void Accept(FileVisitor& visitor);
         virtual void Accept(ConstFileVisitor& visitor) const;
-        virtual void Accept(MostraVisitor& visitor);
         
 };
 

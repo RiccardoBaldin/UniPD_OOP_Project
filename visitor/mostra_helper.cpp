@@ -1,7 +1,9 @@
 #include "mostra_helper.hpp"
 
 #include "../CLASSI_FILE/File_Generico.hpp"
+#include "../CLASSI_FILE/File_Episodio.hpp"
 #include "../CLASSI_FILE/File_Serie.hpp"
+#include "episodio_item.hpp"
 
 
 #include <QVBoxLayout>
@@ -10,22 +12,32 @@
 
 MostraVisitorHelper::MostraVisitorHelper(File_Generico* file, QWidget *parent) : QWidget(parent), serie(dynamic_cast<File_Serie*>(file)){
     if(file == nullptr) return;
-    file->Accept(visitor);
+    
+    layout= new QVBoxLayout(this);
+    MostraVisitor* visitor= new MostraVisitor();
+    file->Accept(*visitor);
 
     if(serie){
+
+        QTreeWidget* albero = visitor->GetAlberoEpisodi();
+        if(albero){
+            connect(albero, &QTreeWidget::itemClicked, this, &MostraVisitorHelper::Episodio_Clicked);
+        }
+
         QPushButton* BottoneAggiunta = new QPushButton("Aggiungi Episodio");
-        connect(BottoneAggiunta, &QPushButton::clicked, this, &MostraVisitorHelper::Aggiungi_Clicked);
+        connect(BottoneAggiunta, &QPushButton::clicked, this, [this](){ emit AggiuntaEpisodio();});
         layout->addWidget(BottoneAggiunta);
     }
 
-    layout->addLayout(visitor.GetLayout());
+    QWidget* container = visitor->GetWidget();
+    layout->addWidget(container);
 
+    setLayout(layout);
 }
 
-QVBoxLayout* MostraVisitorHelper::GetLayout(){
-    return layout;
-}
 
-void MostraVisitorHelper::Aggiungi_Clicked(){
-    emit AggiuntaEpisodio();
+void MostraVisitorHelper::Episodio_Clicked(QTreeWidgetItem* item){
+    if(auto epItem = dynamic_cast<EpisodioItem*>(item))
+        if(epItem->getEpisodio())
+            emit EpisodioSelezionato(epItem->getEpisodio());    
 }

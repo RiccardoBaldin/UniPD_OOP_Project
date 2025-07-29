@@ -33,8 +33,14 @@ RightSide::RightSide(Biblioteca *biblioteca, QWidget *parent) : QWidget(parent){
 
     connect(upperBar, &UpperBar::layoutChanged, this, &RightSide::changeLayout);
     connect(upperBar, &UpperBar::layoutChanged, this, &RightSide::updateLayout);
+
     connect(Linee, &DisposizioneLinee::File_Clicked, this, &RightSide::File_Clicked);
+    connect(Linee, &DisposizioneLinee::lista_elimina, this, &RightSide::elimina);
+    
     connect(Griglia, &DisposizioneGriglia::File_Clicked, this, &RightSide::File_Clicked);
+    connect(Griglia, &DisposizioneGriglia::griglia_elimina, this, &RightSide::elimina);
+
+    
 }
 
 void RightSide::changeLayout(int index) {
@@ -42,9 +48,6 @@ void RightSide::changeLayout(int index) {
 }
 
 void RightSide::updateLayout() {
-
-    qDebug() << "RightSide::updateLayout() chiamato";
-
     Griglia->updateLayout();
     Linee->updateLayout();
 }

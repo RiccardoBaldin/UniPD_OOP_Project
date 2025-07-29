@@ -2,10 +2,8 @@
 #define QUADRATINI_HPP
 
 #include <QWidget>
-#include <QVBoxLayout>
 
 class File_Generico;
-class QLabel;
 
 class Quadratini : public QWidget {
     Q_OBJECT
@@ -13,14 +11,14 @@ class Quadratini : public QWidget {
 public:
     explicit Quadratini(File_Generico* file, QWidget *parent = nullptr);
 
-signals:
-    void QuadratinoClicked(File_Generico* file);
-
 private:
     File_Generico* file;
 
-protected:
-    void mousePressEvent(QMouseEvent *event) override;
+signals:
+    void QuadratinoClicked(File_Generico*);
+    void QuadratinoModifica(File_Generico*);
+    void QuadratinoElimina(File_Generico*);
+    void QuadratinoSalva(File_Generico*);
 
 };
 

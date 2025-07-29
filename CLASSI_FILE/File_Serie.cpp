@@ -9,7 +9,11 @@ File_Serie::File_Serie(const std::string& nome, const std::string& autore, const
     episodi = std::vector<File_Episodio*>();
 }
 
-File_Serie::~File_Serie(){
+File_Serie::~File_Serie() {
+    for (auto episodio : episodi) {
+        delete episodio;
+    }
+    episodi.clear();
 }
 
 

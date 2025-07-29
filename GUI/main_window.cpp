@@ -5,6 +5,7 @@
 #include "../visitor/MostraVisitor.hpp"
 #include "../visitor/mostra_helper.hpp"
 #include "../CLASSI_FILE/File_Serie.hpp"
+#include "../CLASSI_FILE/File_Episodio.hpp"
 #include "add_episodio_widget.hpp"
 #include "left_side.hpp"
 #include "right_side.hpp"
@@ -15,6 +16,7 @@
 #include <QStackedWidget>
 #include <QApplication>
 #include <QPushButton>
+#include <QIcon>
 #include <iostream>
  
 MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(parent), biblioteca(biblioteca){
@@ -28,7 +30,6 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     aggiuntaLibro = new AddFileWidget(biblioteca, 0, this);     //widget di aggiunta Libro
     aggiuntaFilm = new AddFileWidget(biblioteca, 1, this);      //widget di aggiunta Film
     aggiuntaSerie = new AddFileWidget(biblioteca, 2, this);     //widget di aggiunta Serie
-    aggiuntaEpisodio = new MostraVisitorHelper(nullptr, this);  //widget di aggiunta Episodio
 
     leftSide = new LeftSide(biblioteca);
     rightSide = new RightSide(biblioteca);
@@ -50,9 +51,11 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     stackedWidget->addWidget(aggiuntaLibro);
     stackedWidget->addWidget(aggiuntaFilm);
     stackedWidget->addWidget(aggiuntaSerie);
-    stackedWidget->addWidget(aggiuntaEpisodio);
 
     setCentralWidget(stackedWidget);
+
+    preferito_si = new QIcon(":/IMMAGINI/preferito_si.png");
+    preferito_no = new QIcon(":/IMMAGINI/preferito_no.png");   
 
     connect(leftSide, &LeftSide::addFileSignal, this, &MainWindow::showAddFileWidget);
     
@@ -69,7 +72,15 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     
     connect(aggiuntaSerie, &AddFileWidget::FileAnnullato, this, &MainWindow::showMainWindow);
 
+    
     connect(rightSide, &RightSide::File_Clicked, this, &MainWindow::mostraWindow);
+    connect(rightSide, &RightSide::elimina, this, &MainWindow::elimina);
+    
+}
+
+void MainWindow::elimina(File_Generico* file){
+    biblioteca->killFile(file);
+    showMainWindow();
 }
 
 void MainWindow::mostraWindow(File_Generico* file){
@@ -80,27 +91,82 @@ void MainWindow::mostraWindow(File_Generico* file){
 
     QPushButton* indietro = new QPushButton("Indietro");
 
+    QPushButton* toggle_preferito = new QPushButton();
+    toggle_preferito->setIcon(file->IsPreferito() ? *preferito_si : *preferito_no);
+    toggle_preferito->setIconSize(QSize(24, 24));  
+    toggle_preferito->setFixedSize(32, 32);        
+
+
     QHBoxLayout* sopra = new QHBoxLayout();
-    sopra->addWidget(indietro, 0, Qt::AlignLeft); //sopra è un bottone schiacciato a sinistra
+    sopra->addWidget(indietro, 0, Qt::AlignLeft);
+    sopra->addWidget(toggle_preferito, 0, Qt::AlignRight);
+    toggle_preferito->setFlat(true);
+    toggle_preferito->setStyleSheet("background-color: transparent; border: none;");
 
     QVBoxLayout* intero = new QVBoxLayout();
     intero->addLayout(sopra);
-    intero->addLayout(a->GetLayout());
+    intero->addWidget(a);
     
     mostra->setLayout(intero);
 
     stackedWidget->addWidget(mostra);
     stackedWidget->setCurrentWidget(mostra);
 
-    if(dynamic_cast<File_Serie*>(file)){
-        std::cout<<"SERIE MOSTRATA CAZZO DURO MAI PAURA\n"<<std::endl;
+    File_Serie* s = dynamic_cast<File_Serie*>(file);
+    if(s){
+        currentSerie = s;
+        currentSerieWidget = mostra;
         connect(a, &MostraVisitorHelper::AggiuntaEpisodio, this, &MainWindow::showAddEpisodioWidget);
+        connect(a, &MostraVisitorHelper::EpisodioSelezionato, this, &MainWindow::mostraEpisodio);
     }
 
     connect(indietro, &QPushButton::clicked, this, &MainWindow::showMainWindow);
+    connect(toggle_preferito, &QPushButton::clicked, [this, file, toggle_preferito]() {
+        file->togglePreferito();
+        toggle_preferito->setIcon(file->IsPreferito() ? *preferito_si : *preferito_no);
+    });
 }
 
+void MainWindow::mostraEpisodio(File_Episodio* ep) {
+    if (!ep) return;
+    
+    QWidget* mostra = new QWidget();
 
+    MostraVisitorHelper* episodio = new MostraVisitorHelper(static_cast<File_Generico*>(ep));
+
+    QPushButton* indietro = new QPushButton("Indietro");
+
+    QPushButton* toggle_preferito = new QPushButton();
+    toggle_preferito->setIcon(ep->IsPreferito() ? *preferito_si : *preferito_no);
+    toggle_preferito->setIconSize(QSize(24, 24));  
+    toggle_preferito->setFixedSize(32, 32);
+
+    QHBoxLayout* sopra = new QHBoxLayout();
+    sopra->addWidget(indietro, 0, Qt::AlignLeft);
+    sopra->addWidget(toggle_preferito, 0, Qt::AlignRight);
+    toggle_preferito->setFlat(true);
+    toggle_preferito->setStyleSheet("background-color: transparent; border: none;");
+
+    QVBoxLayout* intero = new QVBoxLayout();
+    intero->addLayout(sopra);
+    intero->addWidget(episodio);
+
+    mostra->setLayout(intero);
+
+    stackedWidget->addWidget(mostra);
+    stackedWidget->setCurrentWidget(mostra);
+
+    connect(indietro, &QPushButton::clicked, [this]() {
+        stackedWidget->removeWidget(this);
+        stackedWidget->setCurrentWidget(currentSerieWidget);
+    });
+
+    connect(toggle_preferito, &QPushButton::clicked, [this, ep, toggle_preferito]() {
+        ep->togglePreferito();
+        toggle_preferito->setIcon(ep->IsPreferito() ? *preferito_si : *preferito_no);
+    });
+
+}
 
 void MainWindow::showAddFileWidget(int index){
     switch(index){
@@ -119,7 +185,15 @@ void MainWindow::showAddFileWidget(int index){
 }
 
 void MainWindow::showAddEpisodioWidget(){
-    stackedWidget->setCurrentWidget(aggiuntaEpisodio);
+    if(!episodioWidget){
+        episodioWidget = new AddEpisodioWidget(currentSerie, this);
+        connect(episodioWidget, &AddEpisodioWidget::FileAggiunto, this, &MainWindow::showMainWindow);
+        connect(episodioWidget, &AddEpisodioWidget::FileAnnullato, this, &MainWindow::showMainWindow);
+        stackedWidget->addWidget(episodioWidget);
+    }else{
+        episodioWidget->setSerie(currentSerie);
+    }
+    stackedWidget->setCurrentWidget(episodioWidget);
 }
 
 void MainWindow::DettagliIndietro(){

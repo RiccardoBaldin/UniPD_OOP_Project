@@ -1,27 +1,29 @@
 #include "quadratini.hpp"
 #include "../CLASSI_FILE/File_Generico.hpp"
-#include "../CLASSI_FILE/File_Libro.hpp"
-#include "../CLASSI_FILE/File_Film.hpp"
-#include "../CLASSI_FILE/File_Serie.hpp"
-#include "../CLASSI_FILE/File_Episodio.hpp"
 #include "../visitor/GrigliaVisitor.hpp"
+#include "../mouse/mouse_handler.hpp"
 
-#include <QLabel>
-#include <QPixmap>
-#include <QIcon>
+#include <QVBoxLayout>
 
 Quadratini::Quadratini(File_Generico* file, QWidget *parent) : QWidget(parent), file(file) {
     
-    setFixedSize(120, 120);
     setStyleSheet("background-color: #BEBEBE; border: 2px solid black; border-radius: 5px;");
 
-    GrigliaVisitor visitor;
-    file->Accept(visitor);
-    QVBoxLayout *layout= visitor.GetLayout();
+    GrigliaVisitor *visitor = new GrigliaVisitor();
+    file->Accept(*visitor);
+
+    QVBoxLayout *layout= new QVBoxLayout(this);
+    mouseMenu* click = new mouseMenu(file);
+    click->setLayout(visitor->GetLayout());
+    click->setFixedSize(120,120);
+    layout->addWidget(click, 0, Qt::AlignCenter);
 
     setLayout(layout);
-}
 
-void Quadratini::mousePressEvent(QMouseEvent *) {
-    emit QuadratinoClicked(file);
+    connect(click, &mouseMenu::selezionato, this, [this](){ emit QuadratinoClicked(this->file);});
+    connect(click, &mouseMenu::managePreferiti, this, [this](){ this->file->togglePreferito(); });
+    connect(click, &mouseMenu::modifica, this, [this](){ emit QuadratinoModifica(this->file);});
+    connect(click, &mouseMenu::elimina, this, [this](){ emit QuadratinoElimina(this->file);});
+    connect(click, &mouseMenu::salva, this, [this](){ emit QuadratinoSalva(this->file);});
+    
 }

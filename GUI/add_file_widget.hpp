@@ -13,6 +13,7 @@ class QPushButton;
 class QVBoxLayout;
 class QCheckBox;
 class QButtonGroup;
+class QShowEvent;
 
 class File_Generico;
 
@@ -68,6 +69,8 @@ protected:
     bool NonCampiVuoti();
     void SceltaTipo();
     void pulisciCampi();
+
+    void showEvent(QShowEvent *event) override;
 
 public slots:
     void AggiungiLibro();

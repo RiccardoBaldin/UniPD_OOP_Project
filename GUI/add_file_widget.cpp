@@ -8,6 +8,7 @@
 #include <QRadioButton>
 #include <QMessageBox>
 #include <QStringList>
+#include <QShowEvent>
 #include "linea_orizzontale.hpp"
 
 #include "../CLASSI_FILE/File_Libro.hpp"
@@ -259,4 +260,12 @@ bool AddFileWidget::NonCampiVuoti(){
     }
 
     return true;
+}
+
+void AddFileWidget::showEvent(QShowEvent *event) {
+    QWidget::showEvent(event);
+
+    if (nome) {
+        nome->setFocus();
+    }
 }

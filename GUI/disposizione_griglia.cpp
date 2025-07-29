@@ -36,8 +36,6 @@ void DisposizioneGriglia::resizeEvent(QResizeEvent *) {
 }
 
 void DisposizioneGriglia::updateLayout(){
-
-    qDebug() << "DisposizioneGriglia::updateLayout() chiamato";
     
     lista = biblioteca->getArchivio();
 
@@ -66,6 +64,9 @@ void DisposizioneGriglia::updateLayout(){
             Quadratini* quadratino = new Quadratini(lista[i], this);
             layout->addWidget(quadratino, r, c);
             connect(quadratino, &Quadratini::QuadratinoClicked, this, &DisposizioneGriglia::File_Clicked);
+            connect(quadratino, &Quadratini::QuadratinoModifica, this, &DisposizioneGriglia::griglia_modifica);
+            connect(quadratino, &Quadratini::QuadratinoElimina, this, &DisposizioneGriglia::griglia_elimina);
+            connect(quadratino, &Quadratini::QuadratinoSalva, this, &DisposizioneGriglia::griglia_salva);
 
             ++i;
         }

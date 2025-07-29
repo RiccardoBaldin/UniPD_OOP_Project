@@ -26,13 +26,14 @@ HEADERS += CLASSI_FILE/Container.hpp \
            CLASSI_FILE/File_Serie.hpp \
            CLASSI_FILE/File_Video.hpp \
            GUI/add_file_widget.hpp \
+           GUI/quadratini.hpp \
            GUI/disposizione_griglia.hpp \
+           GUI/riga_lista.hpp \
            GUI/disposizione_linee.hpp \
            GUI/left_side.hpp \
            GUI/linea_orizzontale.hpp \
            GUI/linea_verticale.hpp \
            GUI/main_window.hpp \
-           GUI/quadratini.hpp \
            GUI/right_side.hpp \
            GUI/tree.hpp \
            GUI/add_episodio_widget.hpp \
@@ -46,6 +47,8 @@ HEADERS += CLASSI_FILE/Container.hpp \
            visitor/ListaVisitor.hpp \
            visitor/MostraVisitor.hpp \
            visitor/mostra_helper.hpp \
+           visitor/episodio_item.hpp \
+           mouse/mouse_handler.hpp \
 
 SOURCES += main.cpp \
            CLASSI_FILE/Container.cpp \
@@ -56,13 +59,14 @@ SOURCES += main.cpp \
            CLASSI_FILE/File_Serie.cpp \
            CLASSI_FILE/File_Video.cpp \
            GUI/add_file_widget.cpp \
+           GUI/quadratini.cpp \
            GUI/disposizione_griglia.cpp \
+           GUI/riga_lista.cpp \
            GUI/disposizione_linee.cpp \
            GUI/left_side.cpp \
            GUI/linea_orizzontale.cpp \
            GUI/linea_verticale.cpp \
            GUI/main_window.cpp \
-           GUI/quadratini.cpp \
            GUI/right_side.cpp \
            GUI/tree.cpp \
            GUI/upper_bar.cpp \
@@ -74,5 +78,8 @@ SOURCES += main.cpp \
            visitor/JSonVisitor.cpp \
            visitor/ListaVisitor.cpp \
            visitor/MostraVisitor.cpp \
-           visitor/mostra_helper.cpp
+           visitor/mostra_helper.cpp \
+           visitor/episodio_item.cpp \
+           mouse/mouse_handler.cpp \
+
 RESOURCES += risorse.qrc

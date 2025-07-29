@@ -10,6 +10,7 @@
 #include <QRadioButton>
 #include <QMessageBox>
 #include <QStringList>
+#include <QShowEvent>
 #include "linea_orizzontale.hpp"
 
 AddEpisodioWidget::AddEpisodioWidget(File_Serie* serie, QWidget* parent) : QWidget(parent), serie(serie){
@@ -89,8 +90,8 @@ void AddEpisodioWidget::ConfermaAggiunta(){
                                        durata->value(),
                                        casa_di_produzione->text().toStdString(),
                                        regista->text().toStdString(),
-                                       numero_episodio->value(),
                                        numero_stagione->value(),
+                                       numero_episodio->value(),
                                        serie->GetNome());
         if(serie->check(episodio)){
             serie->AggiungiEpisodio(episodio);
@@ -126,6 +127,8 @@ bool AddEpisodioWidget::NonCampiVuoti(){
     QStringList mancanti;
     if(nome->text().isEmpty()) mancanti << "Nome" ;
     if(autore->text().isEmpty()) mancanti << "Autore" ;
+    if(numero_stagione->value() == 0) mancanti << "numero della stagione";
+    if(numero_episodio->value() == 0) mancanti << "numero del episodio";
 
     if(!mancanti.isEmpty()){
         QMessageBox::warning(this,
@@ -144,5 +147,13 @@ void AddEpisodioWidget::setSerie(File_Serie* NuovaSerie){
         autore->setText(QString::fromStdString(serie->GetAutore()));
         genere->setText(QString::fromStdString(serie->GetGenere()));
         casa_di_produzione->setText(QString::fromStdString(serie->GetCasaDiProduzione()));
+    }
+}
+
+void AddEpisodioWidget::showEvent(QShowEvent *event) {
+    QWidget::showEvent(event);
+
+    if (nome) {
+        nome->setFocus();
     }
 }

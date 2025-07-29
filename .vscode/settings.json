@@ -73,6 +73,10 @@
         "qhboxlayout": "cpp",
         "qscrollarea": "cpp",
         "qgridlayout": "cpp",
-        "qlineedit": "cpp"
+        "qlineedit": "cpp",
+        "__tree": "cpp",
+        "set": "cpp",
+        "qstackedwidget": "cpp",
+        "qpixmap": "cpp"
     }
 }

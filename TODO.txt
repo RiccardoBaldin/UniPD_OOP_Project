@@ -1,3 +1,15 @@
-- FINESTRA MOSTRA EPISODIO
+- ERRORE QUANDO APRO UN EPISODIO:  QLayout::addChildLayout: layout QVBoxLayout "" already has a parent 
 
-- AGGIUNGI EPISODIO IN RELAZIONE ALLA SERIE APERTA (BISOGNA SAPERE QUALE SIA)
+
+
+
+- IMPLEMENTARE CLICK IN 
+        - GRIGLIA
+        - LISTA
+        - HELPER EPISDIO (veramente crazy)
+
+- MODIFICA
+
+- ELIMINA
+
+- SALVA
