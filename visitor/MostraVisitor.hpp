@@ -2,12 +2,14 @@
 #define MOSTRAVISITOR_HPP
 
 #include "FileVisitor.hpp"
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QWidget>
-#include <QLabel>
+
 
 class QTreeWidget;
+class QLabel;
+class QVBoxLayout;
+class QHBoxLayout;
+class QIcon;
 class File_Generico;
 class File_Video;
 class File_Film;
@@ -30,10 +32,10 @@ private:
     //attributi generali
     QIcon *icona;
     QLabel *widgetIcona;
-    QLabel *nome = new QLabel();
-    QLabel *autore = new QLabel();
-    QLabel *genere = new QLabel();
-    QLabel *anno = new QLabel();
+    QLabel *nome;
+    QLabel *autore;
+    QLabel *genere;
+    QLabel *anno;
 
     //attributi libro
     QLabel *pagine;
@@ -71,6 +73,7 @@ public:
     virtual void Visit(File_Episodio& episodio) override;
     virtual void Visit(File_Serie& serie) override;
     virtual void Visit(File_Libro& libro) override;
+    virtual void Visit(Biblioteca& biblioteca) override;
 
     QWidget* GetWidget() const ;
     QTreeWidget* GetAlberoEpisodi() const ;

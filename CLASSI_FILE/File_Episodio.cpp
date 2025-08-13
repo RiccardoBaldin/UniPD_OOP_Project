@@ -6,7 +6,8 @@ File_Episodio::File_Episodio(const std::string& nome, const std::string& autore,
     : File_Video(nome, autore, genere, anno, durata, casa_di_produzione, regista),
     serie(nullptr),
     numero_episodio(numero_episodio),
-    numero_stagione(numero_stagione), serieTV(serieTV){
+    numero_stagione(numero_stagione), 
+    serieTV(serieTV){
 }
 
 
@@ -24,6 +25,9 @@ std::string File_Episodio::GetSerieTV() const {
     return serieTV;
 }
 
+File_Serie* File_Episodio::GetSerieFile() const {
+    return serie;
+}
 
 //SETTERS
 
@@ -53,6 +57,18 @@ void File_Episodio::SetCasaDiProduzione(File_Serie* s) {
 void File_Episodio::SetGenere(File_Serie* s) {
     this->serie = s;
     this->genere = (s) ? s->GetGenere() : "";
+}
+
+void File_Episodio::SetNome(const std::string& nome){
+    this->nome = nome;
+}
+
+void File_Episodio::SetAutore(const std::string& autore){
+    this->autore = autore;
+}
+
+void File_Episodio::SetGenere(const std::string& genere){
+    this->genere = genere;
 }
 
 //METODO PER VISITE

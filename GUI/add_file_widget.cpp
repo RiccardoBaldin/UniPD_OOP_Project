@@ -166,7 +166,7 @@ void AddFileWidget::ConfermaAggiunta(){
                                        anno->value(),
                                        pagine->value(),
                                        editore->text().toStdString());
-                    if(biblioteca->check(libro)){
+                    if(biblioteca->check(libro,nullptr)){
                         biblioteca->addFile(libro);
                         pulisciCampi();
                         emit FileAggiunto();
@@ -174,6 +174,7 @@ void AddFileWidget::ConfermaAggiunta(){
                         QMessageBox::warning(this,
                                             "Articolo già presente",
                                             "Articolo già presente nella biblioteca digitale");
+                        delete libro;
                     }
                     break;
             }case 1:{    
@@ -185,7 +186,7 @@ void AddFileWidget::ConfermaAggiunta(){
                                        casa_di_produzione->text().toStdString(),
                                        regista->text().toStdString(),
                                        oscar->isChecked());
-                    if(biblioteca->check(film)){
+                    if(biblioteca->check(film,nullptr)){
                         biblioteca->addFile(film);
                         pulisciCampi();
                         emit FileAggiunto();
@@ -193,6 +194,7 @@ void AddFileWidget::ConfermaAggiunta(){
                         QMessageBox::warning(this,
                                             "Articolo già presente",
                                             "Articolo già presente nella biblioteca digitale");
+                        delete film;
                     }
                     break;
             }case 2:{    
@@ -203,7 +205,7 @@ void AddFileWidget::ConfermaAggiunta(){
                                        0,
                                        0,
                                        casa_di_produzione_serie->text().toStdString());
-                    if(biblioteca->check(serie)){
+                    if(biblioteca->check(serie,nullptr)){
                         biblioteca->addFile(serie);
                         pulisciCampi();
                         emit FileAggiunto();
@@ -211,6 +213,7 @@ void AddFileWidget::ConfermaAggiunta(){
                         QMessageBox::warning(this,
                                             "Articolo già presente",
                                             "Articolo già presente nella biblioteca digitale");
+                        delete serie;
                     }
                     break;
             }

@@ -16,6 +16,7 @@ public:
     void Visit(File_Episodio& episodio) override;
     void Visit(File_Libro& libro) override;
     void Visit(File_Serie& serie) override;
+    void Visit(Biblioteca& biblioteca) override;
     QJsonObject GetJson() const;
 };
 

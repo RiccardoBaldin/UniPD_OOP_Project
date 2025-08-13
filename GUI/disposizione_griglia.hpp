@@ -12,15 +12,14 @@ class DisposizioneGriglia : public QWidget {
     Q_OBJECT
 
 public:
-    explicit DisposizioneGriglia(Biblioteca* biblioteca = nullptr, QWidget *parent = nullptr);
-    void updateLayout();
+    explicit DisposizioneGriglia(std::vector<File_Generico*> ListaFileDaMostrare, QWidget *parent = nullptr);
+    void updateLayout(std::vector<File_Generico*>);
 
 protected:
     void resizeEvent(QResizeEvent*) override;
 
 private:
-    Biblioteca* biblioteca;
-    std::vector<File_Generico*> lista;
+    std::vector<File_Generico*> ListaFileDaMostrare;
     QGridLayout* layout;
     QScrollArea* scrollArea;
 
@@ -30,6 +29,7 @@ signals:
     void griglia_modifica(File_Generico*);
     void griglia_elimina(File_Generico*);
     void griglia_salva(File_Generico*);
+    void griglia_preferito(File_Generico*);
 };
 
 

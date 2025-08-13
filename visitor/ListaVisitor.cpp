@@ -26,7 +26,7 @@ void ListaVisitor::Visit(File_Generico& file) {
 
 }
 
-void ListaVisitor::Visit(File_Video& video) {}
+void ListaVisitor::Visit(File_Video&) {}
 
 void ListaVisitor::Visit(File_Film& film) {
     Visit(static_cast<File_Generico&>(film));
@@ -67,3 +67,5 @@ void ListaVisitor::Visit(File_Libro& libro) {
 QHBoxLayout* ListaVisitor::GetLayout() const {
     return layout;
 }
+
+void ListaVisitor::Visit(Biblioteca&) {}

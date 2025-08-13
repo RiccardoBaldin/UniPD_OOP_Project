@@ -1,27 +1,42 @@
 #include "upper_bar.hpp"
-#include "disposizione_griglia.hpp"
-#include "disposizione_linee.hpp"
 
+
+#include <QHBoxLayout>
+#include <QComboBox>
+#include <QLineEdit>
 #include <QStackedWidget>
+#include <QPushButton>
 #include <iostream>
 
-UpperBar::UpperBar(Biblioteca *biblioteca, QWidget *parent) : QWidget(parent), biblioteca(biblioteca) {
+UpperBar::UpperBar(QWidget *parent) : QWidget(parent) {
     QHBoxLayout *layout = new QHBoxLayout(this);
     setMaximumHeight(50);
 
+    searchBar = new QLineEdit(this);
+    searchBar->setPlaceholderText("Cerca...");
+    searchBar->setMinimumWidth(150);
+    searchBar->setMaximumWidth(150);
+
+    searchBar->addAction(QIcon(":/IMMAGINI/lente.png"), QLineEdit::LeadingPosition);
 
     changeLayout = new QComboBox();
-    changeLayout->setMaximumWidth(100);
-    changeLayout->setMinimumWidth(100);
+    changeLayout->setMaximumWidth(150);
+    changeLayout->setMinimumWidth(150);
+
+    vuota = new QIcon(":/IMMAGINI/stella_vuota.png");
+    piena = new QIcon(":/IMMAGINI/stella_piena.png");
+    stella = new QPushButton();
+    stella->setIcon(*vuota);
+    stella->setFlat(true);
+    stella->setIconSize(QSize(24, 24));  
+    stella->setFixedSize(30, 30);     
+    stella->setStyleSheet("background-color: transparent; border: none;");
+
 
     sortComboBox = new QComboBox(this);
     sortComboBox->setMaximumWidth(150);
     sortComboBox->setMinimumWidth(150);
 
-    searchBar = new QLineEdit(this);
-    searchBar->setPlaceholderText("Cerca...");
-    searchBar->setMinimumWidth(200);
-    searchBar->setMaximumWidth(200);
 
 
     changeLayout->addItem("Griglia");
@@ -31,18 +46,37 @@ UpperBar::UpperBar(Biblioteca *biblioteca, QWidget *parent) : QWidget(parent), b
     sortComboBox->addItem("ordina per nome");
     sortComboBox->addItem("ordina per data");
 
+    layout->addWidget(searchBar);
+    layout->addStretch();
     layout->addWidget(changeLayout);
     layout->addStretch();
     layout->addWidget(sortComboBox);
     layout->addStretch();
-    layout->addWidget(searchBar);
+    layout->addWidget(stella);
 
     setLayout(layout);
 
+    connect(stella, &QPushButton::clicked, this, [this]() {
+        selezionato = !selezionato;
+        stella->setIcon(selezionato ? (*piena) : (*vuota));
+        emit selezionato ? showPreferiti() : showGenereale();
+    });
+
     connect(changeLayout, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &UpperBar::handleLayoutChange);
+        this, [this](){sortComboBox->setCurrentIndex(0); if(changeLayout->currentIndex() == 0) emit showGriglia(); searchBar->clear();});
+
+    connect(changeLayout, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, [this](){sortComboBox->setCurrentIndex(0); if(changeLayout->currentIndex() == 1) emit showLista(); searchBar->clear();});
+
+    connect(sortComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, [this](){if(sortComboBox->currentIndex() == 0) emit sortNome(); searchBar->clear();});
+
+    connect(sortComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, [this](){if(sortComboBox->currentIndex() == 1) emit sortData(); searchBar->clear();});
+
+    connect(searchBar, &QLineEdit::textChanged, this, &UpperBar::testoCercato);
 }
 
-void UpperBar::handleLayoutChange(int index) {
-    emit layoutChanged(index);
+void UpperBar::pulisci(){
+    searchBar->clear();
 }

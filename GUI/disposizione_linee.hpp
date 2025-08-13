@@ -13,20 +13,21 @@ class DisposizioneLinee : public QWidget {
     Q_OBJECT
 
 public:
-    explicit DisposizioneLinee(Biblioteca* biblioteca = nullptr, QWidget *parent = nullptr);
-    void updateLayout();
+    explicit DisposizioneLinee(std::vector<File_Generico*> ListaFileDaMostrare, QWidget *parent = nullptr);
+    void updateLayout(std::vector<File_Generico*>);
 
 private:
-    Biblioteca* biblioteca;
     QListWidget* listWidget;
+    std::vector<File_Generico*> ListaFileDaMostrare;
 
 signals:
     void File_Clicked(File_Generico*);
     void lista_modifica(File_Generico*);
     void lista_elimina(File_Generico*);
     void lista_salva(File_Generico*);
-};
+    void lista_preferito(File_Generico*);
 
+};
 
 
 #endif

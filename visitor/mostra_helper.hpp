@@ -19,17 +19,18 @@ class MostraVisitorHelper : public QWidget {
 
 public:
     explicit MostraVisitorHelper(File_Generico* file = nullptr, QWidget* parent = nullptr);
+    void update(File_Generico*);
 
 signals:
     void AggiuntaEpisodio();
     void EpisodioSelezionato(File_Episodio* episodio);
+    void EpisodioModifica(File_Episodio* episodio);
+    void EpisodioElimina(File_Episodio* episodio);
+    void EpisodioSalva(File_Episodio* episodio);
 
 private:
-    QVBoxLayout* layout;
     File_Serie* serie = nullptr;
 
-private slots:
-    void Episodio_Clicked(QTreeWidgetItem*);
 };
 
 #endif //MOSTRA_HELPER_HPP

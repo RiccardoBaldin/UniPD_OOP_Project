@@ -3,6 +3,24 @@
 File_Generico::File_Generico(const std::string& nome, const std::string& autore, const std::string& genere, unsigned int anno)
     : nome(nome), autore(autore), genere(genere), anno(anno){}
 
+File_Generico::File_Generico(const File_Generico& other)
+    : nome(other.nome),
+      autore(other.autore),
+      genere(other.genere),
+      anno(other.anno),
+      preferito(other.preferito) {
+   }
+
+File_Generico& File_Generico::operator=(const File_Generico& other) {
+    if (this != &other) {
+        nome = other.nome;
+        autore = other.autore;
+        genere = other.genere;
+        anno = other.anno;
+        preferito = other.preferito;
+    }
+    return *this;
+}
 
 //GETTERS
 

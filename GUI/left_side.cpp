@@ -4,6 +4,7 @@
 #include "../CLASSI_FILE/File_Libro.hpp"
 #include "../JSON_CONTROL/ToJson.hpp"
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QIcon>
 #include <QTreeWidget>
@@ -24,27 +25,57 @@ LeftSide::LeftSide(Biblioteca* biblioteca, QWidget *parent) : QWidget(parent), b
     
 
     tree = new Tree(biblioteca, this);
-    aggiuntaFile = new QComboBox(this);
+    creaFile = new QComboBox(this);
     
-    aggiuntaFile->addItem("Aggiungi un file");
-    aggiuntaFile->addItem("Aggiungi un libro");
-    aggiuntaFile->addItem("Aggiungi un film");
-    aggiuntaFile->addItem("Aggiungi una serie TV");
+    creaFile->addItem("Crea un nuovo file");
+    creaFile->addItem("Crea un nuovo libro");
+    creaFile->addItem("Crea un nuovo film");
+    creaFile->addItem("Crea una nuova serie TV");
+
+    importaB = new QPushButton("Importa una biblioteca");
+    importaF = new QPushButton("Importa un file"); 
+
+    QHBoxLayout *importazioni = new QHBoxLayout();
+    importazioni->addWidget(importaB);
+    importazioni->addWidget(importaF);
+
+    salva = new QPushButton("Salva la biblioteca");
 
 
     QShortcut* shortcut = new QShortcut(QKeySequence("Ctrl+N"), this);
-    connect(shortcut, &QShortcut::activated, aggiuntaFile, &QComboBox::showPopup);
+    connect(shortcut, &QShortcut::activated, creaFile, &QComboBox::showPopup);
     
-    connect(aggiuntaFile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &LeftSide::onComboBoxIndexChanged);
+    connect(creaFile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &LeftSide::onComboBoxIndexChanged);
     connect(tree, &Tree::updateTreeSignal, this, &LeftSide::updateTree);
+
+    connect(tree, &QTreeWidget::itemClicked, this, [this](QTreeWidgetItem *item){
+        if (!item) return;
+        QString text = item->text(0).toLower();
+        if (text == "i miei libri"){
+            emit aaaLibri();
+        } else if (text == "i miei film") {
+            emit aaaFilm();
+        } else if (text == "le mie serie") {
+            emit aaaSerie();
+        } else if (text == "la mia libreria") {
+            emit aaaGesuCristo();
+        }
+    });
+
 
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     layout->addWidget(logoLabel);
     layout->addWidget(tree);
-    layout->addWidget(aggiuntaFile);
+    layout->addWidget(creaFile);
+    layout->addLayout(importazioni);
+    layout->addWidget(salva);
 
     setLayout(layout);
+
+    connect(importaB, &QPushButton::clicked, this, &LeftSide::importaBiblioteca);
+    connect(importaF, &QPushButton::clicked, this, &LeftSide::importaFile);
+    connect(salva, &QPushButton::clicked, this, &LeftSide::salvaBiblioteca);
 }
 
 void LeftSide::updateTree() {
@@ -52,7 +83,7 @@ void LeftSide::updateTree() {
 }
 
 void LeftSide::resetComboBox(){
-    aggiuntaFile->setCurrentIndex(0);
+    creaFile->setCurrentIndex(0);
 }
 
 void LeftSide::onComboBoxIndexChanged(int index) {

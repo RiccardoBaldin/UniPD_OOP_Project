@@ -1,36 +1,47 @@
 #ifndef UPPER_BAR_HPP
 #define UPPER_BAR_HPP
 
-#include <QHBoxLayout>
-#include <QPushButton>
 #include <QWidget>
-#include <QLineEdit>
-#include <QComboBox>
 
-class QStackedWidget;
-class Biblioteca;
+class QPushButton;
+class QLineEdit;
+class QComboBox;
+class QIcon;
+class QString;
 
 class UpperBar : public QWidget {
     Q_OBJECT
 
 public:
-    explicit UpperBar(Biblioteca *biblioteca = nullptr, QWidget *parent = nullptr);
+    explicit UpperBar(QWidget *parent = nullptr);
+    void pulisci();
 
 private:
 
-    Biblioteca *biblioteca;
-
     QComboBox *changeLayout;
+
+    QPushButton *stella;
 
     QComboBox *sortComboBox;
 
     QLineEdit *searchBar;
 
-signals:
-    void layoutChanged(int index);   
+    QIcon* vuota;
+    QIcon* piena;
 
-private slots:  
-    void handleLayoutChange(int index);
+    bool selezionato;
+
+signals:
+    void sortNome();
+    void sortData();  
+
+    void showGriglia();
+    void showLista();
+
+    void showPreferiti();
+    void showGenereale();
+
+    void testoCercato(const QString&);
 };
 
 

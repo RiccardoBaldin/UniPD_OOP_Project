@@ -1,19 +1,25 @@
 #ifndef FROMJSON_HPP
 #define FROMJSON_HPP
 
-#include <QJsonDocument>
-#include <QFile>
 #include <QJsonObject>
+#include <QJsonDocument>
 #include <QJsonArray>
+#include <QFile>
+#include <QDebug>
+#include <string>
 
 class File_Generico;
 class Biblioteca;
 
-File_Generico* GesuSalvatore(QJsonObject&);
-Biblioteca* GesuSalvatoreBiblioteca(QJsonObject&);
+File_Generico* creaFileDaJsonObject(const QJsonObject&);
 
-File_Generico* creaDaJson(const std::string&);
-Biblioteca* creaDaJsonBiblioteca(const std::string&);
+Biblioteca* creaBibliotecaDaJsonObject(const QJsonValue&);
+
+QJsonDocument caricaJsonDaFile(const std::string&);
+
+File_Generico* creaFileDaJson(const std::string&);
+
+Biblioteca* creaBibliotecaDaJson(const std::string&);
 
 
 #endif //FROMJSON_HPP

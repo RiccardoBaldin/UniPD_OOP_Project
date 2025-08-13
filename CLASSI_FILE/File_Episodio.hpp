@@ -17,10 +17,16 @@ class File_Episodio : public File_Video{
     public:
         File_Episodio(const std::string& = "", const std::string& = "", const std::string& = "", unsigned int = 0, unsigned int = 0, const std::string& = "", const std::string& = "", unsigned int = 0, unsigned int = 0, std::string = "");
         ~File_Episodio()override = default;
+        File_Episodio* clone() const override {return new File_Episodio(*this);}
 
         unsigned int GetNumeroEpisodio() const;
         unsigned int GetNumeroStagione() const;
         std::string GetSerieTV() const;
+        File_Serie* GetSerieFile() const;
+
+        void SetNome(const std::string&) override;
+        void SetAutore(const std::string&) override;
+        void SetGenere(const std::string&) override;
 
         void SetNumeroEpisodio(unsigned int);
         void SetNumeroStagione(unsigned int);
@@ -31,8 +37,9 @@ class File_Episodio : public File_Video{
 
         //metodo per visite
         
-        void Accept(FileVisitor& visitor);
-        void Accept(ConstFileVisitor& visitor)const;
+        void Accept(FileVisitor& visitor) override ;
+        void Accept(ConstFileVisitor& visitor)const override ;
+
 };
 
 #endif // FILE_EPISODIO_HPP

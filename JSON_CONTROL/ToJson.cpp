@@ -2,21 +2,32 @@
 #include <QJsonDocument>
 #include <QCoreApplication>
 
-void saveAsJson(File_Generico* file) {
+void saveAsJson(File_Generico* file, const std::string& filePath) {
     JsonVisitor visitor;
     file->Accept(visitor);
-    QJsonObject jsonVISITANTE = visitor.GetJson();
-    std::ofstream file_1("DataBase/" + file->GetNome() + ".json");
-    file_1 << QJsonDocument(jsonVISITANTE).toJson(QJsonDocument::Indented).toStdString();
+    QJsonObject jsonVisitor = visitor.GetJson();
+
+    std::ofstream file_1(filePath);
+    if (!file_1) {
+        throw std::runtime_error("Impossibile aprire il file per la scrittura.");
+    }
+    file_1 << QJsonDocument(jsonVisitor)
+               .toJson(QJsonDocument::Indented)
+               .toStdString();
     file_1.close();
 }
 
-void saveAsJson(Biblioteca* biblioteca) {
+void saveAsJson(Biblioteca* biblioteca, const std::string& filePath) {
     JsonVisitor visitor;
     biblioteca->Accept(visitor);
-    QJsonObject jsonVISITANTE = visitor.GetJson();
-    std::ofstream file_1("DataBase/Biblioteca.json");
-    file_1 << QJsonDocument(jsonVISITANTE).toJson(QJsonDocument::Indented).toStdString();
+    QJsonObject jsonVisitor = visitor.GetJson();
+
+    std::ofstream file_1(filePath);
+    if (!file_1) {
+        throw std::runtime_error("Impossibile aprire il file per la scrittura.");
+    }
+    file_1 << QJsonDocument(jsonVisitor)
+               .toJson(QJsonDocument::Indented)
+               .toStdString();
     file_1.close();
-    std::cout << "Salvato" << std::endl;
 }

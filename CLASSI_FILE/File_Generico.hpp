@@ -18,7 +18,10 @@ class File_Generico{
 
     public:
         File_Generico(const std::string& = "", const std::string& = "", const std::string& = "", unsigned int = 0);
+        File_Generico(const File_Generico&);
         virtual ~File_Generico() = default;
+        virtual File_Generico* clone() const = 0;
+        File_Generico& operator=(const File_Generico&);
 
         std::string GetNome() const;
         std::string GetAutore() const;
@@ -29,9 +32,9 @@ class File_Generico{
 
         bool IsPreferito() const;
 
-        void SetNome(const std::string&);
-        void SetAutore(const std::string&);
-        void SetGenere(const std::string&);
+        virtual void SetNome(const std::string&);
+        virtual void SetAutore(const std::string&);
+        virtual void SetGenere(const std::string&);
         void SetAnno(unsigned int);
 
         //metodi per accettare le visite

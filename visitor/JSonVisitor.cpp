@@ -14,7 +14,6 @@ void JsonVisitor::Visit(File_Generico& file) {
     jsonResult["autore"] = QString::fromStdString(file.GetAutore());
     jsonResult["genere"] = QString::fromStdString(file.GetGenere());
     jsonResult["anno"] = static_cast<int>(file.GetAnno());
-    jsonResult["tipo"] = "generico";
     jsonResult["preferito"] = file.IsPreferito();
 }
 
@@ -66,6 +65,20 @@ void JsonVisitor::Visit(File_Libro& libro) {
     jsonResult["tipo"] = "libro";
 }
 
+
+void JsonVisitor::Visit(Biblioteca& biblioteca) {
+    QJsonArray filesArray;
+
+    for (auto& filePtr : biblioteca.getArchivio()) {
+        if (!filePtr) continue;
+
+        JsonVisitor fileVisitor;
+        filePtr->Accept(fileVisitor);
+        filesArray.append(fileVisitor.GetJson());
+    }
+
+    jsonResult.insert("biblioteca", filesArray);
+}
 
 
 

@@ -9,9 +9,9 @@ class QIcon;
 
 class GrigliaVisitor : public FileVisitor {
 private:
-    QVBoxLayout* layout;
-    QIcon* icona;
-    QLabel* label;
+    QVBoxLayout* layout = nullptr;
+    QLabel* label = nullptr;
+    QLabel* nome = nullptr;
 
 
 public:
@@ -22,6 +22,7 @@ public:
     void Visit(File_Episodio& episodio) override;
     void Visit(File_Serie& serie) override;
     void Visit(File_Libro& libro) override;
+    void Visit(Biblioteca& biblioteca) override;
 
     QVBoxLayout* GetLayout() const;
 };

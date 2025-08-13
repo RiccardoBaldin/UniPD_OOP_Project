@@ -3,27 +3,57 @@
 #include "../CLASSI_FILE/File_Generico.hpp"
 #include "../CLASSI_FILE/File_Episodio.hpp"
 #include "../CLASSI_FILE/File_Serie.hpp"
-#include "episodio_item.hpp"
+#include "../GUI/riga_lista.hpp"
 
 
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QWidget>
+#include <QTreeWidget>
 
-MostraVisitorHelper::MostraVisitorHelper(File_Generico* file, QWidget *parent) : QWidget(parent), serie(dynamic_cast<File_Serie*>(file)){
-    if(file == nullptr) return;
-    
-    layout= new QVBoxLayout(this);
-    MostraVisitor* visitor= new MostraVisitor();
+MostraVisitorHelper::MostraVisitorHelper(File_Generico* file, QWidget *parent)
+    : QWidget(parent), serie(nullptr) {
+    update(file);
+}
+
+void MostraVisitorHelper::update(File_Generico* file) {
+    if (!file) return;
+
+    if (layout()) {
+        QLayoutItem* child;
+        while ((child = layout()->takeAt(0)) != nullptr) {
+            if (child->widget()) {
+                delete child->widget();
+            }
+            delete child;
+        }
+        delete layout();
+    }
+
+    serie = dynamic_cast<File_Serie*>(file);
+
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    MostraVisitor* visitor = new MostraVisitor();
     file->Accept(*visitor);
 
-    if(serie){
-
+    if (serie) {
         QTreeWidget* albero = visitor->GetAlberoEpisodi();
-        if(albero){
-            connect(albero, &QTreeWidget::itemClicked, this, &MostraVisitorHelper::Episodio_Clicked);
+        if (albero) {
+            for (int i = 0; i < albero->topLevelItemCount(); ++i) {
+                QTreeWidgetItem* stagione = albero->topLevelItem(i);
+                for (int j = 0; j < stagione->childCount(); ++j) {
+                    QTreeWidgetItem* episodio = stagione->child(j);
+                    QWidget* widget = albero->itemWidget(episodio, 1);
+                    Riga_Lista* riga = qobject_cast<Riga_Lista*>(widget);
+                    if (riga) {
+                        connect(riga, &Riga_Lista::RigaClicked, this, [this, riga ](){EpisodioSelezionato(riga->getEpisodio());});
+                        connect(riga, &Riga_Lista::RigaModifica, this, [this, riga ](){EpisodioModifica(riga->getEpisodio());});
+                        connect(riga, &Riga_Lista::RigaElimina, this, [this, riga ](){EpisodioElimina(riga->getEpisodio());});
+                        connect(riga, &Riga_Lista::RigaSalva, this, [this, riga ](){EpisodioSalva(riga->getEpisodio());});
+                    }
+                }
+            }
         }
-
         QPushButton* BottoneAggiunta = new QPushButton("Aggiungi Episodio");
         connect(BottoneAggiunta, &QPushButton::clicked, this, [this](){ emit AggiuntaEpisodio();});
         layout->addWidget(BottoneAggiunta);
@@ -33,11 +63,4 @@ MostraVisitorHelper::MostraVisitorHelper(File_Generico* file, QWidget *parent) :
     layout->addWidget(container);
 
     setLayout(layout);
-}
-
-
-void MostraVisitorHelper::Episodio_Clicked(QTreeWidgetItem* item){
-    if(auto epItem = dynamic_cast<EpisodioItem*>(item))
-        if(epItem->getEpisodio())
-            emit EpisodioSelezionato(epItem->getEpisodio());    
 }

@@ -38,7 +38,6 @@ HEADERS += CLASSI_FILE/Container.hpp \
            GUI/tree.hpp \
            GUI/add_episodio_widget.hpp \
            GUI/upper_bar.hpp \
-           JSON_CONTROL/DeleteJson.hpp \
            JSON_CONTROL/FromJson.hpp \
            JSON_CONTROL/ToJson.hpp \
            visitor/FileVisitor.hpp \
@@ -46,8 +45,8 @@ HEADERS += CLASSI_FILE/Container.hpp \
            visitor/JSonVisitor.hpp \
            visitor/ListaVisitor.hpp \
            visitor/MostraVisitor.hpp \
+           visitor/ModificaVisitor.hpp \
            visitor/mostra_helper.hpp \
-           visitor/episodio_item.hpp \
            mouse/mouse_handler.hpp \
 
 SOURCES += main.cpp \
@@ -71,15 +70,14 @@ SOURCES += main.cpp \
            GUI/tree.cpp \
            GUI/upper_bar.cpp \
            GUI/add_episodio_widget.cpp \
-           JSON_CONTROL/DeleteJson.cpp \
            JSON_CONTROL/FromJson.cpp \
            JSON_CONTROL/ToJson.cpp \
            visitor/GrigliaVisitor.cpp \
            visitor/JSonVisitor.cpp \
            visitor/ListaVisitor.cpp \
            visitor/MostraVisitor.cpp \
+           visitor/ModificaVisitor.cpp \
            visitor/mostra_helper.cpp \
-           visitor/episodio_item.cpp \
            mouse/mouse_handler.cpp \
 
 RESOURCES += risorse.qrc

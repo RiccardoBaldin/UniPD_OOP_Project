@@ -14,29 +14,32 @@ class Biblioteca{
         std::vector<File_Generico*> archivio;
 
     public:
+
         Biblioteca() = default;
         ~Biblioteca();
+
+        bool isSaved = true;
+
         std::vector<File_Generico*> getArchivio() const;
-        void addFile(File_Generico*); //AGGIUNGE UN FILE IN CODA ALL'ARCHIVIO 
-        void killFile(File_Generico*); //ELIMINA UN FILE DALL'ARCHIVIO
-        bool check(const File_Generico*) const; //CONTROLLA SE UN FILE E' PRESENTE NELL'ARCHIVIO
+        
+        void addFile(File_Generico*);
+        void killFile(File_Generico*);
+        
+        void clear();
+        bool check(const File_Generico*, const File_Generico* = nullptr) const;
         std::vector<File_Generico*> finder(const std::string&) const; 
 
 
-        std::vector<File_Generico*> getLibri() const; //RITORNA LISTA DEI LIBRI
-        std::vector<File_Generico*> getFilm() const; //RITORNA LISTA DEI FILM
-        std::vector<File_Generico*> getSerie() const; //RITORNA LISTA DELLE SERIE
+        std::vector<File_Generico*> getLibri() const;
+        std::vector<File_Generico*> getFilm() const;
+        std::vector<File_Generico*> getSerie() const;
         
-        void sort_nome(); //ORDINA L'ARCHIVIO PER NOME
-        void sort_anno(); //ORDINA L'ARCHIVIO PER ANNO
-        void sort_genere(); //ORDINA L'ARCHIVIO PER GENERE
+        void sort_nome();
+        void sort_anno();
 
-        std::vector<File_Generico*> preferiti() const; //RITORNA LISTA DEI FILE PREFERITI
-
-        void print() const; //STAMPA L'ARCHIVIO PER DEBUG
+        std::vector<File_Generico*> preferiti() const;
 
         void Accept(FileVisitor& visitor);
-        void Accept(ConstFileVisitor& visitor)const;
 };
 
 #endif // CONTAINER_HPP

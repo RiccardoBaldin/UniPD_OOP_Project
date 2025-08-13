@@ -9,17 +9,17 @@
 #include <QStackedWidget>
 
 
-RightSide::RightSide(Biblioteca *biblioteca, QWidget *parent) : QWidget(parent){
+RightSide::RightSide(std::vector<File_Generico*> listaFileDaMostrare, QWidget *parent) : QWidget(parent), listaFileDaMostrare(listaFileDaMostrare){
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
-    upperBar = new UpperBar(biblioteca, this);
+    upperBar = new UpperBar(this);
     linea = new LineaOrizzontale(this);
     
     stackedWidget = new QStackedWidget(this);
-    Griglia = new DisposizioneGriglia(biblioteca, this);
-    Linee = new DisposizioneLinee(biblioteca, this);
+    Griglia = new DisposizioneGriglia(listaFileDaMostrare, this);
+    Linee = new DisposizioneLinee(listaFileDaMostrare, this);
 
     stackedWidget->addWidget(Griglia);
     stackedWidget->addWidget(Linee);
@@ -31,23 +31,47 @@ RightSide::RightSide(Biblioteca *biblioteca, QWidget *parent) : QWidget(parent){
     setMinimumWidth(600);
     setLayout(layout);
 
-    connect(upperBar, &UpperBar::layoutChanged, this, &RightSide::changeLayout);
-    connect(upperBar, &UpperBar::layoutChanged, this, &RightSide::updateLayout);
+    connect(upperBar, &UpperBar::showGriglia, this, [this, listaFileDaMostrare](){updateLayout(listaFileDaMostrare);
+        stackedWidget->setCurrentWidget(Griglia);
+        emit layoutChanged();
+    });
+    connect(upperBar, &UpperBar::showLista, this, [this, listaFileDaMostrare](){updateLayout(listaFileDaMostrare);
+        stackedWidget->setCurrentWidget(Linee);
+        emit layoutChanged();
+    });
+
+    connect(upperBar, &UpperBar::showPreferiti, this, &RightSide::showPreferiti);
+    connect(upperBar, &UpperBar::showGenereale, this, &RightSide::showGenerale);
+
+    connect(upperBar, &UpperBar::sortNome, this, [this](){ emit sortNome();});
+    connect(upperBar, &UpperBar::sortData, this, [this](){ emit sortData();});
+    connect(upperBar, &UpperBar::testoCercato, this, &RightSide::testoCercato);
 
     connect(Linee, &DisposizioneLinee::File_Clicked, this, &RightSide::File_Clicked);
     connect(Linee, &DisposizioneLinee::lista_elimina, this, &RightSide::elimina);
+    connect(Linee, &DisposizioneLinee::lista_modifica, this, &RightSide::modifica);
+    connect(Linee, &DisposizioneLinee::lista_salva, this, &RightSide::salva);
+    connect(Linee, &DisposizioneLinee::lista_preferito, this, &RightSide::preferito);
     
     connect(Griglia, &DisposizioneGriglia::File_Clicked, this, &RightSide::File_Clicked);
     connect(Griglia, &DisposizioneGriglia::griglia_elimina, this, &RightSide::elimina);
+    connect(Griglia, &DisposizioneGriglia::griglia_modifica, this, &RightSide::modifica);
+    connect(Griglia, &DisposizioneGriglia::griglia_salva, this, &RightSide::salva);
+    connect(Griglia, &DisposizioneGriglia::griglia_preferito, this, &RightSide::preferito);
 
-    
+   
+}
+
+void RightSide::setLista(std::vector<File_Generico*> l){
+    updateLayout(l);            
 }
 
 void RightSide::changeLayout(int index) {
     stackedWidget->setCurrentIndex(index);
+    updateLayout(listaFileDaMostrare);
 }
 
-void RightSide::updateLayout() {
-    Griglia->updateLayout();
-    Linee->updateLayout();
+void RightSide::updateLayout(std::vector<File_Generico*> l) {
+    Griglia->updateLayout(l);
+    Linee->updateLayout(l);
 }

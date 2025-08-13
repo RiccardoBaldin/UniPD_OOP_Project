@@ -19,7 +19,7 @@ signals:
     void QuadratinoModifica(File_Generico*);
     void QuadratinoElimina(File_Generico*);
     void QuadratinoSalva(File_Generico*);
-
+    void QuadratinoPreferito(File_Generico*);
 };
 
 

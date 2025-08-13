@@ -6,6 +6,7 @@
 class Biblioteca;
 class Tree;
 class QComboBox;
+class QPushButton;
 
 class LeftSide : public QWidget {
     Q_OBJECT
@@ -15,6 +16,15 @@ public:
 
 signals:
     void addFileSignal(int index);
+    void aaaLibri();
+    void aaaFilm();
+    void aaaSerie();
+    void aaaGesuCristo();
+
+    void importaBiblioteca();
+    void importaFile();
+
+    void salvaBiblioteca();
 
 private slots:
     void onComboBoxIndexChanged(int index);
@@ -26,8 +36,10 @@ public slots:
 private:
     Biblioteca *biblioteca;
     Tree *tree;
-    QComboBox *aggiuntaFile;
-
+    QComboBox *creaFile;
+    QPushButton *importaB;
+    QPushButton *importaF;
+    QPushButton *salva;
 };
 
 #endif // LEFT_SIDE_HPP

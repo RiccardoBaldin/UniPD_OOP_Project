@@ -38,7 +38,6 @@ Tree::Tree(Biblioteca* biblioteca, QWidget* parent) : QTreeWidget(parent), bibli
 void Tree::populateTree(){
     if(!biblioteca) return;
     biblioteca->sort_nome();
-    saveAsJson(biblioteca);
     for(const auto& file : biblioteca->getArchivio()){
         QTreeWidgetItem *item = new QTreeWidgetItem();
         item->setText(0, QString::fromStdString(file->GetNome()));

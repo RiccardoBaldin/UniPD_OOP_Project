@@ -7,9 +7,9 @@
 #include <QListWidget>
 #include <QVBoxLayout>
 
-DisposizioneLinee::DisposizioneLinee(Biblioteca* biblioteca, QWidget *parent) : QWidget(parent), biblioteca(biblioteca) {
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
-
+DisposizioneLinee::DisposizioneLinee(std::vector<File_Generico*> ListaFileDaMostrare, QWidget *parent) : QWidget(parent), ListaFileDaMostrare(ListaFileDaMostrare){
+   
+   QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
     listWidget = new QListWidget(this);
     listWidget->setAlternatingRowColors(true);
@@ -19,13 +19,14 @@ DisposizioneLinee::DisposizioneLinee(Biblioteca* biblioteca, QWidget *parent) : 
 
     setLayout(mainLayout);
 
-    updateLayout();
+    updateLayout(ListaFileDaMostrare);
 }
 
-void DisposizioneLinee::updateLayout() {
+void DisposizioneLinee::updateLayout(std::vector<File_Generico*> l) {
     listWidget->clear();
-
-    for(File_Generico* file : biblioteca->getArchivio()){
+    ListaFileDaMostrare = l;
+    for(auto file : ListaFileDaMostrare){
+        if (!file) continue;
         Riga_Lista* riga = new Riga_Lista(file, this);
         QListWidgetItem* item = new QListWidgetItem();
         item->setSizeHint(riga->sizeHint());
@@ -36,6 +37,7 @@ void DisposizioneLinee::updateLayout() {
         connect(riga, &Riga_Lista::RigaModifica, this, &DisposizioneLinee::lista_modifica);
         connect(riga, &Riga_Lista::RigaElimina, this, &DisposizioneLinee::lista_elimina);
         connect(riga, &Riga_Lista::RigaSalva, this, &DisposizioneLinee::lista_salva);
+        connect(riga, &Riga_Lista::RigaPreferito, this, &DisposizioneLinee::lista_preferito);
     }
 
 }

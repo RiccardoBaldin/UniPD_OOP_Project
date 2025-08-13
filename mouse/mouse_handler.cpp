@@ -12,7 +12,13 @@ void mouseMenu::mousePressEvent(QMouseEvent* event) {
     
     if(event->button() == Qt::LeftButton) emit selezionato(file);
 
-    if(event->button() == Qt::RightButton) showTendina(event->globalPos());
+    if(event->button() == Qt::RightButton){
+        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            showTendina(event->globalPosition().toPoint());
+        #else
+            showTendina(event->globalPos());
+        #endif
+        }
 }
 
 void mouseMenu::showTendina(const QPoint& posizione){

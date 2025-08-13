@@ -27,8 +27,10 @@
         <file>IMMAGINI/preferito_si.png</file>
         <file>IMMAGINI/preferito_no.png</file>
 
+        <file>IMMAGINI/lente.png</file>
 
-        <file>DataBase/Biblioteca.json</file>
+        <file>IMMAGINI/stella_vuota.png</file>
+        <file>IMMAGINI/stella_piena.png</file>
 
     </qresource>
 </RCC>

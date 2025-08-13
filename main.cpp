@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[]) {
 
-    Biblioteca* biblioteca = creaDaJsonBiblioteca(":/DataBase/Biblioteca.json");
+    Biblioteca* biblioteca = new Biblioteca();
 
     QApplication app(argc, argv);
 

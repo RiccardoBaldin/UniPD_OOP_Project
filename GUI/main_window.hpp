@@ -32,6 +32,9 @@ private:
     File_Serie* currentSerie;
     QWidget* currentSerieWidget;
 
+    QWidget* currentMostraWidget = nullptr;
+    QWidget* currentEpisodioWidget = nullptr;
+
     LeftSide *leftSide;
     RightSide *rightSide;
     Biblioteca *biblioteca;
@@ -40,19 +43,31 @@ private:
     QIcon* preferito_si;
     QIcon* preferito_no;
 
+    std::vector<File_Generico*> lista;
+
+    bool p;
+    
 private slots:
-    void showAddFileWidget(int index);
+    void showAddFileWidget(int);
+    void showAddEpisodioWidget();
+
     void showMainWindow();
     void DettagliIndietro();
-    void mostraWindow(File_Generico* file);
-    void showAddEpisodioWidget();
-    void mostraEpisodio(File_Episodio* episodio);
+
+    void mostraWindow(File_Generico*);
+    void mostraEpisodio(File_Episodio*);
 
     void elimina(File_Generico*);
+    void modifica(File_Generico*);
+    void salva(File_Generico*);
+    void preferito(File_Generico*);
 
-signals:
-    void bibliotecaChanged();
+    void cercazioneFiles(const QString&);
 
+    void importaBiblioteca();
+    void importaFile();
+
+    void salvaBiblioteca();
 };
 
 

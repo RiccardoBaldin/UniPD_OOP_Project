@@ -22,8 +22,10 @@ class File_Libro : public File_Generico{
         void SetEditore(const std::string&);
 
         //metodo per visite
-        virtual void Accept(FileVisitor& visitor);
-        virtual void Accept(ConstFileVisitor& visitor) const;
+        virtual void Accept(FileVisitor& visitor) override;
+        virtual void Accept(ConstFileVisitor& visitor) const override;
+
+        File_Libro* clone() const override {return new File_Libro(*this);}
 };
 
 

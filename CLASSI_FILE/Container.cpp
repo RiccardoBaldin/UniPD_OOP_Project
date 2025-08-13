@@ -16,9 +16,16 @@ std::vector<File_Generico*> Biblioteca::getArchivio() const{
     return archivio;
 }
 
+
 void Biblioteca::addFile(File_Generico* file){
+    if (!check(file)) {
+        delete file;
+        return;
+    }
     archivio.push_back(file);
+    if(isSaved) isSaved = false;
 }
+
 
 
 void Biblioteca::killFile(File_Generico* file){
@@ -29,6 +36,13 @@ void Biblioteca::killFile(File_Generico* file){
             return;
         }
     }
+}
+
+void Biblioteca::clear(){
+    for (auto file : archivio) {
+        delete file;
+    }
+    archivio.clear();
 }
 
 void Biblioteca::sort_nome() {
@@ -45,17 +59,16 @@ void Biblioteca::sort_anno() {
     });
 }
 
-void Biblioteca::sort_genere() {
-    if(archivio.empty()) return;
-    std::sort(archivio.begin(), archivio.end(), [](File_Generico* a, File_Generico* b) {
-        return a->GetGenere() < b->GetGenere();
-    });
-}
 
 std::vector<File_Generico*> Biblioteca::finder(const std::string& s) const{
     std::vector<File_Generico*> trovati;
+    std::string s_lower(s);
+    std::string nome;
+    std::transform(s_lower.begin(), s_lower.end(), s_lower.begin(), ::tolower);
     for(auto it : archivio){
-        if(it->GetNome().find(s) != std::string::npos){
+        nome = it->GetNome();
+        std::transform(nome.begin(), nome.end(), nome.begin(), ::tolower);
+        if(nome.find(s_lower) != std::string::npos){
             trovati.push_back(it);
         }
     }
@@ -105,26 +118,19 @@ std::vector<File_Generico*> Biblioteca::preferiti() const{
     return preferiti;
 }
 
-bool Biblioteca::check(const File_Generico* a) const {
-    for(auto cit : archivio){
-        if(typeid(*cit)==typeid(*a) &&
-           cit->GetNome() == a->GetNome() && 
-           cit->GetAnno() == a->GetAnno() && 
-           cit->GetAutore() == a->GetAutore()) return false;
-    } 
-    return true;
-}; 
-
-void Biblioteca::print() const{
-    for(auto it : archivio){
-        std::cout << it->GetNome() << std::endl;
+bool Biblioteca::check(const File_Generico* a, const File_Generico* exclude) const {
+    for (auto cit : archivio) {
+        if (cit == exclude) continue;
+        if (typeid(*cit) == typeid(*a) &&
+            cit->GetNome() == a->GetNome() && 
+            cit->GetAnno() == a->GetAnno() && 
+            cit->GetAutore() == a->GetAutore()) {
+            return false;
+        }
     }
+    return true;
 }
 
-void Biblioteca::Accept(FileVisitor& visitor){
-    //visitor.Visit(*this);
-}
-
-void Biblioteca::Accept(ConstFileVisitor& visitor) const {
-    //visitor.Visit(*this);
+void Biblioteca::Accept(FileVisitor& v) {
+    v.Visit(*this);
 }

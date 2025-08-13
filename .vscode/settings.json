@@ -77,6 +77,13 @@
         "__tree": "cpp",
         "set": "cpp",
         "qstackedwidget": "cpp",
-        "qpixmap": "cpp"
+        "qpixmap": "cpp",
+        "future": "cpp",
+        "unordered_set": "cpp",
+        "qpushbutton": "cpp",
+        "iterator": "cpp",
+        "__config": "cpp",
+        "qdebug": "cpp",
+        "qfile": "cpp"
     }
 }

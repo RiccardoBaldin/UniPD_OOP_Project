@@ -20,6 +20,7 @@ class FileVisitor{
         virtual void Visit(File_Episodio& episodio) = 0;
         virtual void Visit(File_Serie& serie) = 0;
         virtual void Visit(File_Libro& libro) = 0;
+        virtual void Visit(Biblioteca& biblioteca) = 0;
 };
 
 

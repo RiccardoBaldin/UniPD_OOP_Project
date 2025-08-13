@@ -93,14 +93,23 @@ void AddEpisodioWidget::ConfermaAggiunta(){
                                        numero_stagione->value(),
                                        numero_episodio->value(),
                                        serie->GetNome());
-        if(serie->check(episodio)){
+        
+        if(!serie->check(episodio,nullptr)){
+            QMessageBox::warning(this,
+                                "Episodio già presente",
+                                "Episodio con stesso nome e autore già presente all'interno della Serie");
+        }else if(!serie->postolibero(episodio, nullptr)){
+            QString messaggio = QString("Esiste già un episodio numero %1 nella stagione %2 all'interno della serie %3")
+                                .arg(numero_episodio->value())
+                                .arg(numero_stagione->value())
+                                .arg(serie->GetNome());
+            QMessageBox::warning(this,
+                                "Posto occupato",
+                                messaggio);
+        }else{
             serie->AggiungiEpisodio(episodio);
             pulisciCampi();
             emit FileAggiunto();
-        }else{
-            QMessageBox::warning(this,
-                                "Episodio già presente",
-                                "Episodio già presente all'interno della Serie");
         }
     }
 }

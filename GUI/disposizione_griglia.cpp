@@ -8,7 +8,7 @@
 #include <QScrollArea>
 
 
-DisposizioneGriglia::DisposizioneGriglia(Biblioteca* biblioteca, QWidget *parent) : QWidget(parent), biblioteca(biblioteca) {
+DisposizioneGriglia::DisposizioneGriglia(std::vector<File_Generico*> ListaFileDaMostrare, QWidget *parent) : QWidget(parent), ListaFileDaMostrare(ListaFileDaMostrare){
     
     scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
@@ -26,18 +26,16 @@ DisposizioneGriglia::DisposizioneGriglia(Biblioteca* biblioteca, QWidget *parent
 
     setLayout(mainLayout);
 
-    lista = biblioteca->getArchivio();
-
-    updateLayout();
+    updateLayout(ListaFileDaMostrare);
 }
 
 void DisposizioneGriglia::resizeEvent(QResizeEvent *) {
-    updateLayout();
+    updateLayout(ListaFileDaMostrare);
 }
 
-void DisposizioneGriglia::updateLayout(){
-    
-    lista = biblioteca->getArchivio();
+void DisposizioneGriglia::updateLayout(std::vector<File_Generico*> l){
+
+    ListaFileDaMostrare = l;
 
     layout->setHorizontalSpacing(10);
     layout->setVerticalSpacing(10);
@@ -46,7 +44,7 @@ void DisposizioneGriglia::updateLayout(){
     int larghezza = width()>150 ? width(): 150;
     int n_colonne = (larghezza / 150);
 
-    int n_elementi = lista.size();
+    int n_elementi = ListaFileDaMostrare.size();
     int n_righe = (n_elementi + n_colonne - 1) / n_colonne;
 
     QLayoutItem* item;
@@ -61,12 +59,14 @@ void DisposizioneGriglia::updateLayout(){
             if(i >= n_elementi){
                 break;
             }
-            Quadratini* quadratino = new Quadratini(lista[i], this);
+            Quadratini* quadratino = new Quadratini((ListaFileDaMostrare)[i], this);
             layout->addWidget(quadratino, r, c);
             connect(quadratino, &Quadratini::QuadratinoClicked, this, &DisposizioneGriglia::File_Clicked);
             connect(quadratino, &Quadratini::QuadratinoModifica, this, &DisposizioneGriglia::griglia_modifica);
             connect(quadratino, &Quadratini::QuadratinoElimina, this, &DisposizioneGriglia::griglia_elimina);
             connect(quadratino, &Quadratini::QuadratinoSalva, this, &DisposizioneGriglia::griglia_salva);
+            connect(quadratino, &Quadratini::QuadratinoPreferito, this, &DisposizioneGriglia::griglia_preferito);
+
 
             ++i;
         }

@@ -19,7 +19,6 @@ private:
     QTreeWidgetItem *film;
     QTreeWidgetItem *serie;
     
-    
     void populateTree();
 
 signals:

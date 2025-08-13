@@ -15,13 +15,15 @@ class RightSide : public QWidget {
     Q_OBJECT
 
 public:
-    explicit RightSide(Biblioteca *biblioteca = nullptr, QWidget *parent = nullptr);
-    void updateLayout();
+    explicit RightSide(std::vector<File_Generico*> listaFileDaMostrare, QWidget *parent = nullptr);
+    void updateLayout(std::vector<File_Generico*>);
+    void setLista(std::vector<File_Generico*>);
+    UpperBar* getBarra(){return upperBar;};
 
 private:
     UpperBar *upperBar;
     LineaOrizzontale *linea;
-    Biblioteca *biblioteca;
+    std::vector<File_Generico*> listaFileDaMostrare;
     QStackedWidget *stackedWidget;
     DisposizioneGriglia *Griglia;
     DisposizioneLinee *Linee;
@@ -34,6 +36,17 @@ signals:
     void modifica(File_Generico*);
     void elimina(File_Generico*);
     void salva(File_Generico*);
+    void preferito(File_Generico*);
+
+    void sortNome();
+    void sortData();
+
+    void showPreferiti();
+    void showGenerale();
+
+    void testoCercato(const QString&);
+
+    void layoutChanged();
         
 };
 
