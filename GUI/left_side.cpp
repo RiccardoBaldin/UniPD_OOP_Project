@@ -42,8 +42,12 @@ LeftSide::LeftSide(Biblioteca* biblioteca, QWidget *parent) : QWidget(parent), b
     salva = new QPushButton("Salva la biblioteca");
 
 
-    QShortcut* shortcut = new QShortcut(QKeySequence("Ctrl+N"), this);
-    connect(shortcut, &QShortcut::activated, creaFile, &QComboBox::showPopup);
+    QShortcut* shortcutNuovo = new QShortcut(QKeySequence("Ctrl+N"), this);
+    QShortcut* shortcutSalva = new QShortcut(QKeySequence("Ctrl+S"), this);
+    QShortcut* shortcutImporta = new QShortcut(QKeySequence("Ctrl+O"), this);
+    connect(shortcutNuovo, &QShortcut::activated, creaFile, &QComboBox::showPopup);
+    connect(shortcutSalva, &QShortcut::activated, this, &LeftSide::salvaBiblioteca);
+    connect(shortcutImporta, &QShortcut::activated, this, &LeftSide::importaBiblioteca);
     
     connect(creaFile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &LeftSide::onComboBoxIndexChanged);
     connect(tree, &Tree::updateTreeSignal, this, &LeftSide::updateTree);

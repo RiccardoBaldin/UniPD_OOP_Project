@@ -7,6 +7,7 @@
 #include <QStackedWidget>
 #include <QPushButton>
 #include <iostream>
+#include <QShortcut>
 
 UpperBar::UpperBar(QWidget *parent) : QWidget(parent) {
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -75,6 +76,18 @@ UpperBar::UpperBar(QWidget *parent) : QWidget(parent) {
         this, [this](){if(sortComboBox->currentIndex() == 1) emit sortData(); searchBar->clear();});
 
     connect(searchBar, &QLineEdit::textChanged, this, &UpperBar::testoCercato);
+
+
+    QShortcut* cmdF = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
+    connect(cmdF, &QShortcut::activated, this, [this]() {
+        searchBar->setFocus();
+        searchBar->selectAll();
+    });
+
+    QShortcut* escShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    connect(escShortcut, &QShortcut::activated, this, [this]() {
+        searchBar->clearFocus();
+    });
 }
 
 void UpperBar::pulisci(){

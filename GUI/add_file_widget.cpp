@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QStringList>
 #include <QShowEvent>
+#include <QShortcut>
 #include "linea_orizzontale.hpp"
 
 #include "../CLASSI_FILE/File_Libro.hpp"
@@ -40,6 +41,15 @@ AddFileWidget::AddFileWidget(Biblioteca* biblioteca, int index, QWidget *parent)
     connect(conferma, &QPushButton::clicked, this, &AddFileWidget::ConfermaAggiunta);
     connect(annulla, &QPushButton::clicked, this, &AddFileWidget::AnnullaAggiunta);
 
+    QShortcut* escShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    connect(escShortcut, &QShortcut::activated, this, [this]() {
+        annulla->click();
+    });
+
+    QShortcut* returnShortcut = new QShortcut(QKeySequence(Qt::Key_Return), this);
+    connect(returnShortcut, &QShortcut::activated, this, [this]() {
+        conferma->click();
+    });
 }
 
 void AddFileWidget::SceltaTipo() {

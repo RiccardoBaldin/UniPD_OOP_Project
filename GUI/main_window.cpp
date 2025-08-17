@@ -8,7 +8,6 @@
 #include "../visitor/MostraVisitor.hpp"
 #include "../visitor/mostra_helper.hpp"
 #include "../visitor/ModificaVisitor.hpp"
-#include "../CLASSI_FILE/File_Serie.hpp"
 #include "../CLASSI_FILE/File_Episodio.hpp"
 #include "../JSON_CONTROL/FromJson.hpp"
 #include "add_episodio_widget.hpp"
@@ -27,6 +26,7 @@
 #include <iostream>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QShortcut>
  
 MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(parent), biblioteca(biblioteca), lista(biblioteca->getArchivio()){
 
@@ -117,8 +117,18 @@ void MainWindow::modifica(File_Generico* file){
 
     QWidget *modifica = new QWidget();
     QHBoxLayout *sotto = new QHBoxLayout();
+    
     QPushButton *annulla = new QPushButton("Annulla");
+    QShortcut* escShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), modifica);
+    connect(escShortcut, &QShortcut::activated, this, [annulla](){
+        annulla->click();
+    });
     QPushButton *conferma = new QPushButton("Conferma");
+    QShortcut* confShortcut = new QShortcut(QKeySequence(Qt::Key_Return), modifica);
+    connect(confShortcut, &QShortcut::activated, this, [conferma](){
+        conferma->click();
+    });
+
     sotto->addWidget(annulla, 0, Qt::AlignLeft);
     sotto->addWidget(conferma, 0, Qt::AlignRight);
 
@@ -208,7 +218,15 @@ void MainWindow::mostraWindow(File_Generico* file){
     MostraVisitorHelper* a = new MostraVisitorHelper(file, mostra);
 
     QPushButton* indietro = new QPushButton("Indietro");
+    QShortcut* escShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), mostra);
+    connect(escShortcut, &QShortcut::activated, indietro, &QPushButton::click);
+    
     QPushButton* modificaBtn = new QPushButton("Modifica");
+    
+    QPushButton* salvaBtn = new QPushButton("Salva su disco");
+    QShortcut* salvaShortcut = new QShortcut(QKeySequence("Ctrl+S"), mostra);
+    connect(salvaShortcut, &QShortcut::activated, salvaBtn, &QPushButton::click);
+    
     QPushButton* toggle_preferito = new QPushButton();
     toggle_preferito->setIcon(file->IsPreferito() ? *preferito_si : *preferito_no);
     toggle_preferito->setIconSize(QSize(24, 24));  
@@ -217,6 +235,7 @@ void MainWindow::mostraWindow(File_Generico* file){
     QHBoxLayout* sopra = new QHBoxLayout();
     sopra->addWidget(indietro, 0, Qt::AlignLeft);
     sopra->addWidget(modificaBtn, 0, Qt::AlignCenter);
+    sopra->addWidget(salvaBtn, 0, Qt::AlignCenter);
     sopra->addWidget(toggle_preferito, 0, Qt::AlignRight);
 
     toggle_preferito->setFlat(true);
@@ -251,14 +270,19 @@ void MainWindow::mostraWindow(File_Generico* file){
         leftSide->updateTree();
         stackedWidget->setCurrentWidget(principale);
     });
+
     connect(toggle_preferito, &QPushButton::clicked, [this, file, toggle_preferito]() {
         file->togglePreferito();
         toggle_preferito->setIcon(file->IsPreferito() ? *preferito_si : *preferito_no);
     });
+
     connect(modificaBtn, &QPushButton::clicked, this, [this, file]() {
     modifica(file);
     });
 
+    connect(salvaBtn, &QPushButton::clicked, this, [this, file]() {
+    salva(file);
+    });
 }
 
 void MainWindow::mostraEpisodio(File_Episodio* ep) {
@@ -275,6 +299,8 @@ void MainWindow::mostraEpisodio(File_Episodio* ep) {
     MostraVisitorHelper* episodio = new MostraVisitorHelper(static_cast<File_Generico*>(ep), mostra);
 
     QPushButton* indietro = new QPushButton("Indietro");
+    QShortcut* escShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), mostra);
+    connect(escShortcut, &QShortcut::activated, indietro, &QPushButton::click);
     QPushButton* modificaBtn = new QPushButton("Modifica");
     QPushButton* toggle_preferito = new QPushButton();
     toggle_preferito->setIcon(ep->IsPreferito() ? *preferito_si : *preferito_no);
@@ -299,13 +325,13 @@ void MainWindow::mostraEpisodio(File_Episodio* ep) {
 
     currentEpisodioWidget = mostra;
 
-    connect(indietro, &QPushButton::clicked, [this, mostra]() {
+    connect(indietro, &QPushButton::clicked, [this, mostra, ep]() {
         stackedWidget->removeWidget(mostra);
         mostra->deleteLater();
         currentEpisodioWidget = nullptr;
         rightSide->updateLayout(biblioteca->getArchivio());
         leftSide->updateTree();
-        stackedWidget->setCurrentWidget(currentSerieWidget);
+        mostraWindow(ep->GetSerieFile());
     });
 
     connect(toggle_preferito, &QPushButton::clicked, [this, ep, toggle_preferito]() {
@@ -452,6 +478,13 @@ void MainWindow::importaFile() {
 }
 
 void MainWindow::salvaBiblioteca() {
+
+    if(biblioteca->getArchivio().size() == 0){
+        QMessageBox::warning(this, "Errore", QString::fromStdString("inutile salvare una biblioteca vuota"));
+        return;       
+    }
+
+
     QString filePath = QFileDialog::getSaveFileName(
         this,
         "Salva biblioteca",
