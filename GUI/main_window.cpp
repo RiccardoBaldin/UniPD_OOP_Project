@@ -4,6 +4,7 @@
 #include "../CLASSI_FILE/File_Libro.hpp"
 #include "../CLASSI_FILE/File_Film.hpp"
 #include "../CLASSI_FILE/File_Serie.hpp"
+#include "../CLASSI_FILE/finder.hpp"
 #include "../JSON_CONTROL/ToJson.hpp"
 #include "../visitor/MostraVisitor.hpp"
 #include "../visitor/mostra_helper.hpp"
@@ -89,27 +90,89 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
     connect(rightSide, &RightSide::sortNome, this, [this, biblioteca](){ biblioteca->sort_nome(); showMainWindow(); });
     connect(rightSide, &RightSide::sortData, this, [this, biblioteca](){ biblioteca->sort_anno(); showMainWindow(); });
 
-    connect(rightSide, &RightSide::showPreferiti, this, [this,biblioteca](){rightSide->setLista(biblioteca->preferiti()); 
-        this->p = true; });
-    connect(rightSide, &RightSide::showGenerale, this, [this,biblioteca](){rightSide->setLista(biblioteca->getArchivio());
-        this->p = false;});
-
-    connect(leftSide, &LeftSide::aaaLibri, this, [this, biblioteca]{rightSide->setLista(biblioteca->getLibri());
-        (rightSide->getBarra())->pulisci();});
-    connect(leftSide, &LeftSide::aaaFilm, this, [this, biblioteca]{rightSide->setLista(biblioteca->getFilm());
-        (rightSide->getBarra())->pulisci();});
-    connect(leftSide, &LeftSide::aaaSerie, this, [this, biblioteca]{rightSide->setLista(biblioteca->getSerie());
-        (rightSide->getBarra())->pulisci();});
-    connect(leftSide, &LeftSide::aaaGesuCristo, this, [this, biblioteca]{rightSide->setLista(biblioteca->getArchivio());
-        (rightSide->getBarra())->pulisci();});
+    connect(rightSide, &RightSide::showPreferiti, this, [this](){
+        this->p = true; 
+        rightSide->showpreferiti();
+    });
+    
+    connect(rightSide, &RightSide::showGenerale, this, [this, biblioteca](){
+        this->p = false;
+        switch (tipoFiles)
+        {
+            case 0:
+                rightSide->setLista(biblioteca->getArchivio());
+                break;
+            case 1:
+                rightSide->setLista(biblioteca->getLibri());
+                break;
+            case 2:
+                rightSide->setLista(biblioteca->getFilm());
+                break;
+            case 3:
+                rightSide->setLista(biblioteca->getSerie());
+                break;
+            default:
+                break;
+        }
+    });
 
     connect(rightSide, &RightSide::layoutChanged, this, &MainWindow::showMainWindow);
 
     connect(rightSide, &RightSide::testoCercato, this, &MainWindow::cercazioneFiles);
+
+    connect(leftSide, &LeftSide::listaCambiataInTutto, this, [this](){
+            if(tipoFiles != 0){
+                tipoFiles = 0;
+                showMainWindow();
+                }
+            });
+    connect(leftSide, &LeftSide::listaCambiataInLibri, this, [this](){
+            if(tipoFiles != 1){
+                tipoFiles = 1;
+                showMainWindow();
+                }
+            });
+    connect(leftSide, &LeftSide::listaCambiataInFilm, this, [this](){
+            if(tipoFiles != 2){
+                tipoFiles = 2;
+                showMainWindow();
+                }
+            });
+    connect(leftSide, &LeftSide::listaCambiataInSerie, this, [this](){
+            if(tipoFiles != 3){
+                tipoFiles = 3;
+                showMainWindow();
+                }
+            });
 }
 
 void MainWindow::cercazioneFiles(const QString& t){
-    rightSide->setLista(biblioteca->finder(t.toStdString()));
+
+    rightSide->resetUpperBar();
+
+    std::string testo = t.toStdString();
+
+    switch (tipoFiles)
+    {
+    case 0:
+        rightSide->setLista(finder(biblioteca->getArchivio(), testo,
+                                   [](File_Generico* f){ return f->GetNome(); }));
+        break;
+    case 1:
+        rightSide->setLista(finder(biblioteca->getLibri(), testo,
+                                   [](File_Generico* f){ return f->GetNome(); }));
+        break;
+    case 2:
+        rightSide->setLista(finder(biblioteca->getFilm(), testo,
+                                   [](File_Generico* f){ return f->GetNome(); }));
+        break;
+    case 3:
+        rightSide->setLista(finder(biblioteca->getSerie(), testo,
+                                   [](File_Generico* f){ return f->GetNome(); }));
+        break;
+    default:
+        break;
+    }
 }
 
 
@@ -196,8 +259,16 @@ void MainWindow::elimina(File_Generico* file){
     if(auto e = dynamic_cast<File_Episodio*>(file)){
         File_Serie* s = e->GetSerieFile();
         s->RimuoviEpisodio(e);
+    
+        if(currentMostraWidget){
+            stackedWidget->removeWidget(currentMostraWidget);
+            currentMostraWidget->deleteLater();
+            currentMostraWidget = nullptr;
+        }
+    
         delete e;
         mostraWindow(s);
+        
     }else{
         biblioteca->killFile(file);
         showMainWindow();
@@ -256,6 +327,15 @@ void MainWindow::mostraWindow(File_Generico* file){
         currentSerie = s;
         currentSerieWidget = mostra;
         connect(a, &MostraVisitorHelper::AggiuntaEpisodio, this, &MainWindow::showAddEpisodioWidget);
+        QShortcut* addEpisodeShortcut = new QShortcut(QKeySequence("Ctrl+N"), mostra);
+        connect(addEpisodeShortcut, &QShortcut::activated, this, &MainWindow::showAddEpisodioWidget);
+
+        connect(a, &MostraVisitorHelper::ImportaEpisodio, this, &MainWindow::importaEpisodio);
+        QShortcut* importEpisodeShortcut = new QShortcut(QKeySequence("Ctrl+O"), mostra);
+        connect(importEpisodeShortcut, &QShortcut::activated, this, [this]() {
+            importaEpisodio(currentSerie);
+        });
+
         connect(a, &MostraVisitorHelper::EpisodioSelezionato, this, &MainWindow::mostraEpisodio);
         connect(a, &MostraVisitorHelper::EpisodioElimina, this, &MainWindow::elimina);
         connect(a, &MostraVisitorHelper::EpisodioModifica, this, &MainWindow::modifica);
@@ -266,7 +346,7 @@ void MainWindow::mostraWindow(File_Generico* file){
         stackedWidget->removeWidget(mostra);
         mostra->deleteLater();   
         currentMostraWidget = nullptr;
-        rightSide->updateLayout(biblioteca->getArchivio());
+        showMainWindow();
         leftSide->updateTree();
         stackedWidget->setCurrentWidget(principale);
     });
@@ -297,7 +377,9 @@ void MainWindow::mostraEpisodio(File_Episodio* ep) {
     QWidget* mostra = new QWidget();
 
     MostraVisitorHelper* episodio = new MostraVisitorHelper(static_cast<File_Generico*>(ep), mostra);
-
+    if (episodio->parentWidget()) {
+    episodio->setParent(nullptr);
+    }
     QPushButton* indietro = new QPushButton("Indietro");
     QShortcut* escShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), mostra);
     connect(escShortcut, &QShortcut::activated, indietro, &QPushButton::click);
@@ -365,6 +447,9 @@ void MainWindow::showAddFileWidget(int index){
 void MainWindow::showAddEpisodioWidget(){
     if(!episodioWidget){
         episodioWidget = new AddEpisodioWidget(currentSerie, this);
+
+        
+
         connect(episodioWidget, &AddEpisodioWidget::FileAggiunto, this, [this]() {
             stackedWidget->removeWidget(episodioWidget);
             episodioWidget->deleteLater();
@@ -394,12 +479,29 @@ void MainWindow::DettagliIndietro(){
 
 void MainWindow::showMainWindow() {
     stackedWidget->setCurrentWidget(principale);
-    rightSide->setLista(biblioteca->getArchivio());
+    switch (tipoFiles)
+    {
+    case 0:
+        rightSide->setLista(biblioteca->getArchivio());
+        break;
+    case 1:
+        rightSide->setLista(biblioteca->getLibri());
+        break;
+    case 2:
+        rightSide->setLista(biblioteca->getFilm());
+        break;
+    case 3:
+        rightSide->setLista(biblioteca->getSerie());
+        break;
+    default:
+        break;
+    }
+    rightSide->resetUpperBar();
+    rightSide->pulisci();
     leftSide->updateTree();
     QWidget *focus = QApplication::focusWidget();
     if(focus) focus->clearFocus();
     principale->setFocus();
-    
 }
 
 void MainWindow::importaBiblioteca() {
@@ -453,10 +555,12 @@ void MainWindow::importaFile() {
     if (filePath.isEmpty()) return;
 
     File_Generico* nuovoFile = creaFileDaJson(filePath.toStdString());
-    if (!nuovoFile) {
+    if (!nuovoFile || dynamic_cast<File_Episodio*>(nuovoFile)) {
         QMessageBox::warning(this, "Errore", "Impossibile caricare il file.");
         return;
     }
+
+
 
     if (!biblioteca->check(nuovoFile)) {
         std::string tipo;
@@ -475,6 +579,28 @@ void MainWindow::importaFile() {
 
     rightSide->updateLayout(biblioteca->getArchivio());
     leftSide->updateTree();
+}
+
+void MainWindow::importaEpisodio(File_Serie* serie){
+    QString filePath = QFileDialog::getOpenFileName(
+        this, "Importa episodio", "", "File JSON (*.json)");
+    if (filePath.isEmpty()) return;
+
+    File_Generico* nuovoEpisodio = creaFileDaJson(filePath.toStdString());
+    if (!nuovoEpisodio || !dynamic_cast<File_Episodio*>(nuovoEpisodio)) {
+        QMessageBox::warning(this, "Errore", "Impossibile caricare il file.");
+        return;
+    }
+
+    if (!serie->check(static_cast<File_Episodio*>(nuovoEpisodio), nullptr)){
+        QMessageBox::warning(this, "Errore", 
+            QString::fromStdString("L'episodio \"" + nuovoEpisodio->GetNome() + "\" è già presente nella biblioteca."));
+        delete nuovoEpisodio; 
+        return;
+    }
+    
+    serie->AggiungiEpisodio(static_cast<File_Episodio*>(nuovoEpisodio));
+    mostraWindow(serie);
 }
 
 void MainWindow::salvaBiblioteca() {

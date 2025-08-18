@@ -98,7 +98,8 @@ void File_Serie::SetCasaDiProduzione(const std::string& casa_di_produzione){
 }
 
 void File_Serie::AggiornaNumStagioni(){
-    this->numero_stagioni = episodi.back()->GetNumeroStagione();
+    this->numero_stagioni = episodi.empty() ? 0 : episodi.back()->GetNumeroStagione();
+
 }
 
 void File_Serie::AggiornaNumEpisodi(){
@@ -154,6 +155,8 @@ void File_Serie::RimuoviEpisodio(File_Episodio* episodio){
     for(auto it = episodi.begin(); it != episodi.end(); it++){
         if(*it == episodio){
             episodi.erase(it);
+            AggiornaNumEpisodi();
+            AggiornaNumStagioni();
             break;
         }
     }
@@ -206,6 +209,7 @@ File_Serie* File_Serie::clone() const {
         if(ep) {
             File_Episodio* epClone = ep->clone();
             nuova->AggiungiEpisodio(epClone);
+            epClone->SetSerieTV(nuova);
         }
     }
     return nuova;

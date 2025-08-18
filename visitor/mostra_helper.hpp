@@ -23,6 +23,7 @@ public:
 
 signals:
     void AggiuntaEpisodio();
+    void ImportaEpisodio(File_Serie* serie);
     void EpisodioSelezionato(File_Episodio* episodio);
     void EpisodioModifica(File_Episodio* episodio);
     void EpisodioElimina(File_Episodio* episodio);

@@ -33,10 +33,12 @@ File_Serie* File_Episodio::GetSerieFile() const {
 
 void File_Episodio::SetNumeroEpisodio(unsigned int numero_episodio){
     this->numero_episodio = numero_episodio;
+    this->serie->AggiornaNumEpisodi();
 }
 
 void File_Episodio::SetNumeroStagione(unsigned int numero_stagione){
     this->numero_stagione = numero_stagione;
+    this->serie->AggiornaNumStagioni();
 }
 
 void File_Episodio::SetAutore(File_Serie* s) {

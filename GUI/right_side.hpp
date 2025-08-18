@@ -18,7 +18,9 @@ public:
     explicit RightSide(std::vector<File_Generico*> listaFileDaMostrare, QWidget *parent = nullptr);
     void updateLayout(std::vector<File_Generico*>);
     void setLista(std::vector<File_Generico*>);
-    UpperBar* getBarra(){return upperBar;};
+    void resetUpperBar();
+    void showpreferiti();
+    void pulisci();
 
 private:
     UpperBar *upperBar;

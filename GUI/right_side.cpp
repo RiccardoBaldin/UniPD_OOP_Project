@@ -5,6 +5,8 @@
 #include "linea_orizzontale.hpp"
 #include "add_file_widget.hpp"
 
+#include "../CLASSI_FILE/File_Generico.hpp"
+
 #include <QVBoxLayout>
 #include <QStackedWidget>
 
@@ -63,7 +65,8 @@ RightSide::RightSide(std::vector<File_Generico*> listaFileDaMostrare, QWidget *p
 }
 
 void RightSide::setLista(std::vector<File_Generico*> l){
-    updateLayout(l);            
+    listaFileDaMostrare = l;
+    updateLayout(listaFileDaMostrare);            
 }
 
 void RightSide::changeLayout(int index) {
@@ -74,4 +77,20 @@ void RightSide::changeLayout(int index) {
 void RightSide::updateLayout(std::vector<File_Generico*> l) {
     Griglia->updateLayout(l);
     Linee->updateLayout(l);
+}
+
+void RightSide::resetUpperBar(){
+    upperBar->reset();
+}
+
+void RightSide::pulisci(){
+    upperBar->pulisci();
+}
+
+void RightSide::showpreferiti(){
+    std::vector<File_Generico*> prefes;
+    for(const auto s : listaFileDaMostrare){
+        if(s->IsPreferito()) prefes.push_back(s);
+    }
+    updateLayout(prefes);
 }

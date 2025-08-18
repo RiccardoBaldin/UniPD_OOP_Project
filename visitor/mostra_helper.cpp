@@ -10,6 +10,7 @@
 #include <QPushButton>
 #include <QWidget>
 #include <QTreeWidget>
+#include <QLabel>
 
 MostraVisitorHelper::MostraVisitorHelper(File_Generico* file, QWidget *parent)
     : QWidget(parent), serie(nullptr) {
@@ -37,26 +38,37 @@ void MostraVisitorHelper::update(File_Generico* file) {
     file->Accept(*visitor);
 
     if (serie) {
-        QTreeWidget* albero = visitor->GetAlberoEpisodi();
+        QTreeWidget* albero = new QTreeWidget(); 
+        albero = visitor->GetAlberoEpisodi();
         if (albero) {
-            for (int i = 0; i < albero->topLevelItemCount(); ++i) {
-                QTreeWidgetItem* stagione = albero->topLevelItem(i);
-                for (int j = 0; j < stagione->childCount(); ++j) {
-                    QTreeWidgetItem* episodio = stagione->child(j);
-                    QWidget* widget = albero->itemWidget(episodio, 1);
-                    Riga_Lista* riga = qobject_cast<Riga_Lista*>(widget);
-                    if (riga) {
-                        connect(riga, &Riga_Lista::RigaClicked, this, [this, riga ](){EpisodioSelezionato(riga->getEpisodio());});
-                        connect(riga, &Riga_Lista::RigaModifica, this, [this, riga ](){EpisodioModifica(riga->getEpisodio());});
-                        connect(riga, &Riga_Lista::RigaElimina, this, [this, riga ](){EpisodioElimina(riga->getEpisodio());});
-                        connect(riga, &Riga_Lista::RigaSalva, this, [this, riga ](){EpisodioSalva(riga->getEpisodio());});
+            if (albero->topLevelItemCount() == 0) {
+                QLabel* nessunEpisodioLabel = new QLabel("Nessun episodio presente");
+                layout->addWidget(nessunEpisodioLabel);
+            } else {
+                for (int i = 0; i < albero->topLevelItemCount(); ++i) {
+                    QTreeWidgetItem* stagione = albero->topLevelItem(i);
+                    for (int j = 0; j < stagione->childCount(); ++j) {
+                        QTreeWidgetItem* episodio = stagione->child(j);
+                        QWidget* widget = albero->itemWidget(episodio, 1);
+                        Riga_Lista* riga = qobject_cast<Riga_Lista*>(widget);
+                        if (riga) {
+                            connect(riga, &Riga_Lista::RigaClicked, this, [this, riga ](){EpisodioSelezionato(riga->getEpisodio());});
+                            connect(riga, &Riga_Lista::RigaModifica, this, [this, riga ](){EpisodioModifica(riga->getEpisodio());});
+                            connect(riga, &Riga_Lista::RigaElimina, this, [this, riga ](){EpisodioElimina(riga->getEpisodio());});
+                            connect(riga, &Riga_Lista::RigaSalva, this, [this, riga ](){EpisodioSalva(riga->getEpisodio());});
+                        }
                     }
                 }
             }
         }
+        QHBoxLayout* sottosopra = new QHBoxLayout();
         QPushButton* BottoneAggiunta = new QPushButton("Aggiungi Episodio");
         connect(BottoneAggiunta, &QPushButton::clicked, this, [this](){ emit AggiuntaEpisodio();});
-        layout->addWidget(BottoneAggiunta);
+        sottosopra->addWidget(BottoneAggiunta);
+        QPushButton* BottoneImport = new QPushButton("Importa Episodio");
+        sottosopra->addWidget(BottoneImport);
+        connect(BottoneImport, &QPushButton::clicked, this, [this](){ emit ImportaEpisodio(serie);});
+        layout->addLayout(sottosopra);
     }
 
     QWidget* container = visitor->GetWidget();

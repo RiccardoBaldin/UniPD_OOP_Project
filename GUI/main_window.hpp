@@ -46,6 +46,7 @@ private:
     std::vector<File_Generico*> lista;
 
     bool p;
+    unsigned int tipoFiles = 0;
     
 private slots:
     void showAddFileWidget(int);
@@ -66,6 +67,7 @@ private slots:
 
     void importaBiblioteca();
     void importaFile();
+    void importaEpisodio(File_Serie*);
 
     void salvaBiblioteca();
 };

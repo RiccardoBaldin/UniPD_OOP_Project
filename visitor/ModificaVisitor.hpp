@@ -50,7 +50,7 @@ private:
     QLineEdit *casa_di_produzione_serie;
 
     //attributi episodio
-    QLabel *serie;
+    QLineEdit *serie;
     QSpinBox *numero_stagione;
     QSpinBox *numero_episodio;
 

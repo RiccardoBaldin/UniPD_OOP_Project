@@ -29,7 +29,7 @@ Tree::Tree(Biblioteca* biblioteca, QWidget* parent) : QTreeWidget(parent), bibli
     serie->setText(0, "Le mie serie");
     serie->setIcon(0, QIcon(":/IMMAGINI/SERIE.png"));
 
-    populateTree();
+    updateTree();
 
 }
 

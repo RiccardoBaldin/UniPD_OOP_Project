@@ -57,17 +57,25 @@ UpperBar::UpperBar(QWidget *parent) : QWidget(parent) {
 
     setLayout(layout);
 
-    connect(stella, &QPushButton::clicked, this, [this]() {
-        selezionato = !selezionato;
-        stella->setIcon(selezionato ? (*piena) : (*vuota));
-        emit selezionato ? showPreferiti() : showGenereale();
-    });
+    connect(changeLayout, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, [this](){sortComboBox->setCurrentIndex(0);
+                        selezionato = false;
+                        stella->setIcon(*vuota);
+                        if(changeLayout->currentIndex() == 0) emit showGriglia();
+                        emit showGenereale();
+                        searchBar->clear();
+                      }
+            );
 
     connect(changeLayout, QOverload<int>::of(&QComboBox::currentIndexChanged),
-        this, [this](){sortComboBox->setCurrentIndex(0); if(changeLayout->currentIndex() == 0) emit showGriglia(); searchBar->clear();});
-
-    connect(changeLayout, QOverload<int>::of(&QComboBox::currentIndexChanged),
-        this, [this](){sortComboBox->setCurrentIndex(0); if(changeLayout->currentIndex() == 1) emit showLista(); searchBar->clear();});
+        this, [this](){sortComboBox->setCurrentIndex(0);
+                        selezionato = false;
+                        stella->setIcon(*vuota);
+                        if(changeLayout->currentIndex() == 1) emit showLista();
+                        emit showGenereale();
+                        searchBar->clear();
+                      }
+            );
 
     connect(sortComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         this, [this](){if(sortComboBox->currentIndex() == 0) emit sortNome(); searchBar->clear();});
@@ -88,8 +96,23 @@ UpperBar::UpperBar(QWidget *parent) : QWidget(parent) {
     connect(escShortcut, &QShortcut::activated, this, [this]() {
         searchBar->clearFocus();
     });
+
+    connect(stella, &QPushButton::clicked, this, [this]() {
+        selezionato = !selezionato;
+        stella->setIcon(selezionato ? (*piena) : (*vuota));
+        if (!selezionato) pulisci();
+        emit selezionato ? showPreferiti() : showGenereale();
+
+    });
+
 }
 
 void UpperBar::pulisci(){
     searchBar->clear();
+}
+
+void UpperBar::reset(){
+    selezionato = false;
+    stella->setIcon(*vuota);
+    emit showGenereale();
 }

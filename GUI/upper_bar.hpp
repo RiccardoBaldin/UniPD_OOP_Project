@@ -15,6 +15,7 @@ class UpperBar : public QWidget {
 public:
     explicit UpperBar(QWidget *parent = nullptr);
     void pulisci();
+    void reset();
 
 private:
 

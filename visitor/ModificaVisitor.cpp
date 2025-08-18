@@ -82,13 +82,26 @@ void ModificaVisitor::Visit(File_Episodio& episodio){
     Visit(static_cast<File_Video&>(episodio));
     icona = new QIcon(":/IMMAGINI/episodio_nero.png");
     widgetIcona->setPixmap(icona->pixmap(200,200));
-    serie = new QLabel(QString::fromStdString(episodio.GetSerieTV()));
+    serie = new QLineEdit(QString::fromStdString(episodio.GetSerieTV()));
     numero_stagione = new QSpinBox(); numero_stagione->setRange(0,100); numero_stagione->setValue(episodio.GetNumeroStagione()); 
     numero_episodio = new QSpinBox(); numero_episodio->setRange(0,100); numero_episodio->setValue(episodio.GetNumeroEpisodio()); 
 
-    sottoDx->addWidget(serie);
+    serie->setReadOnly(true);
+    autore->setReadOnly(true);
+    genere->setReadOnly(true);
+    casa_di_produzione->setReadOnly(true);
+
+    sottoDx->addRow("<b>Serie TV</b>",serie);
     sottoDx->addRow("Numero Stagione",numero_stagione);
     sottoDx->addRow("Numero Episodio",numero_episodio);
+
+    QLabel *info = new QLabel("i campi \"autore\", \"genere\", \"casa di produzione\" e \"serie TV\"\n"
+                                 "non sono modificabili essendo appartenenti alla serie dell'episodio.\n"
+                                 "se si desidera modificarli si torni alla schermata della serie e li si "
+                                 "modifichi per tutti gli episodi contemporaneamente.");
+
+    info->setAlignment(Qt::AlignCenter);
+    layout->addWidget(info);
 }
 
 void ModificaVisitor::Visit(File_Serie& serie){
@@ -109,10 +122,6 @@ void ModificaVisitor::Visit(File_Libro& libro){
 
     sottoDx->addRow("Pagine", pagine);
     sottoDx->addRow("Editore",editore);
-}
-
-QWidget* ModificaVisitor::GetWidget() const {
-    return widget;
 }
 
 bool ModificaVisitor::confermaModifiche(File_Generico* file, Biblioteca* b) const {
@@ -165,22 +174,46 @@ bool ModificaVisitor::confermaModifiche(File_Generico* file, Biblioteca* b) cons
 
 
     if(auto serie = dynamic_cast<File_Serie*>(file)) {
-        *serie = *dynamic_cast<File_Serie*>(tmp);
+        serie->SetNome(tmp->GetNome());
+        serie->SetAutore(tmp->GetAutore());
+        serie->SetGenere(tmp->GetGenere());
+        serie->SetAnno(tmp->GetAnno());
+        serie->SetCasaDiProduzione(dynamic_cast<File_Serie*>(tmp)->GetCasaDiProduzione());
     }
     else if(auto film = dynamic_cast<File_Film*>(file)) {
-        *film = *dynamic_cast<File_Film*>(tmp);
+        film->SetNome(tmp->GetNome());
+        film->SetAutore(tmp->GetAutore());
+        film->SetGenere(tmp->GetGenere());
+        film->SetAnno(tmp->GetAnno());
+        film->SetDurata(dynamic_cast<File_Film*>(tmp)->GetDurata());
+        film->SetRegista(dynamic_cast<File_Film*>(tmp)->GetRegista());
+        film->SetCasaDiProduzione(dynamic_cast<File_Film*>(tmp)->GetCasaDiProduzione());
+        film->SetOscar(dynamic_cast<File_Film*>(tmp)->GetOscar());
     }
     else if(auto libro = dynamic_cast<File_Libro*>(file)) {
-        *libro = *dynamic_cast<File_Libro*>(tmp);
+        libro->SetNome(tmp->GetNome());
+        libro->SetAutore(tmp->GetAutore());
+        libro->SetGenere(tmp->GetGenere());
+        libro->SetAnno(tmp->GetAnno());
+        libro->SetPagine(dynamic_cast<File_Libro*>(tmp)->GetPagine());
+        libro->SetEditore(dynamic_cast<File_Libro*>(tmp)->GetEditore());
     }
     else if(auto episodio = dynamic_cast<File_Episodio*>(file)) {
-        *episodio = *dynamic_cast<File_Episodio*>(tmp);
-    }
-    else {
-        *file = *tmp;
+        episodio->SetNome(tmp->GetNome());
+        episodio->SetAutore(tmp->GetAutore());
+        episodio->SetGenere(tmp->GetGenere());
+        episodio->SetAnno(tmp->GetAnno());
+        episodio->SetDurata(dynamic_cast<File_Episodio*>(tmp)->GetDurata());
+        episodio->SetRegista(dynamic_cast<File_Episodio*>(tmp)->GetRegista());
+        episodio->SetNumeroStagione(dynamic_cast<File_Episodio*>(tmp)->GetNumeroStagione());
+        episodio->SetNumeroEpisodio(dynamic_cast<File_Episodio*>(tmp)->GetNumeroEpisodio());
     }
     delete tmp;
     return true;
 }
 
 void ModificaVisitor::Visit(Biblioteca&){}
+
+QWidget* ModificaVisitor::GetWidget() const {
+    return widget;
+}

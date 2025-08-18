@@ -1,7 +1,7 @@
 #include "left_side.hpp"
 #include "tree.hpp"
 #include "../CLASSI_FILE/Container.hpp"
-#include "../CLASSI_FILE/File_Libro.hpp"
+#include "../CLASSI_FILE/File_Generico.hpp"
 #include "../JSON_CONTROL/ToJson.hpp"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -16,7 +16,6 @@
 
 LeftSide::LeftSide(Biblioteca* biblioteca, QWidget *parent) : QWidget(parent), biblioteca(biblioteca) {
     setFixedWidth(220);
-
 
     QLabel *logoLabel = new QLabel(this);
     logoLabel->setPixmap(QPixmap(":/IMMAGINI/LOGO.png"));
@@ -56,16 +55,15 @@ LeftSide::LeftSide(Biblioteca* biblioteca, QWidget *parent) : QWidget(parent), b
         if (!item) return;
         QString text = item->text(0).toLower();
         if (text == "i miei libri"){
-            emit aaaLibri();
+            emit listaCambiataInLibri();
         } else if (text == "i miei film") {
-            emit aaaFilm();
+            emit listaCambiataInFilm();
         } else if (text == "le mie serie") {
-            emit aaaSerie();
+            emit listaCambiataInSerie();
         } else if (text == "la mia libreria") {
-            emit aaaGesuCristo();
+            emit listaCambiataInTutto();
         }
     });
-
 
     QVBoxLayout *layout = new QVBoxLayout(this);
 
@@ -80,10 +78,12 @@ LeftSide::LeftSide(Biblioteca* biblioteca, QWidget *parent) : QWidget(parent), b
     connect(importaB, &QPushButton::clicked, this, &LeftSide::importaBiblioteca);
     connect(importaF, &QPushButton::clicked, this, &LeftSide::importaFile);
     connect(salva, &QPushButton::clicked, this, &LeftSide::salvaBiblioteca);
+
 }
 
 void LeftSide::updateTree() {
     tree->updateTree();
+    
 }
 
 void LeftSide::resetComboBox(){

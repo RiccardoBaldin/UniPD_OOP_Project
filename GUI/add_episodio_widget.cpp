@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QStringList>
 #include <QShowEvent>
+#include <QShortcut>
 #include "linea_orizzontale.hpp"
 
 AddEpisodioWidget::AddEpisodioWidget(File_Serie* serie, QWidget* parent) : QWidget(parent), serie(serie){
@@ -21,6 +22,13 @@ AddEpisodioWidget::AddEpisodioWidget(File_Serie* serie, QWidget* parent) : QWidg
     
     annulla = new QPushButton("Annulla");
     conferma = new QPushButton("Conferma");
+
+    QShortcut* escShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+    connect(escShortcut, &QShortcut::activated, annulla, &QPushButton::click);
+
+    QShortcut* enterShortcut = new QShortcut(QKeySequence(Qt::Key_Return), this);
+    connect(enterShortcut, &QShortcut::activated, conferma, &QPushButton::click);
+
     annulla->setFixedWidth(100);
     layoutSotto->addWidget(annulla);
     conferma->setFixedWidth(100);

@@ -12,6 +12,7 @@ class File_Generico;
 class Biblioteca{
     private:
         std::vector<File_Generico*> archivio;
+        bool principale = true;
 
     public:
 
@@ -21,23 +22,27 @@ class Biblioteca{
         bool isSaved = true;
 
         std::vector<File_Generico*> getArchivio() const;
+        std::vector<File_Generico*> preferiti() const;
         
         void addFile(File_Generico*);
         void killFile(File_Generico*);
         
         void clear();
         bool check(const File_Generico*, const File_Generico* = nullptr) const;
-        std::vector<File_Generico*> finder(const std::string&) const; 
 
+        Biblioteca& operator=(const std::vector<File_Generico*>&);
 
         std::vector<File_Generico*> getLibri() const;
         std::vector<File_Generico*> getFilm() const;
         std::vector<File_Generico*> getSerie() const;
+
+        std::vector<File_Generico*> getLibriPrefe() const;
+        std::vector<File_Generico*> getFilmPrefe() const;
+        std::vector<File_Generico*> getSeriePrefe() const;
         
         void sort_nome();
         void sort_anno();
 
-        std::vector<File_Generico*> preferiti() const;
 
         void Accept(FileVisitor& visitor);
 };

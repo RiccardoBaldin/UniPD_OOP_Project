@@ -13,18 +13,18 @@ class LeftSide : public QWidget {
 
 public:
     explicit LeftSide(Biblioteca *biblioteca = nullptr, QWidget *parent = nullptr);
-
 signals:
     void addFileSignal(int index);
-    void aaaLibri();
-    void aaaFilm();
-    void aaaSerie();
-    void aaaGesuCristo();
 
     void importaBiblioteca();
     void importaFile();
 
     void salvaBiblioteca();
+    
+    void listaCambiataInLibri();
+    void listaCambiataInFilm();
+    void listaCambiataInSerie();
+    void listaCambiataInTutto();
 
 private slots:
     void onComboBoxIndexChanged(int index);

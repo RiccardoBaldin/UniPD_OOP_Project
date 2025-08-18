@@ -9,7 +9,7 @@
 
 
 Biblioteca::~Biblioteca(){
-    for(auto x : archivio) delete x;
+    if (principale)for(auto x : archivio) delete x;
 }
 
 std::vector<File_Generico*> Biblioteca::getArchivio() const{
@@ -39,8 +39,10 @@ void Biblioteca::killFile(File_Generico* file){
 }
 
 void Biblioteca::clear(){
-    for (auto file : archivio) {
-        delete file;
+    if(principale){
+        for (auto file : archivio) {
+            delete file;
+        }
     }
     archivio.clear();
 }
@@ -60,26 +62,10 @@ void Biblioteca::sort_anno() {
 }
 
 
-std::vector<File_Generico*> Biblioteca::finder(const std::string& s) const{
-    std::vector<File_Generico*> trovati;
-    std::string s_lower(s);
-    std::string nome;
-    std::transform(s_lower.begin(), s_lower.end(), s_lower.begin(), ::tolower);
-    for(auto it : archivio){
-        nome = it->GetNome();
-        std::transform(nome.begin(), nome.end(), nome.begin(), ::tolower);
-        if(nome.find(s_lower) != std::string::npos){
-            trovati.push_back(it);
-        }
-    }
-    return trovati;
-}
-
 std::vector<File_Generico*> Biblioteca::getLibri() const{
     std::vector<File_Generico*> libri;
     for(auto it : archivio){
-        File_Libro* l = dynamic_cast<File_Libro*>(it);
-        if(l){
+        if(dynamic_cast<File_Libro*>(it)){
             libri.push_back(it);
         }
     }
@@ -89,8 +75,7 @@ std::vector<File_Generico*> Biblioteca::getLibri() const{
 std::vector<File_Generico*> Biblioteca::getFilm() const{
     std::vector<File_Generico*> film;
     for(auto it : archivio){
-        File_Film* f = dynamic_cast<File_Film*>(it);
-        if(f){
+        if(dynamic_cast<File_Film*>(it)){
             film.push_back(it);
         }
     }
@@ -100,8 +85,38 @@ std::vector<File_Generico*> Biblioteca::getFilm() const{
 std::vector<File_Generico*> Biblioteca::getSerie() const{
     std::vector<File_Generico*> serie;
     for(auto it : archivio){
-        File_Serie* s = dynamic_cast<File_Serie*>(it);
-        if(s){
+        if(dynamic_cast<File_Serie*>(it)){
+            serie.push_back(it);
+        }
+    }
+    return serie;
+}
+
+
+std::vector<File_Generico*> Biblioteca::getLibriPrefe() const{
+    std::vector<File_Generico*> libri;
+    for(auto it : archivio){
+        if(dynamic_cast<File_Libro*>(it) && it->IsPreferito()){
+            libri.push_back(it);
+        }
+    }
+    return libri;
+}
+
+std::vector<File_Generico*> Biblioteca::getFilmPrefe() const{
+    std::vector<File_Generico*> film;
+    for(auto it : archivio){
+        if(dynamic_cast<File_Film*>(it) && it->IsPreferito()){
+            film.push_back(it);
+        }
+    }
+    return film;
+}
+
+std::vector<File_Generico*> Biblioteca::getSeriePrefe() const{
+    std::vector<File_Generico*> serie;
+    for(auto it : archivio){
+        if(dynamic_cast<File_Serie*>(it) && it->IsPreferito()){
             serie.push_back(it);
         }
     }
@@ -133,4 +148,12 @@ bool Biblioteca::check(const File_Generico* a, const File_Generico* exclude) con
 
 void Biblioteca::Accept(FileVisitor& v) {
     v.Visit(*this);
+}
+
+Biblioteca& Biblioteca::operator=(const std::vector<File_Generico*>& files){
+    clear();
+    for(auto f : files){
+        archivio.push_back(f);
+    }
+    return *this;
 }
