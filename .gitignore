@@ -10,6 +10,8 @@ Makefile*
 *.moc
 *.qmake.stash
 
+*.pro
+*.app
 *.pro.user
 *.pro.user.*
 
