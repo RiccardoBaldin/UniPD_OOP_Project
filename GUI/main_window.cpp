@@ -205,11 +205,12 @@ void MainWindow::modifica(File_Generico* file){
     stackedWidget->addWidget(modifica);
     stackedWidget->setCurrentWidget(modifica);
 
-    connect(annulla, &QPushButton::clicked, this, [this, modifica, file]() {
+    connect(annulla, &QPushButton::clicked, this, [this, modifica, file, visitor]() {
         stackedWidget->removeWidget(modifica);
         modifica->deleteLater();
         rightSide->updateLayout(biblioteca->getArchivio());
         leftSide->updateTree();
+        delete visitor;
 
         if(auto e = dynamic_cast<File_Episodio*>(file)){
             mostraEpisodio(e);  
@@ -225,11 +226,13 @@ void MainWindow::modifica(File_Generico* file){
             rightSide->updateLayout(biblioteca->getArchivio());
             leftSide->updateTree();
             biblioteca->isSaved = false;
+            
             if(auto e = dynamic_cast<File_Episodio*>(file)){
                 mostraEpisodio(e);
             } else {
                 mostraWindow(file);
             }
+            delete visitor;
         }
     });
 
@@ -270,7 +273,15 @@ void MainWindow::elimina(File_Generico* file){
         mostraWindow(s);
         
     }else{
+        if (currentMostraWidget) {
+            stackedWidget->removeWidget(currentMostraWidget);
+            currentMostraWidget->deleteLater();
+            currentMostraWidget = nullptr;
+        }
+
         biblioteca->killFile(file);
+        rightSide->pulisci();
+        rightSide->setLista(biblioteca->getArchivio());
         showMainWindow();
     }
     biblioteca->isSaved = false;

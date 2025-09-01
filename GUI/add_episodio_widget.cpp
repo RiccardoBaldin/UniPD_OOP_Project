@@ -108,9 +108,9 @@ void AddEpisodioWidget::ConfermaAggiunta(){
                                 "Episodio con stesso nome e autore già presente all'interno della Serie");
         }else if(!serie->postolibero(episodio, nullptr)){
             QString messaggio = QString("Esiste già un episodio numero %1 nella stagione %2 all'interno della serie %3")
-                                .arg(numero_episodio->value())
-                                .arg(numero_stagione->value())
-                                .arg(serie->GetNome());
+                                .arg(QString::number(numero_episodio->value()))
+                                .arg(QString::number(numero_stagione->value()))
+                                .arg(QString::fromStdString(serie->GetNome()));
             QMessageBox::warning(this,
                                 "Posto occupato",
                                 messaggio);

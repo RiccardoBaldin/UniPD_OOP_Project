@@ -21,18 +21,18 @@ qmake
 PROJECT_DIR=$(pwd)
 
 TOTAL_CPP=46
+BUILT_O=0
 
 echo
 echo "Building project... ($TOTAL_CPP files)"
 
-# make con -s per non mostrare i messaggi, make_pid per controllare quando finisce
+# make con -s per non mostrare i messaggi
 
 make -s &
-MAKE_PID=$!
 
 # Progress bar loop
 
-while kill -0 $MAKE_PID 2>/dev/null; do
+while [ "$BUILT_O" -lt "$TOTAL_CPP" ]; do
     BUILT_O=$(find "$PROJECT_DIR" -type f -name "*.o" | wc -l)
     PERCENT=$(( 100 * BUILT_O / TOTAL_CPP ))
 
