@@ -49,7 +49,7 @@ void DisposizioneGriglia::updateLayout(std::vector<File_Generico*> l){
 
     QLayoutItem* item;
     while((item = layout->takeAt(0)) != nullptr){
-        delete item->widget();
+        item->widget()->deleteLater();
         delete item;
     }
 

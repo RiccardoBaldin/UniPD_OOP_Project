@@ -14,6 +14,8 @@ rm -rf UniPD_OOP_Project.app
 
 qmake -project
 echo "QT += widgets" >> UniPD_OOP_Project.pro
+#decommentare la prossima riga prima di eseguire questo script se si vuole debuggare
+#echo "CONFIG+=debug" >> UniPD_OOP_Project.pro
 qmake 
 
 
@@ -29,7 +31,9 @@ echo "Building project... ($TOTAL_CPP files)"
 # make con -s per non mostrare i messaggi
 
 make -s &
+MAKE_PID=$!
 
+trap "kill $MAKE_PID 2>/dev/null; exit" SIGINT
 # Progress bar loop
 
 while [ "$BUILT_O" -lt "$TOTAL_CPP" ]; do

@@ -70,6 +70,9 @@ private slots:
     void importaEpisodio(File_Serie*);
 
     void salvaBiblioteca();
+
+signals:
+    void file_Eliminato();
 };
 
 
