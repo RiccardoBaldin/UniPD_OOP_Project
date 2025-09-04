@@ -309,6 +309,8 @@ void MainWindow::mostraWindow(File_Generico* file){
     QShortcut* salvaShortcut = new QShortcut(QKeySequence("Ctrl+S"), mostra);
     connect(salvaShortcut, &QShortcut::activated, salvaBtn, &QPushButton::click);
     
+    QPushButton* eliminaBtn = new QPushButton("Elimina");
+
     QPushButton* toggle_preferito = new QPushButton();
     toggle_preferito->setIcon(file->IsPreferito() ? *preferito_si : *preferito_no);
     toggle_preferito->setIconSize(QSize(24, 24));  
@@ -318,6 +320,7 @@ void MainWindow::mostraWindow(File_Generico* file){
     sopra->addWidget(indietro, 0, Qt::AlignLeft);
     sopra->addWidget(modificaBtn, 0, Qt::AlignCenter);
     sopra->addWidget(salvaBtn, 0, Qt::AlignCenter);
+    sopra->addWidget(eliminaBtn, 0, Qt::AlignCenter);
     sopra->addWidget(toggle_preferito, 0, Qt::AlignRight);
 
     toggle_preferito->setFlat(true);
@@ -374,6 +377,10 @@ void MainWindow::mostraWindow(File_Generico* file){
     connect(salvaBtn, &QPushButton::clicked, this, [this, file]() {
     salva(file);
     });
+
+    connect(eliminaBtn, &QPushButton::clicked, this, [this, file]() {
+    elimina(file);
+    });
 }
 
 void MainWindow::mostraEpisodio(File_Episodio* ep) {
@@ -394,15 +401,21 @@ void MainWindow::mostraEpisodio(File_Episodio* ep) {
     QPushButton* indietro = new QPushButton("Indietro");
     QShortcut* escShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), mostra);
     connect(escShortcut, &QShortcut::activated, indietro, &QPushButton::click);
+    
     QPushButton* modificaBtn = new QPushButton("Modifica");
+
+    QPushButton* eliminaBtn = new QPushButton("Elimina");
+
     QPushButton* toggle_preferito = new QPushButton();
     toggle_preferito->setIcon(ep->IsPreferito() ? *preferito_si : *preferito_no);
     toggle_preferito->setIconSize(QSize(24, 24));  
     toggle_preferito->setFixedSize(32, 32);
 
+
     QHBoxLayout* sopra = new QHBoxLayout();
     sopra->addWidget(indietro, 0, Qt::AlignLeft);
     sopra->addWidget(modificaBtn, 0, Qt::AlignCenter);
+    sopra->addWidget(eliminaBtn, 0, Qt::AlignCenter);
     sopra->addWidget(toggle_preferito, 0, Qt::AlignRight);
 
     toggle_preferito->setFlat(true);
@@ -436,6 +449,9 @@ void MainWindow::mostraEpisodio(File_Episodio* ep) {
         modifica(ep);
     });
 
+    connect(eliminaBtn, &QPushButton::clicked, this, [this, ep]() {
+        elimina(ep);
+    });    
 
 }
 
@@ -516,7 +532,7 @@ void MainWindow::showMainWindow() {
 }
 
 void MainWindow::importaBiblioteca() {
-    if (!biblioteca->isSaved) {
+    if ((biblioteca->getArchivio().size()) && !biblioteca->isSaved) {
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, "Salva biblioteca?", "La biblioteca corrente non è salvata. Vuoi salvarla prima di importare una nuova biblioteca?",
                                       QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);

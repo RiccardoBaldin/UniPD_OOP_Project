@@ -25,20 +25,25 @@ LeftSide::LeftSide(Biblioteca* biblioteca, QWidget *parent) : QWidget(parent), b
 
     tree = new Tree(biblioteca, this);
     creaFile = new QComboBox(this);
+    creaFile->setStyleSheet("font-weight: bold;");
     
     creaFile->addItem("Crea un nuovo file");
     creaFile->addItem("Crea un nuovo libro");
     creaFile->addItem("Crea un nuovo film");
     creaFile->addItem("Crea una nuova serie TV");
 
-    importaB = new QPushButton("Importa una biblioteca");
-    importaF = new QPushButton("Importa un file"); 
+    importaB = new QPushButton("+ biblioteca +");
+    importaB->setStyleSheet("font-weight: bold;");   
+    importaF = new QPushButton("+ file +"); 
+    importaF->setStyleSheet("font-weight: bold;");   
+
 
     QHBoxLayout *importazioni = new QHBoxLayout();
     importazioni->addWidget(importaB);
     importazioni->addWidget(importaF);
 
     salva = new QPushButton("Salva la biblioteca");
+    salva->setStyleSheet("font-weight: bold;");   
 
 
     QShortcut* shortcutNuovo = new QShortcut(QKeySequence("Ctrl+N"), this);
