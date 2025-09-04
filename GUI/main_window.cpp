@@ -28,6 +28,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QShortcut>
+#include <QTimer>
  
 MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(parent), biblioteca(biblioteca), lista(biblioteca->getArchivio()){
 
@@ -89,6 +90,8 @@ MainWindow::MainWindow(Biblioteca* biblioteca, QWidget *parent) : QMainWindow(pa
 
     connect(rightSide, &RightSide::sortNome, this, [this, biblioteca](){ biblioteca->sort_nome(); showMainWindow(); });
     connect(rightSide, &RightSide::sortData, this, [this, biblioteca](){ biblioteca->sort_anno(); showMainWindow(); });
+
+    connect(this, &MainWindow::file_Eliminato, this, &MainWindow::showMainWindow);
 
     connect(rightSide, &RightSide::showPreferiti, this, [this](){
         this->p = true; 
@@ -282,7 +285,10 @@ void MainWindow::elimina(File_Generico* file){
         biblioteca->killFile(file);
         rightSide->pulisci();
         rightSide->setLista(biblioteca->getArchivio());
-        showMainWindow();
+        
+        std::cout<<"PRIMA"<<std::endl;
+	emit file_Eliminato();
+	std::cout<<"DOPO"<<std::endl;
     }
     biblioteca->isSaved = false;
 }

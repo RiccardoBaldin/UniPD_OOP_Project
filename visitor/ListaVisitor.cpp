@@ -19,7 +19,7 @@ void ListaVisitor::Visit(File_Generico& file) {
 
     QLabel* nome = new QLabel(QString::fromStdString(file.GetNome()));
     nome->setAlignment(Qt::AlignCenter);
-    nome->setStyleSheet("color: white;");
+    nome->setStyleSheet("color: black;");
     
     layout->addWidget(nome);
     layout->addStretch();

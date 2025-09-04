@@ -14,6 +14,8 @@ rm -rf UniPD_OOP_Project.app
 
 qmake -project
 echo "QT += widgets" >> UniPD_OOP_Project.pro
+#decommentare la prossima riga prima di eseguire questo script se si vuole debuggare
+#echo "CONFIG+=debug" >> UniPD_OOP_Project.pro
 qmake 
 
 
