@@ -67,7 +67,3 @@ void File_Generico::SetAnno(unsigned int anno){
 void File_Generico::Accept(FileVisitor& visitor){
     visitor.Visit(*this);
 }
-
-void File_Generico::Accept(ConstFileVisitor& visitor) const {
-    visitor.Visit(*this);
-}

@@ -78,7 +78,3 @@ void File_Episodio::SetGenere(const std::string& genere){
 void File_Episodio::Accept(FileVisitor& visitor){
     visitor.Visit(*this);
 }
-
-void File_Episodio::Accept(ConstFileVisitor& visitor) const {
-    visitor.Visit(*this);
-}

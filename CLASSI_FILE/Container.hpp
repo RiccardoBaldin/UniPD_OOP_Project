@@ -6,7 +6,6 @@
 
 
 class File_Generico;
-#include "../visitor/ConstFileVisitor.hpp"
 #include "../visitor/FileVisitor.hpp"
 
 class Biblioteca{

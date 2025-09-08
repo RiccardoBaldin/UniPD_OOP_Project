@@ -31,7 +31,3 @@ void File_Libro::SetEditore(const std::string& editore){
 void File_Libro::Accept(FileVisitor& visitor){
     visitor.Visit(*this);
 }
-
-void File_Libro::Accept(ConstFileVisitor& visitor) const {
-    visitor.Visit(*this);
-}

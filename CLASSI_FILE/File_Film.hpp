@@ -19,7 +19,6 @@ class File_Film : public File_Video{
 
         //metodo per visite
         void Accept(FileVisitor& visitor) override ;
-        void Accept(ConstFileVisitor& visitor)const override ;
 
         File_Film* clone() const override {return new File_Film(*this);}
 };

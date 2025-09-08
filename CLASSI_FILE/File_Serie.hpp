@@ -44,7 +44,6 @@ class File_Serie : public File_Generico{
         
         //metodo per visite
         void Accept(FileVisitor& visitor) override ;
-        void Accept(ConstFileVisitor& visitor) const override ;
 
         File_Serie* clone() const override;
 };

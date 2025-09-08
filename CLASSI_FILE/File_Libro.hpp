@@ -23,7 +23,6 @@ class File_Libro : public File_Generico{
 
         //metodo per visite
         virtual void Accept(FileVisitor& visitor) override;
-        virtual void Accept(ConstFileVisitor& visitor) const override;
 
         File_Libro* clone() const override {return new File_Libro(*this);}
 };

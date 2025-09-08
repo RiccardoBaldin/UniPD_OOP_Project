@@ -193,9 +193,6 @@ void File_Serie::Accept(FileVisitor& visitor){
     visitor.Visit(*this);
 }
 
-void File_Serie::Accept(ConstFileVisitor& visitor) const {
-    visitor.Visit(*this);
-}
 
 File_Serie* File_Serie::clone() const {
     File_Serie* nuova = new File_Serie();

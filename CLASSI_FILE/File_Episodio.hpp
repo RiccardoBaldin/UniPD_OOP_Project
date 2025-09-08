@@ -38,7 +38,6 @@ class File_Episodio : public File_Video{
         //metodo per visite
         
         void Accept(FileVisitor& visitor) override ;
-        void Accept(ConstFileVisitor& visitor)const override ;
 
 };
 
