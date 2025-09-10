@@ -26,7 +26,7 @@ class File_Video : public File_Generico{
         void SetCasaDiProduzione(const std::string&);
         void SetRegista(const std::string&);
 
-        File_Video* clone() const override {return new File_Video(*this);}
+        virtual File_Video* clone() const = 0;
 };
 
 

@@ -1,8 +1,14 @@
 #include "ToJson.hpp"
 #include <QJsonDocument>
 #include <QCoreApplication>
+#include <filesystem>
 
-void saveAsJson(File_Generico* file, const std::string& filePath) {
+void saveAsJson(File_Generico* file, std::string filePath) {
+
+    if (std::filesystem::path(filePath).extension() != ".json") {
+        filePath += ".json";
+    }
+
     JsonVisitor visitor;
     file->Accept(visitor);
     QJsonObject jsonVisitor = visitor.GetJson();
@@ -17,7 +23,12 @@ void saveAsJson(File_Generico* file, const std::string& filePath) {
     file_1.close();
 }
 
-void saveAsJson(Biblioteca* biblioteca, const std::string& filePath) {
+void saveAsJson(Biblioteca* biblioteca, std::string filePath) {
+
+    if (std::filesystem::path(filePath).extension() != ".json") {
+        filePath += ".json";
+    }
+
     JsonVisitor visitor;
     biblioteca->Accept(visitor);
     QJsonObject jsonVisitor = visitor.GetJson();

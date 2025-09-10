@@ -286,9 +286,7 @@ void MainWindow::elimina(File_Generico* file){
         rightSide->pulisci();
         rightSide->setLista(biblioteca->getArchivio());
         
-        std::cout<<"PRIMA"<<std::endl;
-	emit file_Eliminato();
-	std::cout<<"DOPO"<<std::endl;
+    	emit file_Eliminato();
     }
     biblioteca->isSaved = false;
 }
@@ -580,6 +578,8 @@ void MainWindow::importaBiblioteca() {
 
     rightSide->updateLayout(biblioteca->getArchivio());
     leftSide->updateTree();
+
+    showMainWindow();
 }
 
 void MainWindow::importaFile() {

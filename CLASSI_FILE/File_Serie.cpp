@@ -79,14 +79,14 @@ void File_Serie::SetNome(const std::string& nome){
 void File_Serie::SetAutore(const std::string& autore){
     this->autore = autore;
     for(auto ep : episodi){
-        ep->SetSerieTV(this);
+        ep->SetAutore(this);
     }
 }
 
 void File_Serie::SetGenere(const std::string& genere){
     this->genere = genere;
     for(auto ep : episodi){
-        ep->SetSerieTV(this);
+        ep->SetGenere(this);
     }
 }
 
